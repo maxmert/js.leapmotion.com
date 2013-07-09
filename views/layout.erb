@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<%= erb :_head %>
+<body data-active-menu="<%= @active_menu %>">
+  <div class="container">
+    <%= erb :_nav %>
+    <%= yield %>
+
+    <hr>
+
+    <%= erb :_footer %>
+
+  </div> <!-- /container -->
+  <%= erb :_scripts %>
+</body>
+</html>
