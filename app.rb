@@ -14,13 +14,14 @@ LATEST_VERSION = API_VERSIONS.last[1, API_VERSIONS.last.size]
 %w(leap.js leap.min.js).each do |js|
   get "/:version/#{js}" do
     content_type "text/javascript"
+    response.headers['Cache-Control'] = 'public, max-age=31536000'
     cache_key = request.path_info
-    return cache[cache_key] if cache[cache_key]
-    if tag = API_VERSIONS.find{|v| v == "v#{params[:version]}"}
-      response.headers['Cache-Control'] = 'public, max-age=31536000'
-      cache[cache_key] = open("https://raw.github.com/leapmotion/leapjs/#{tag}/#{js}").read
-    else
-      404
+    cache[cache_key] ||= begin
+      if tag = API_VERSIONS.find{|v| v == "v#{params[:version]}"}
+        cache[cache_key] = open("https://raw.github.com/leapmotion/leapjs/#{tag}/#{js}").read
+      else
+        404
+      end
     end
   end
 end
