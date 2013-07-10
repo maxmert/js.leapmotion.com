@@ -19,7 +19,7 @@ LATEST_VERSION = API_VERSIONS.first
     cache_key = request.path_info
     cache[cache_key] ||= begin
       if tag = API_VERSIONS.find{|v| v == "v#{params[:version]}"}
-        cache[cache_key] = open("https://raw.github.com/leapmotion/leapjs/#{tag}/#{js}").read
+        cache[cache_key] = open("https://raw.github.com/leapmotion/leapjs/v#{tag}/#{js}").read
       else
         404
       end
