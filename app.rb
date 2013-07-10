@@ -8,7 +8,7 @@ set :layout, "application"
 
 cache = {}
 
-API_VERSIONS = Dir[File.expand_path("../views/api/*-docs.erb", __FILE__)].map{|f| File.basename(f)[/^(.*)-docs.erb/, 1]}.select{|v| !v.nil?}.sort_by{|v| Versionomy.parse(v)}
+API_VERSIONS = Dir[File.expand_path("../views/api/*-docs.erb", __FILE__)].sort_by{|f| File.ctime(f)}.map{|f| File.basename(f)[/^(.*)-docs.erb/, 1]}.select{|v| !v.nil?}
 LATEST_VERSION = API_VERSIONS.last[1, API_VERSIONS.last.size]
 
 %w(leap.js leap.min.js).each do |js|
