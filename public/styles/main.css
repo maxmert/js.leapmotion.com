@@ -1,11 +1,16 @@
 code {
   color: #333333
 }
+
 .toc {
   display: inline-block;
   padding: 10px;
   background-color: #f5f5f5;
   border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.toc ol li ol {
+  list-style-type: lower-alpha;
 }
 
 .opening-code {
