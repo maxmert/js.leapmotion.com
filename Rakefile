@@ -1,8 +1,7 @@
+require './lib/versions'
 require 'octokit'
 require 'nokogiri'
 require 'versionomy'
-
-DOC_VERSIONS = ['v0.2.0-beta1', 'master']
 
 namespace :docs do
   desc "rebuild docs"

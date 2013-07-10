@@ -5,7 +5,7 @@
   <div class="container">
     <%= erb :_nav %>
     <ul class="nav nav-pills">
-      <% API_VERSIONS.reverse.each do |version| %>
+      <% DOC_VERSIONS.each do |version| %>
         <li<% if params[:version] == version %> class="active"<% end %>><a class="button" href="/api/<%=version%>/docs"><%=version%></a></li>
       <% end %>
     </ul>

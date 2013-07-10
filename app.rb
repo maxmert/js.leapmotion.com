@@ -1,3 +1,4 @@
+require './lib/versions'
 require 'octokit'
 require 'versionomy'
 require 'open-uri'
@@ -8,8 +9,8 @@ set :layout, "application"
 
 cache = {}
 
-API_VERSIONS = Dir[File.expand_path("../views/api/*-docs.erb", __FILE__)].sort_by{|f| File.ctime(f)}.map{|f| File.basename(f)[/^(.*)-docs.erb/, 1]}.select{|v| !v.nil?}
-LATEST_VERSION = API_VERSIONS.last[1, API_VERSIONS.last.size]
+API_VERSIONS = Octokit.tags("leapmotion/leapjs").map(&:name).map{|v| Versionomy.parse(v[/^v(.*)/, 1]) }
+LATEST_VERSION = API_VERSIONS.first
 
 %w(leap.js leap.min.js).each do |js|
   get "/:version/#{js}" do
@@ -49,5 +50,5 @@ get '/api/:version/docs' do
 end
 
 get '/api' do
-  redirect "/api/#{API_VERSIONS.last}/docs"
+  redirect "/api/#{DOC_VERSIONS.first}/docs"
 end
