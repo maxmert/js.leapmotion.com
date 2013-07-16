@@ -72,6 +72,7 @@ namespace :docs do
       end
 
       File.open("./views/api/#{tag}-docs.erb", "w") do |f|
+        f << "<h1>Docs for #{tag}</h1>\n"
         f << parts.join("\n")
       end
     end
