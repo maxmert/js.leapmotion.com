@@ -9,7 +9,7 @@ set :layout, "application"
 
 cache = {}
 
-API_VERSIONS = Octokit.tags("leapmotion/leapjs").map(&:name).map{|v| Versionomy.parse(v[/^v(.*)/, 1]) }
+API_VERSIONS = Octokit.tags("leapmotion/leapjs").map(&:name).map{|v| Versionomy.parse(v[/^v(.*)/, 1]) }.sort.reverse
 LATEST_VERSION = API_VERSIONS.first
 
 %w(leap.js leap.min.js).each do |js|
