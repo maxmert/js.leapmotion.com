@@ -3,6 +3,7 @@ require 'octokit'
 require 'versionomy'
 require 'open-uri'
 require 'nokogiri'
+require 'sinatra'
 
 set :views_path, "views"
 set :layout, "application"
