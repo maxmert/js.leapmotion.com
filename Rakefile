@@ -31,11 +31,13 @@ namespace :docs do
 
       DOC_VERSIONS.each do |tag|
         output_dir = "./api-docs/#{tag}"
+        system("git clean -f") or raise
         system("git reset --hard") or raise
         system("git checkout #{tag}") or raise
         system("npm install") or raise
         system("mkdir -p #{output_dir}") or raise
         system("cp ../INDEX.md README.md") or raise
+        system("cp ../jsdoc_conf.json jsdoc_conf.json") or raise
         system("./node_modules/jsdoc/jsdoc -c jsdoc_conf.json lib README.md -d #{output_dir}") or raise
       end
     end
@@ -51,9 +53,10 @@ namespace :docs do
       # we'll treat these specially
       special_files = ['index.html', 'Leap.html']
       special_files.each {|f| files.delete(f)}
+      files.delete_if {|f| !f[/^Leap/]}
       parts = (special_files + files).map do |f|
         doc = Nokogiri::HTML(File.read("#{output_dir}/#{f}"))
-        main_node = doc.css("#main").first
+        main_node = doc.css("div#main").last
         main_node['id'] = File.basename(f, ".*").downcase.gsub('.', '-')
         main_node['class'] = "doc-section"
         5.downto(1) do |h|
@@ -61,6 +64,7 @@ namespace :docs do
             node.name = "h#{h.succ}"
           end
         end
+
         if special_files.first != f
           main_node.css('a').each do |a|
             new_node = doc.create_element "span"
