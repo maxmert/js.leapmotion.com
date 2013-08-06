@@ -26,8 +26,43 @@ h1 {
   font-family: 'Kameron', Georgia, serif;
 }
 
+
+/* Sidebar */
+@media (max-width: 767px) {
+  .api-docs-sidenav.affix {
+    position: static;
+    width: auto;
+    top: 0;
+  }
+}
+
+@media (max-width: 979px) and (min-width: 768px) {
+  .api-docs-sidenav.affix {
+    width:166px;
+  }
+  .nav-list {
+    padding:0;
+  }
+}
+
+@media (max-width: 1199px) and (min-width: 980px) {
+  .api-docs-sidenav.affix {
+    width:190px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .api-docs-sidenav.affix {
+    width:270px;
+  }
+  .nav-list {
+    padding:0;
+  }
+}
+
+
 .api-docs-sidenav.affix {
-  top: 40px;
+  top: 20px;
 }
 
 .api-docs-sidenav.affix-bottom {
