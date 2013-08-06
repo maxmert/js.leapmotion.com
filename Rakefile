@@ -10,13 +10,6 @@ namespace :docs do
     Rake::Task["docs:compile"].invoke
   end
 
-
-  desc "rebuild and deploy docs"
-  task :rebuild_and_deploy do
-    Rake::Task["docs:rebuild"].invoke
-    system('git commit -a -m"rebuilt documentation" && git push && git push heroku master')
-  end
-
   desc "generate api docs"
   task :generate do
     unless File.directory?("leapjs")
@@ -63,6 +56,10 @@ namespace :docs do
           main_node.css("h#{h}").to_a.each do |node|
             node.name = "h#{h.succ}"
           end
+        end
+
+        main_node.css('img').each do |img|
+          img['src'] = "/#{img['src']}"
         end
 
         if special_files.first != f
