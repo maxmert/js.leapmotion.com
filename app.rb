@@ -42,6 +42,11 @@ get '/examples' do
   erb :examples
 end
 
+get '/tutorials' do
+  @active_menu = "tutorials"
+  erb :tutorials
+end
+
 get '/development' do
   erb :development
 end
