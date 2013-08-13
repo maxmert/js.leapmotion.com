@@ -1,0 +1,62 @@
+  
+<h1> Getting Frames </h1>
+
+Last tutorial we learned a bunch of magic stuff about connecting the leap. Yet, we never got to do anything magic
+
+      
+
+    <h3 class="demoTitle">Connection</h3>
+    <canvas id="canvas"></canvas>
+    <button onclick="controller.connect()">Spawn Unicorn (Connect Controller)</button>
+
+
+    <ul class="nav nav-pills pull-left">
+      <li><a href="/tutorials" data-menu="tutorials">Hit There</a></li>
+      <li><a href="/tutorial1" data-menu="tutorial1">Tutorial 1 : Creating Connection</a></li>
+      <li><a href="/tutorial3" data-menu="tutorial3">Tutorial 3 : How Many Hands do you have</a></li>
+    </ul>
+    <br/><br/>
+
+
+    <!-- THE SCRIPT FOR THIS DEMO -->
+    <script>
+
+      var canvas = document.getElementById('canvas');
+
+      var c =  canvas.getContext('2d');
+
+      var width = canvas.width;
+      var height = canvas.height;
+
+      var controller = new Leap.Controller();
+     
+      controller.on( 'connect' , function(){
+
+        console.log( 'Successfully connected.' );
+
+      });
+
+      controller.on( 'deviceConnected' , function() {
+
+        console.log('A Leap device has been connected.');
+   
+      });
+
+      controller.on( 'deviceDisconnected' , function() {
+
+        console.log( 'A Leap device has been disconnected.' );
+
+      });
+
+      controller.on( 'ready' , function(){
+
+        var img = document.createElement('img');
+        img.src = "/public/images/tutorials/unicorn1.png";
+
+        c.drawImage( img , 0 , 0 );
+       
+      });
+
+      //controller.connect();
+
+    </script>

@@ -47,6 +47,18 @@ get '/tutorials' do
   erb :tutorials
 end
 
+get '/tutorial1' do
+  @active_menu = "tutorial1"
+  erb :tutorial1
+end
+
+get '/tutorial2' do
+  @active_menu = "tutorial2"
+  erb :tutorial2
+end
+
+
+
 get '/development' do
   erb :development
 end
