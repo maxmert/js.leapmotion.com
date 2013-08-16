@@ -117,9 +117,65 @@ One more thing, the actual demo:
 
 
 
-    <h3 class="demoTitle">Connection</h3>
-    <canvas id="canvas"></canvas>
-    <button onclick="controller.connect()">Spawn Unicorn (Connect Controller)</button>
+    <div class="tutorialHolder">
+      
+      <div class="tutorialDemo">
+        <h3>Connection</h3>
+        <canvas class="tutorialCanvas" id="canvas"></canvas>
+        <button onclick="controller.connect()">Spawn Unicorn (Connect Controller)</button>
+      </div>
+
+      <div class="tutorialCode">
+        <h3> Code </h3>
+        <div class="fixedHeightCode">
+          <xmp>
+
+            var canvas = document.getElementById('canvas');
+
+            var c =  canvas.getContext('2d');
+
+            var width = canvas.width;
+            var height = canvas.height;
+
+            var controller = new Leap.Controller();
+           
+            controller.on( 'connect' , function(){
+
+              console.log( 'Successfully connected.' );
+
+            });
+
+            controller.on( 'deviceConnected' , function() {
+
+              console.log('A Leap device has been connected.');
+         
+            });
+
+            controller.on( 'deviceDisconnected' , function() {
+
+              console.log( 'A Leap device has been disconnected.' );
+
+            });
+
+            controller.on( 'ready' , function(){
+
+              var img = document.createElement('img');
+              img.src = "/public/images/tutorials/unicorn1.png";
+
+              c.drawImage( img , 0 , 0 );
+             
+            });
+
+            //controller.connect();
+
+
+          </xmp>
+        </div>
+
+      </div>
+
+
+    </div>
 
 
     <ul class="nav nav-pills pull-left">
@@ -162,7 +218,7 @@ One more thing, the actual demo:
       controller.on( 'ready' , function(){
 
         var img = document.createElement('img');
-        img.src = "/public/images/tutorials/unicorn1.png";
+        img.src = "/images/tutorials/unicorn1.png";
 
         c.drawImage( img , 0 , 0 );
        

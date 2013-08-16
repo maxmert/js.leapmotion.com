@@ -1,10 +1,94 @@
   
 <h1> Getting Frames </h1>
 
-Last tutorial we learned a bunch of magic stuff about connecting the leap. Yet, we never got to do anything magic
+<p>Last tutorial we learned a bunch of tools for understanding the leap connection. Yet, we never got to do anything magic. Sure we made a hyper realistic unicorn come to life, but any button could do that. For this tutorial lets do something that humankind has never been able to do before the leap: Count their fingers.</p>
 
-      
+<p> We'll start off by repeating what we did last tutorial, AKA setting up the Canvas DOM element to draw on, creating the canvas and the proper context, and setting up our controller:</p>
 
+<pre class="prettyprint language-html">
+
+&lt;canvas id="canvas"&gt;&lt;/canvas&gt;
+&lt;button onclick="controller.connect()"&gt;Count Fingers ( Connect Controller )&lt;/button&gt;
+
+&lt;script src="//js.leapmotion.com/0.2.0/leap.min.js"&gt;&lt;/script&gt;
+
+&lt;script&gt;
+
+  var canvas = document.getElementById( 'canvas' );
+
+  var c =  canvas.getContext( '2d' );
+
+  var controller = new Leap.Controller();
+
+  //New code will go here.
+
+&lt;/script&gt;
+
+</pre>
+
+<p> Hopefully you remember doing this, if not there m ight be bigger issues than figure out new ways to interact with your computer. If, however, you do remember doing this, you will notice that only one thing has changed. This time instead of spawning unicorns, we are going to be counting fingers. We also took out the controller connection events, because as you will see, when we utilize the leap loop, they are not needed. </p>
+
+<p> Being able to get this housekeeping out of the way early on is the most exciting part about coding to me. The phrase 'Standing on the sholders of giants' comes to mind. With coding you don't have to start from figuring out assembly every time you begin a project. Instead we get to have the ultimate luxury of not only somebody creating that part of the language, but also every step forward. We never have to worry about how to actually color each pixel, how to call a mouse down event, or even tell a computer how to turn on. Coding is ultimate collaboration, and it is truly decadent for one reason: Replication is close to free.</p>
+
+<p> Every step forward becomes part of our immaculate quiver, and each step forward we bring with us everything we have learned. This is the most exciting thing that I have experienced in this wonderful world, and I hope it gets you as pumped on existance as it does for me.</p>
+
+<p> The next tool we will add to our repretoire is the <code>'frame'</code> event, which is called like every other event we have learned about thus far:</p>
+
+<pre class="prettyprint language-html">
+
+  controller.on( 'frame' , function( frame ) {
+
+    // Frame code goes here
+    
+  });
+
+</pre>
+
+<p> The one part of this call that is different is that you can see there is a variable passed into the onFrame function. This variable is where all the data of the frame comes from, which is why I chose to call it frame. You can, however call it whatever you want. I wouldn't recommend it because you will be using it alot, and 'frame' is much more descriptive than 'bsldiwanf', but the power is in your hands.</p>
+
+<p> The frame event can actually mean one of two things in the leap.js world. It can either be an animationFrame, or a deviceFrame. When unspecified and in the browser, simply calling the <code> on('frame') </code> event will create an animationFrame loop, but we could also do the same task like so:
+
+<pre class="prettyprint language-html">
+
+  controller.on( 'animationFrame' , function( frame ) {
+
+    // Frame code goes here
+    
+  });
+
+</pre>
+
+<p> Believe it or not, the way we call a deviceFrame loop is like this: </p>
+
+<pre class="prettyprint language-html">
+
+  controller.on( 'deviceFrame' , function( frame ) {
+
+    // Frame code goes here
+    
+  });
+
+</pre>
+
+<p> We could also declare the type of frame we want to use when we create the controller. If we wanted to do it this way, we would create the controller, passing in the type of frame that we wanted to use: </p>
+
+
+<pre class="prettyprint language-html">
+
+var controller = new Leap.Controller({frameEventName: "deviceFrame"});
+
+// OR
+
+var controller = new Leap.Controller({frameEventName: "animationFrame"});
+
+
+
+
+</pre>
+
+
+
+</p>
     <h3 class="demoTitle">Connection</h3>
     <canvas id="canvas"></canvas>
     <button onclick="controller.connect()">Spawn Unicorn (Connect Controller)</button>
