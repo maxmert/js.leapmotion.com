@@ -86,3 +86,19 @@ h1 {
 .setup h3 {
   margin-left: 10px;
 }
+
+.tutorialHolder{
+
+}
+.tutorialDemo{
+  width:300px;
+}
+.tutorialCanvas{
+  width:300px;
+  height:185px;
+  border: 1px solid black;
+}
+
+.tutorialCode{
+  width:300px;
+}

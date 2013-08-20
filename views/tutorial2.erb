@@ -81,17 +81,171 @@ var controller = new Leap.Controller({frameEventName: "deviceFrame"});
 
 var controller = new Leap.Controller({frameEventName: "animationFrame"});
 
-
-
-
 </pre>
 
 
+<p> Of course, to understand what type of frame you want to use, you might want to know more about what these different frame loops mean.</p>
 
-</p>
-    <h3 class="demoTitle">Connection</h3>
-    <canvas id="canvas"></canvas>
-    <button onclick="controller.connect()">Spawn Unicorn (Connect Controller)</button>
+<p> The animationFrame is a type of frame that is done by the browser. If you want to read an article that is much more articulate and knowledgable than this one, check out <a href="http://www.paulirish.com/2011/requestanimationframe-for-smart-animating/" target="_blank"> Paul Irish's Blog Post</a>. Basically what the animation frame does is lets the browser do the hard work of timing callbacks. If, for example yyou wanted to draw a circle animation, before animationFrame you might use something like this:
+
+
+<pre class="prettyprint language-html">
+
+  function drawCircle(time ){
+
+    time += 1;
+
+    // PSUEDOCODE
+    drawCircleAtPosition( time );
+    
+    window.setTimeout( drawCircle(time), 16.66 );
+    
+  }
+
+</pre>
+
+<p> Creating this timeout loop which called itself, every 16.66 milliseconds ( 60fps ) is how animation loops used to be created, in the dark days of the internet ( pre 2010 ), luckily there were some brilliant programmers who created a new tool for the rest of us to use. Now we have animationFrame which will take care of calling a function smoothly across time , as well as making sure it doesn't animate if another tab is selected, and other exciting mechanisms.</p>
+
+
+<p> The deviceFrame, on the other hand, will be called much more frequently than every 16.6 milliseconds. It will infact be called everytime the device gets a new frame. This means that you will see every frame the device sees, but also the frame rate will be much more variable. Additionally the difference between an animation that happens at 200fps will not look any better than one happening at 60fps. Our eyes just don't work that fast.</p>
+
+<p> If you have programmed with the leap before, you might be thinking: ' If I use the animation frame, I might lose important events, like single frame gestures ( keyTap, screenTap ). ' Don't fear though! Part of the beauty of the animation loop is that is saves up all the events that happened in all of the deviceFrames that occured between each animationFrame call. </p>
+
+<p> Because of this, I would recommend sticking with animationFrame. Unless you have some special situation where you want to be looking at every single frame that the device sees, sticking with animationFrame means less setup, less resources used, and smoother animating. All of which sound radical. </p>
+
+<h2> Inside the Frame </h2>
+
+<p> Lets start looking at what happens inside the frame loop. First off, our variable <code> frame </code> is passed into the function. This object contains all the information of the Leap, so everytime we want to access the data the leap gives us, we will find it inside inside the frame object. </p>
+
+
+<p> We claimed that we would teach humanity how to count its fingers so lets start by creating a variable that lets us know how many fingers are in the frame</p>
+
+<pre class="prettyprint language-html">
+
+  var numberOfFingers = frame.fingers.length;
+
+</pre>
+
+<p> Here we can see that we can access the attribute of the frame which is the 'fingers' array. In later tutorials, we will dig further into this array, and start looking at the data which comes from each individual finger. For now all we need to know how many fingers there are, hence defining our variable as the length of the finger array. </p>
+
+<p> Now we have the answer. If we wanted to be especially cruel, this is where we could stop. Humanity would be so close to understanding its fingers, and with just one last step to go, their hope would crumble. We could console.log it, and make it so only other programmers could know how many fingers they have, but this would be equally brutal and far more elitest. </p>
+
+<p> Instead lets tell the general public this vital information by drawing it on our canvas. To do this, all we have to do is tell canvas what string we want to have written, and some attributes, such as the size and color of the font:</p>
+
+<pre class="prettyprint language-html">
+
+  // Defines the font shape and size
+  c.font = "30px Arial";
+
+  //Tells Canvas to draw the input string at the position defined
+  c.fillText( numberOfFingers , 20 , 20 );
+  
+</pre>
+
+<p> If you run this code without anything else, you will notice a few problems. The first is that the numbers will be put at 20 pixels right and 20 pixels down from the uper left corner. This by itself is not an issue, but getting out text to be centered would be really nice.</p> 
+
+<p> The other bigger issue is that each number will be drawn on top of the one before, creating a solid ugly square. If we shipped this to humanity, they would not only be furious but also never know the answer to life's greatest question. Than again, the only creature who would get it right would have to have 42 digits.</p>
+
+<p> In order to both center our text, and make it readable, we are going to define two more variables, right after we define the canvas:</p>
+
+<pre class="prettyprint language-html">
+
+  var width = canvas.width;
+  var height = canvas.height;
+
+</pre>
+
+<p> Here is where we should talk a bit more about the canvas coordinate systems. It functions the same way <code> top </code> and <code> left </code> do in CSS, Basically meaning that every position is measure by how far from the left and how far from the top it is. This can get a bit confusing, especially when we are trying to transfer from the Leap Coordinate system to the Canvas Coordinate system, but we will leave that for a later lesson, for now lets just center this text. </p>
+
+<pre class="prettyprint language-html">
+
+  //Tells Canvas to draw the input string at the position defined
+  c.fillText( numberOfFingers , width/2 , height/2 );
+  
+</pre>
+
+<p> Unfourtunately this still looks atrocious. Ignoring the fact that the numbers still look like some sort of 8-Bit Zombie Cyclops Head ( which might just be my overactive imagination ), the text still isn't even centered. This is because the place that is actually the center of the canvas, is actually the bottom left of the text. You might be confused as to why the y coordinate system would be down for placement, but draw up for texts, to which I would respond: I have no idea. It confuses me too, and although I could probably come up with some reason, It would probably be just as silly as this idiosyncrasy. Luckily all we have to do to fix it is tell the context a few more things about how we want to render text: </p>
+
+<pre class="prettyprint language-html">
+
+  c.textAlign = 'center';
+  c.textBaseline = 'middle';
+
+</pre>
+
+<p> These two lines will solve our centering issue, but we are still left with a dispicable black blob that tells us nothing about our fingers, and even less about our humanity. The reason this is happening is that we are telling canvas to draw this string every frame. This means that what we are actually looking at is bunch of numbers stacked on top of each other, However, we only want to be looking at one number at a time. To do this we are going to clear the canvas every single frame, and redraw the number, every single frame. This is how most online animations work, and is so vital to our use of canvas, we will be using it almost every single tutorial:</p>
+
+<pre class="prettyprint language-html">
+
+   c.clearRect(0, 0, width, height);
+
+</pre>
+
+<p> Remember that this should be put at the VERY beginning of every frame, otherwise we will end up erasing some of the objects we have drawn during that frame. It destroys everything within the rectangle defined, and should be called every frame so that we have a beautifully fresh canvas for revealing the wonders of the universe.</p>
+
+<p> This should be enough to tell us how many fingers we have! This may seem like a lot of work for just a few black numbers on a plain white canvas, but just remember, now all of this is part of our portfolio, and each step we move forward, the closer we get to acheiving total victory on the internet</p>
+
+<p> As usual, your feedback is extroidinarily helpful, so please email me at icohen@leapmotion.com, sent me something on twitter ( @cabbibo ) or comment on the github page </p>
+
+<div class="tutorialHolder">
+      
+      <div class="tutorialDemo">
+        <h3>Frames</h3>
+        <canvas class="tutorialCanvas" id="canvas"></canvas>
+        <button onclick="controller.connect()">Count Fingers ( Connect Controller ) </button>
+      </div>
+
+      <div class="tutorialCode">
+        <h3> Code </h3>
+        <div class="fixedHeightCode">
+          <xmp>
+
+            var canvas = document.getElementById('canvas');
+
+            var c =  canvas.getContext('2d');
+
+            var width = canvas.width;
+            var height = canvas.height;
+
+            var controller = new Leap.Controller();
+           
+            controller.on( 'connect' , function(){
+
+              console.log( 'Successfully connected.' );
+
+            });
+
+            controller.on( 'deviceConnected' , function() {
+
+              console.log('A Leap device has been connected.');
+         
+            });
+
+            controller.on( 'deviceDisconnected' , function() {
+
+              console.log( 'A Leap device has been disconnected.' );
+
+            });
+
+            controller.on( 'ready' , function(){
+
+              var img = document.createElement('img');
+              img.src = "/public/images/tutorials/unicorn1.png";
+
+              c.drawImage( img , 0 , 0 );
+             
+            });
+
+            //controller.connect();
+
+
+          </xmp>
+        </div>
+
+      </div>
+
+
+    </div>
 
 
     <ul class="nav nav-pills pull-left">
@@ -139,6 +293,26 @@ var controller = new Leap.Controller({frameEventName: "animationFrame"});
 
         c.drawImage( img , 0 , 0 );
        
+      });
+
+      var frameGlobal;
+      controller.on( 'frame' , function(frame){
+
+        c.clearRect(0, 0, width, height);
+
+
+        var numberOfFingers = frame.fingers.length;
+
+        // Defines the font shape and size
+        c.font = "30px Arial";
+
+        c.textAlign = 'center';
+        c.textBaseline = 'middle';
+
+        //Tells Canvas to draw the input string at the position defined
+        c.fillText( numberOfFingers , width/2 , height/2 );
+      
+      
       });
 
       //controller.connect();
