@@ -26,7 +26,7 @@
 
 </pre>
 
-<p> Hopefully you remember doing this, if not there m ight be bigger issues than figure out new ways to interact with your computer. If, however, you do remember doing this, you will notice that only one thing has changed. This time instead of spawning unicorns, we are going to be counting fingers. We also took out the controller connection events, because as you will see, when we utilize the leap loop, they are not needed. </p>
+<p> Hopefully you remember doing this, if not there might be bigger issues than figure out new ways to interact with your computer. If, however, you do remember doing this, you will notice that only one thing has changed. This time instead of spawning unicorns, we are going to be counting fingers. We also took out the controller connection events, because as you will see, when we utilize the leap loop, they are not needed. </p>
 
 <p> Being able to get this housekeeping out of the way early on is the most exciting part about coding to me. The phrase 'Standing on the sholders of giants' comes to mind. With coding you don't have to start from figuring out assembly every time you begin a project. Instead we get to have the ultimate luxury of not only somebody creating that part of the language, but also every step forward. We never have to worry about how to actually color each pixel, how to call a mouse down event, or even tell a computer how to turn on. Coding is ultimate collaboration, and it is truly decadent for one reason: Replication is close to free.</p>
 
@@ -111,7 +111,7 @@ var controller = new Leap.Controller({frameEventName: "animationFrame"});
 
 <p> If you have programmed with the leap before, you might be thinking: ' If I use the animation frame, I might lose important events, like single frame gestures ( keyTap, screenTap ). ' Don't fear though! Part of the beauty of the animation loop is that is saves up all the events that happened in all of the deviceFrames that occured between each animationFrame call. </p>
 
-<p> Because of this, I would recommend sticking with animationFrame. Unless you have some special situation where you want to be looking at every single frame that the device sees, sticking with animationFrame means less setup, less resources used, and smoother animating. All of which sound radical. </p>
+<p> Because of this, I would recommend sticking with animationFrame. Unless you have some special situation where you want to be looking at every single frame that the device sees, sticking with animationFrame means less setup, less resources used, and smoother animating. All of which are radical. </p>
 
 <h2> Inside the Frame </h2>
 
@@ -142,9 +142,16 @@ var controller = new Leap.Controller({frameEventName: "animationFrame"});
   
 </pre>
 
+<div class = "tutorialImageHolder">
+  <img src="images/tutorials/tuorial2/uselessFingers1.png"/>
+  <p> Fig 1. This looks ugly, and is useless </p>
+</div>
+
 <p> If you run this code without anything else, you will notice a few problems. The first is that the numbers will be put at 20 pixels right and 20 pixels down from the uper left corner. This by itself is not an issue, but getting out text to be centered would be really nice.</p> 
 
-<p> The other bigger issue is that each number will be drawn on top of the one before, creating a solid ugly square. If we shipped this to humanity, they would not only be furious but also never know the answer to life's greatest question. Than again, the only creature who would get it right would have to have 42 digits.</p>
+<p> The other bigger issue is that each number will be drawn on top of the one before, creating a solid ugly square. If we shipped this to humanity, they would not only be furious, but also never know the answer to life's greatest question. Then again, the only creature who would get it right would have to have 42 digits.</p>
+
+
 
 <p> In order to both center our text, and make it readable, we are going to define two more variables, right after we define the canvas:</p>
 
@@ -155,6 +162,12 @@ var controller = new Leap.Controller({frameEventName: "animationFrame"});
 
 </pre>
 
+<div class = "tutorialImageHolder">
+  <img src="images/tutorials/tuorial2/canvasCoordinates.png"/>
+  <p> Fig 2. The canvas coordinate system </p>
+</div>
+
+
 <p> Here is where we should talk a bit more about the canvas coordinate systems. It functions the same way <code> top </code> and <code> left </code> do in CSS, Basically meaning that every position is measure by how far from the left and how far from the top it is. This can get a bit confusing, especially when we are trying to transfer from the Leap Coordinate system to the Canvas Coordinate system, but we will leave that for a later lesson, for now lets just center this text. </p>
 
 <pre class="prettyprint language-html">
@@ -163,6 +176,12 @@ var controller = new Leap.Controller({frameEventName: "animationFrame"});
   c.fillText( numberOfFingers , width/2 , height/2 );
   
 </pre>
+
+<div class = "tutorialImageHolder">
+  <img src="images/tutorials/tuorial2/uselessFingers2.png"/>
+  <p> Fig 3. This is still atrocious and pitiful. </p>
+</div>
+
 
 <p> Unfourtunately this still looks atrocious. Ignoring the fact that the numbers still look like some sort of 8-Bit Zombie Cyclops Head ( which might just be my overactive imagination ), the text still isn't even centered. This is because the place that is actually the center of the canvas, is actually the bottom left of the text. You might be confused as to why the y coordinate system would be down for placement, but draw up for texts, to which I would respond: I have no idea. It confuses me too, and although I could probably come up with some reason, It would probably be just as silly as this idiosyncrasy. Luckily all we have to do to fix it is tell the context a few more things about how we want to render text: </p>
 
@@ -185,7 +204,7 @@ var controller = new Leap.Controller({frameEventName: "animationFrame"});
 
 <p> This should be enough to tell us how many fingers we have! This may seem like a lot of work for just a few black numbers on a plain white canvas, but just remember, now all of this is part of our portfolio, and each step we move forward, the closer we get to acheiving total victory on the internet</p>
 
-<p> As usual, your feedback is extroidinarily helpful, so please email me at icohen@leapmotion.com, sent me something on twitter ( @cabbibo ) or comment on the github page </p>
+<p> As usual, your feedback is extroidinarily helpful, so please email me at icohen@leapmotion.com, sent me something on twitter ( @cabbibo ) or comment on the github page. </p>
 
 <div class="tutorialHolder">
       
@@ -200,45 +219,38 @@ var controller = new Leap.Controller({frameEventName: "animationFrame"});
         <div class="fixedHeightCode">
           <xmp>
 
-            var canvas = document.getElementById('canvas');
+          var canvas = document.getElementById('canvas');
 
-            var c =  canvas.getContext('2d');
+          var c =  canvas.getContext('2d');
 
-            var width = canvas.width;
-            var height = canvas.height;
+          var width = canvas.width;
+          var height = canvas.height;
 
-            var controller = new Leap.Controller();
-           
-            controller.on( 'connect' , function(){
-
-              console.log( 'Successfully connected.' );
-
-            });
-
-            controller.on( 'deviceConnected' , function() {
-
-              console.log('A Leap device has been connected.');
+          var controller = new Leap.Controller();
          
-            });
+          controller.on( 'frame' , function(frame){
 
-            controller.on( 'deviceDisconnected' , function() {
+            // Clears the canvas so frames don't build on each other.
+            c.clearRect(0, 0, width, height);
 
-              console.log( 'A Leap device has been disconnected.' );
+            // Gets the number of fingers in each frame
+            var numberOfFingers = frame.fingers.length;
 
-            });
+            // Defines the font shape and size
+            c.font = "30px Arial";
 
-            controller.on( 'ready' , function(){
+            // Tells Canvas how to align text
+            c.textAlign = 'center';
+            c.textBaseline = 'middle';
 
-              var img = document.createElement('img');
-              img.src = "/public/images/tutorials/unicorn1.png";
+            // Tells Canvas to draw the The number of fingers,
+            // at the center of the canvas
+            c.fillText( numberOfFingers , width/2 , height/2 );
+          
+          
+          });
 
-              c.drawImage( img , 0 , 0 );
-             
-            });
-
-            //controller.connect();
-
-
+ 
           </xmp>
         </div>
 
@@ -268,48 +280,23 @@ var controller = new Leap.Controller({frameEventName: "animationFrame"});
 
       var controller = new Leap.Controller();
      
-      controller.on( 'connect' , function(){
-
-        console.log( 'Successfully connected.' );
-
-      });
-
-      controller.on( 'deviceConnected' , function() {
-
-        console.log('A Leap device has been connected.');
-   
-      });
-
-      controller.on( 'deviceDisconnected' , function() {
-
-        console.log( 'A Leap device has been disconnected.' );
-
-      });
-
-      controller.on( 'ready' , function(){
-
-        var img = document.createElement('img');
-        img.src = "/public/images/tutorials/unicorn1.png";
-
-        c.drawImage( img , 0 , 0 );
-       
-      });
-
-      var frameGlobal;
       controller.on( 'frame' , function(frame){
 
+        // Clears the canvas so frames don't build on each other.
         c.clearRect(0, 0, width, height);
 
-
+        // Gets the number of fingers in each frame
         var numberOfFingers = frame.fingers.length;
 
         // Defines the font shape and size
         c.font = "30px Arial";
 
+        // Tells Canvas how to align text
         c.textAlign = 'center';
         c.textBaseline = 'middle';
 
-        //Tells Canvas to draw the input string at the position defined
+        // Tells Canvas to draw the The number of fingers,
+        // at the center of the canvas
         c.fillText( numberOfFingers , width/2 , height/2 );
       
       
