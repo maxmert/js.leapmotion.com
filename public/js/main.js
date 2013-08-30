@@ -9,4 +9,12 @@ $(document).ready(function() {
   $('div.doc-section').each(function() {
     list.append('<li><a href="#'+this.id+'"><i class="icon-chevron-right"></i> '+$(this).find('h2').html()+'</a></li>');
   });
+
+
+  //For Tutorials:
+  var list = $('.tutorial-sidenav ul');
+  $('div.doc-section').each(function() {
+    list.append('<li><a href="#'+this.id+'"><i class="icon-chevron-right"></i> '+$(this).find('h2').html()+'</a></li>');
+  });
+
 });

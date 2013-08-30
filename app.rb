@@ -1,4 +1,5 @@
 require './lib/versions'
+require './lib/tutorials'
 require 'octokit'
 require 'versionomy'
 require 'open-uri'
@@ -10,6 +11,7 @@ set :layout, "application"
 
 cache = {}
 
+=begin
 API_VERSIONS = Octokit.tags("leapmotion/leapjs").map(&:name).map{|v| Versionomy.parse(v[/^v(.*)/, 1]) }.sort.reverse
 LATEST_VERSION = API_VERSIONS.first
 
@@ -27,6 +29,8 @@ LATEST_VERSION = API_VERSIONS.first
     end
   end
 end
+=end
+
 
 get '/' do
   erb :index
@@ -42,20 +46,25 @@ get '/examples' do
   erb :examples
 end
 
-get '/tutorials' do
-  @active_menu = "tutorials"
-  erb :tutorials
-end
+#get '/tutorials' do
+#  @active_menu = "tutorials"
+#  erb :"tutorials/tutorial"
+#end
 
-get '/tutorial1' do
-  @active_menu = "tutorial1"
-  erb :tutorial1
-end
+#get '/tutorial1' do
+#  @active_menu = "tutorial1"
+#  erb :"tutorials/tutorial1"
+#end
 
-get '/tutorial2' do
-  @active_menu = "tutorial2"
-  erb :tutorial2
-end
+#get '/tutorial2' do
+#  @active_menu = "tutorial2"
+#  erb :"tutorials/tutorial2"
+#end
+
+#get '/tutorial3' do
+#@active_menu = "tutorial3"
+#erb :"tutorials/tutorial3"
+#end
 
 
 
@@ -69,4 +78,13 @@ end
 
 get '/api' do
   redirect "/api/#{DOC_VERSIONS.first}/docs"
+end
+
+
+get '/tutorials/:tutorial' do
+  erb :"tutorials/#{params[:tutorial]}", layout: :tutorials
+end
+
+get '/tutorials' do
+  redirect "/tutorials/#{TUTORIALS.first}"
 end
