@@ -69,7 +69,7 @@
     <p> Fig 1. The Leap coordinate system </p>
   </div>
 
-  <p> Last tutorial we talked about the canvas coordinate system, so this tutorial lets talk a bit about the leap coordinate system.</p>
+  <p> Last tutorial we talked about the canvas coordinate system, so this tutorial let's talk a bit about the leap coordinate system.</p>
 
 
   <p> The Leap's coordinate system should seem pretty intuitive from the very beginning. Just imagine that the leap is origin of the system, and it from there you can imply anything else. </p>
@@ -95,11 +95,11 @@
   </div>
 
 
-  <p> If you remember using the Orientation when you first got your leap, you will remember that the shape of the area that the leap sees is sort of like a super-flat balloon. This means that the edges of the coordinate system are a bit difficult to imagine.</p>
+  <p> If you remember using the Orientation when you first got your leap, you will remember that the shape of the area that the leap sees is sort of like a super-flat balloon. This means that the edges of the coordinate system are a bit difficult to imagine and difficult to work with because they are very much not a cube.</p>
 
   <p> There are a few ways to get around this, but my personal favorite is to use a fabulous tool called the interaction box.</p>
 
-  <p> The interaction box is basically a box that sits within the view area of the Leap. It will dynamically change sizes based on how the user is interacting with the Leap. For example if the user is resting their hand very close to the leap make making small movements, the interaction box will scale so that it is smaller, and its center is closer to the leap. However if the user is making large movements and using up the entirety of theview area, the interaction box will scale so that it takes up as much of the view area as possible.</p>
+  <p> The interaction box is basically a box that sits within the view area of the Leap. It will dynamically change sizes based on how the user is interacting with the Leap. For example if the user is resting their hand very close to the leap, making small movements, the interaction box will scale so that it is smaller, and its center is closer to the leap. However if the user is making large movements and using up the entirety of the view area, the interaction box will scale so that it takes up as much of the view area as possible.</p>
 
   <p> The only problem with the interaction box is that even when it is scaled as large as possible, alot of the view area will still lie outside the interaction box, simply because a cube is not a flat balloon. This being said, a cube is easier to work with, easier to imagine, and in general is much more useful that the invisible dirigible that is the Leap view area.
 
@@ -117,7 +117,7 @@
 
     <p> The first thing we need to do is pass in a leap position. We will see how to access specific positions later in the code, but for now, just know that a position in Leap Space is an array of three values: x , y , and z.</p>
 
-    <p> Right now we aren't going to care about the z space because we are in the 2D canvas context. If you stick around for long enough though, we definitly will be getting that 3rd dimension, which is where beauty truly occurs.</p>
+    <p> Right now we aren't going to care about the z-space because we are in the 2D canvas context. If you stick around for long enough though, we definitly will be getting that 3rd dimension, which is where beauty truly occurs.</p>
 
     <p> The first thing we need to do is pass in the proper variables. I am currently choosing to pass in two variables, the frame, and a Leap Position. The reason we need to pass in the frame is because the interaction box is part of the frame. We could do something such as keeping a global version of the frame that we can access throughout the program. For now, passing it through should be enough.</p>    
 
@@ -134,7 +134,7 @@
 
     <p> In order to write the the Leap Position in the canvas coordinate system, we first need to get the top left point that we are going to interact with. We will do this by determining the top and left side of the interaction area, which can we easily defined as the top and left side of the interaction box. </p>
 
-    <p> To get the top and left, we simply define a variable that is the interaction box, find its center in the y position: <code> iBox.center[1] </code>  and add half its size in the y axis: <code> iBox.size[1]/2 </code>. The exact same thing can be done in order to determine the left side of the interaction area. However to get the left side we need to subtract half of the box size, because the Leap Coordinate system x-axis vector points to the right. </p>
+    <p> To get the top and left, we simply define a variable that is the interaction box, find its center in the y position: <code>iBox.center[1]</code>  and add half its size in the y axis: <code>iBox.size[1]/2</code>. The exact same thing can be done in order to determine the left side of the interaction area. However to get the left side we need to subtract half of the box size, because the Leap Coordinate system x-axis vector points to the right. </p>
         
 <pre class="prettyprint language-html">
 
@@ -156,7 +156,7 @@
 
     <p> Now we are getting pretty close to having a conversion function, but something is still wrong: The scale of the interaction area. We want to make sure that the interaction box is mapped fully to the size of the canvas, so that the moving to the top left area of the interaction box will take you to the top left corner of the canvas, and moving to the bottom right will take you to the bottom right corner of the canvas. </p>
 
-    <p> To do this part of the conversion, we basically just need to make sure that x and y exist only between 0 and 1, and than multiply them by the height and width of the canvas </p>
+    <p> To do this part of the conversion, we basically just need to make sure that x and y exist only between 0 and 1, and than multiply them by the height and width of the canvas.</p>
 
 <pre class="prettyprint language-html">
 
@@ -209,7 +209,7 @@
   <p> Now that we have created the method for converting the position of a leap object to our scene space, the rest of it should be a breeze. We just need to draw a circle at every finger, and because we are ridiculous over acheievers, we are going to even draw a cirle at every hand. We could stop here, but why not also draw a line from the hand from every finger to the hand it belongs to.</p>
 
   
-  <p> We'll start off this process by creating a loop which will not only loop through every hand, but also every finger on that hand. In the previous example we accessed the fingers directly from the frame object. This time around we'll do it through the hands, because than we will know which hand each pointable belongs to.</p>
+  <p> We'll start off this process by creating a loop which will not only loop through every hand, but also every finger on that hand. In the previous example we accessed the fingers directly from the frame object. This time around we'll do it through the hands, because then we will know which hand each pointable belongs to.</p>
 
 
 
@@ -229,11 +229,11 @@
 
 </pre>
 
-  <p> Seems reasonable enough. We loop through the <code> frame.hands </code> array, and for each hand we find, we loop through the <code> hand.fingers </code> array. Now all we need is the drawing code. We'll start by drawing the hand.</p>
+  <p> Seems reasonable enough. We loop through the <code>frame.hands</code> array, and for each hand we find, we loop through the <code>hand.fingers</code> array. Now all we need is the drawing code. We'll start by drawing the hand.</p>
 
-  <p> To draw a circle in canvas, we can do one of two things: create a circle path and fill it, or create a circle path and stroke around the path. For the sake of diversity we will fill the hand circle, and stroke the finger circles. Before we stroke and fill the paths, we're going to have to decide how they look. By default canvas will stroke and fill in black, but since color is magic, lets start building our own color theme we will use throughout these tutorials.</p>
+  <p> To draw a circle in canvas, we can do one of two things: create a circle path and fill it, or create a circle path and stroke around the path. For the sake of diversity we will fill the hand circle, and stroke the finger circles. Before we stroke and fill the paths, we're going to have to decide how they look. By default canvas will stroke and fill in black, but since color is miraculous, lets start building our own color theme we will use throughout these tutorials.</p>
 
-  <p> I love using this site: http://colorschemedesigner.com/ to pick out a color theme, and generally like the accented analogic color theme. https://kuler.adobe.com is also an amazing resource for choosing colors, So its all about personal preferance. Also since Mastermind Pohung Chen always says the best color combo is blue and orange, We'll be using this theme for most of our tutorials: http://colorschemedesigner.com/#0.61Tw0w0w0w0 . Lets make the hands <code>#FF5A40</code> , the connections <code> #FFA040</code> and the fingers <code>#39AECF</code>. Now that we have our colors choosen, lets figure out how to put them into code.</p>
+  <p> I love using this site: http://colorschemedesigner.com/ to pick out a color theme, and generally like the accented analogic color theme. https://kuler.adobe.com is also an amazing resource for choosing colors, so its all about personal preferance. Since Mastermind Pohung Chen always says the best color combo is blue and orange, we'll be using this theme for most of our tutorials: http://colorschemedesigner.com/#0.61Tw0w0w0w0 . Lets make the hands <code>#FF5A40</code> , the connections <code> #FFA040</code> and the fingers <code>#39AECF</code>. Now that we have our colors choosen, lets figure out how to put them into code.</p>
 
   <p> To draw the circle we need to specify a fill color since we have decided to fill rather than stroke it. Also we need to create a path to fill. To do this, we first convert out <code>hand.palmPosition</code> to canvas coordinates using our brilliantly designed <code>leapToScene</code> function. We will than set up the style of the circle. Lastly we start a path, create the circle using the <code>arc</code> function, close the path, and finally fill the path. The canvas <code>arc</code> function takes in 6 parameters. The first two are the position, the third is the radius, the Fourth and Fifth are the beginning and ending angles of the arc, and the Sixth is whether the path is created clockwise or counterclockwise. This last parameter is optional, and in the case of creating a circle is also totally unneccesary. Since we are trying to draw a circle at the position of the hand, we will pass in this position as the first two parameters. We'll make the radius 10, just because thats a pretty number. The starting and finishing angles we'll have to make <code>0</code>, and <code>Math.PI * 2</code> so that it creates a full loop ( as you can hopefully tell, canvas uses radians rather than degress ). </p>
 
@@ -255,9 +255,14 @@
 </pre>
 
 
-  <p> One important thing to remember about canvas is that once you declare an aspect of it, such as <code>fillStyle</code> or <code>strokeStyle</code> it will keep track of that. If we wanted to fill everything the same color, we could set the <code>fillStyle</code> once at the very beginning and just start drawing. This memory, however also measn that we need to do alot of switching back and forth to make sure that everything gets drawn the right color. In general I try to set the color directly before the object gets drawn. This might lead to a some unnecessary calls to canvas, but it is certainly better than having our demo look ugly.</p>
+  <div class = "tutorialImageHolder">
+    <img src="/images/tutorials/leapSpace/pukeGreen.png"/>
+    <p> Fig 3. This color usually sucks.</p>
+  </div>
 
-  <p> Another part of drawing with canvas is that the order you call the draw functions will be the order canvas draws in. This is obviously the only logical way to do it, but it also means that we need to make sure we draw our circles in the proper order. For example, I want to have the hand circle cover up the connection lines as well as the fingertips circles, and I also want the fingertip circles to cover up the connection lines. This means that I will have to call the hand circle function AFTER I call the fingertip circle draw function call, which I will have to call AFTER the connection line function call. We'll be able to see the exact order once we learn how to draw the fingers and the connection lines.</p>
+  <p> One important thing to remember about canvas is that once you declare an aspect of it, such as <code>fillStyle</code> or <code>strokeStyle</code> it will keep track of that. If we wanted to fill everything the same color, we could set the <code>fillStyle</code> once at the very beginning and just start drawing. This memory, however also means that we need to do alot of switching back and forth to make sure that everything gets drawn the right color. In general I try to set the color directly before the object gets drawn. This might lead to a some unnecessary calls to canvas, but it is certainly better than drawing puke green instead of marigold.</p>
+
+  <p> Another part of drawing with canvas is that the order you call the draw functions will be the order canvas draws in. This is obviously the only logical way to do it, but it also means that we need to make sure we draw our circles in the proper order. I want to have the hand circle cover up the connection lines as well as the fingertips circles, and I also want the fingertip circles to cover up the connection lines. This means that I will have to call the hand circle function AFTER I call the fingertip circle draw function call, which I will have to call AFTER the connection line function call. We'll be able to see the exact order once we learn how to draw the fingers and the connection lines.</p>
 
   <p> Lets learn how to draw the fingers next. It will look almost identical, except instead of filling the path we are going to stroke it, meaning that we will also have to set the <code>strokeStyle</code> and if our hearts so desire the <code>lineWidth</code> attribute, which will change how wide the stroke will be. I'd like to keep the connection lines relatively skinny, and the fingertip circles super fat, so our finger tip drawing code will look something like this: </p>
 
@@ -279,7 +284,7 @@
 
 </pre>
 
-<p> Lastly we've got to draw those connection lines. We are going to be drawing them from the hand position to the finger position, both of which we've already found, so all we will need to do is define the look and feel of the line, and than draw a line from one point to the other. The canvas call to draw a line is <code>lineTo</code> , but it only has 2 parameters: the x and y of the position. What this function basically does is draw a line to the point passed through, from the point that the canvas context is currently at, meaning that first we need to move the canvas to the starting point, and than call the <code>lineTo</code> towards the final point. To move the context we will use <code>moveTo</code>. With these two function calls we can easily draw our connection lines:</p>
+<p> Lastly we've got to draw those connection lines. We are going to be drawing them from the hand position to the finger position, both of which we've already found, so all we will need to do is define the look and feel of the line, and than draw a line from one point to the other. The canvas call to draw a line is <code>lineTo</code> , but it only has 2 parameters: the x and y of the position. What this function basically does is draw a line to the point passed through, from the point that the canvas context is currently at. This means that first we need to move the canvas to the starting point, and than call the <code>lineTo</code> towards the final point. To move the context we will use <code>moveTo</code>. With these two function calls we can easily draw our connection lines:</p>
 
 
 <pre class="prettyprint language-html">
@@ -377,9 +382,9 @@
 <div id="weDidIt" class="doc-section">   
     <h2 class = "page-title"> We Did It!</h2>
 
-    <p>Congrats. You made it to the end. You learned more about coordinate systems. You've learned how to draw circles and lines, and you've learned how do define styles for canvas. Thats alot for one tutorial, so good job for making it all the way through. Theres going to be many more fun creations in the future, so make sure you stick with it, and soon enough you'll be a master of not only Leap, but the internet itself! Next stop: Gestures.</p>
+    <p>Congrats. You made it to the end. You learned more about coordinate systems. You've learned how to draw circles and lines, and you've learned how to define styles for canvas. Thats a lot for one tutorial, so good job for making it all the way through. Theres going to be many more fun creations in the future, so make sure you stick with it, and soon enough you'll be a master of the Leapernet! Next stop: Gestures.</p>
 
-    <p> As usual, your feedback is extroidinarily helpful, so please email me at icohen@leapmotion.com, sent me something on twitter ( @cabbibo ) or comment on the github page. Also, if you know of anything that people should know about leap.js, please consider writing a tutorial. We'd love to have you as a leader in our community.</p>
+    <p> As usual, your feedback is extroidinarily helpful, so please email me at icohen@leapmotion.com, sent me something on twitter ( @cabbibo ) or comment on the <a href="https://github.com/leapmotion/js.leapmotion.com" target="_blank"> github </a> page. Also, if you know of anything that people should know about leap.js, please consider writing a tutorial. We'd love to have you as a leader in our community.</p>
 
     <p> And one last thing, The demo:</p>
 </div>
