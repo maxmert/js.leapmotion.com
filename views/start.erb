@@ -36,7 +36,7 @@ var controller = new Leap.Controller({host: "24.6.0.1", port: 1337});
 </pre>
 
 <a name="event_types"></a><h3>Event Types</h3>
-<p>The controller supports a number of event types. When LeapJS connects to the websocket server, it first firest the <code>connect</code> event. After that, once the protocol has been selected, it fires a <code>ready</code> event. Once a frame has been received, a <code>deviceConnected</code> event gets fired once. Then, a <code>deviceFrame</code> gets fired for each frame coming from the websocket server connection. (If you're using the animationFrame though, you won't get this information until the animation loop procs.)</p>
+<p>The controller supports a number of event types. When LeapJS connects to the websocket server, it first fires the <code>connect</code> event. After that, once the protocol has been selected, it fires a <code>ready</code> event. Once a frame has been received, a <code>deviceConnected</code> event gets fired once. Then, a <code>deviceFrame</code> gets fired for each frame coming from the websocket server connection. (If you're using the animationFrame though, you won't get this information until the animation loop procs.)</p>
 
 <ul>
 <li><code>connect</code> - The client is connected to the websocket server</li>
