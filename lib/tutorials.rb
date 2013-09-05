@@ -1,7 +1,7 @@
 
 TUTORIALS = [ 
   
-  'welcome' , 'creatingConnection' , 'gettingFrames' , 'leapSpace'  
+  'welcome' , 'creatingConnection' , 'gettingFrames' , 'leapSpace' , 'gestures' 
   
   # ROADMAP
   #[ 'apiBasics'   , [ 'welcome'    , 'connecting' , 'gettingFrames' , 'leapSpace' ] ],

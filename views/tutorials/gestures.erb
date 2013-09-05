@@ -1,0 +1,1241 @@
+
+  
+<h1> Gestures </h1>
+
+<!-- Intro -->
+
+<div id="intro" class="doc-section">
+  
+  <h2 class = "page-title"> Intro </h2>
+  
+  
+  <p> Now that we've got a bit of code and a bit of math under our belts, lets round out the trifecta with a bit of philosophy.</p>
+
+  <div class = "tutorialImageHolder">
+    <img src="/images/tutorials/gestures/spectralInput.png"/>
+    <p> Fig 1. The fluidity of a spectral input.</p>
+  </div>
+
+
+
+  <p> There is something magical about interacting with your computer in a totally natural way. You can see from the last demo that the way you move your fingers is extraordinarily articulate. This is whats so stupendous about a 'spectral interface'.  By spectral, I simply mean to say that it is not binary. Something like the keyboard is only quantized inputs: You are either pressing the key, or you are not pressing the key. The mouse on the other hand, allows for both. You can move your mouse in any direction you want, but when you click, that is another binary input.</p>
+
+  <p> The leap also has the ability for quantized input, and creating this quantized input is actually of extreme importance in the creation of any interface or application. Nobody wants to only .618 click an link, or .314 pull a trigger. For certain interactions you need quantized input.</p>
+
+  <p> This balance between spectral and quantized is a difficult one to create, and an even more difficult one to maintain. With spectral movements, you have natural flow. With quantized movements you have efficient input. Spectral allows for nuance and exploration, It lets you interact with your computer the way you would real life, it lets you use your hands as the miraculous tools that they are. But sometimes all you need is a click. Sometimes all you want is a click. </p>
+
+  <p> It might sound like we are talking about the ultraviolet catastrophe, but although we use light to help make the magic happen, I promise this is more a discussion of UX. </p>
+
+  <p> Programming for a mixed interface is difficult for many reasons. First off you need to understand which parts of the interface you want to make spectral and which parts you want to make binary. You need to decide how to measure the spectral input, and likewise you need to determine how the quantized inputs will affect the program.</p>
+
+  <div class = "tutorialImageHolder">
+    <img src="/images/tutorials/gestures/circleGesture.png"/>
+    <p> Fig 2. Some of the information from a Circle Gesture.</p>
+  </div>
+
+
+
+  <p> Even though we are making a distinction between the spectral and the quantized, the truth of the matter is that there are some types of interactions that are both quantized and spectral. Something like the circle or swipe gesture is a perfect example of these types of getures. Although part of it is quantized ( you either or aren't circling ), the position, completion, and direction of the circle are totally fluid. You could describe the mouse in a similar way, there is quantized input, but while you are clicking or not clicking, you can also be moving your mouse. In this way we can use certain gestures in both natural and efficient ways. But before we try doing that, we need to learn how to code with them  
+
+</div>
+
+
+
+<!-- Created Foundation -->
+
+<div id="createdFoundation" class="doc-section">
+  
+  <h2 class = "page-title"> Created Foundation </h2>
+
+  <p> As usual we'll start by building off the shoulders of our giant selves:</p>
+<pre class="prettyprint language-html">
+
+  &lt;canvas id="canvas"&gt;&lt;/canvas&gt;
+  
+  &lt;script src="//js.leapmotion.com/0.2.0/leap.min.js"&gt;&lt;/script&gt;
+
+  &lt;script&gt;
+
+    var canvas = document.getElementById( 'canvas' );
+
+    var c =  canvas.getContext( '2d' );
+
+    var width = canvas.width;
+    var height = canvas.height;
+
+    var frame;
+    
+    function leapToScene( leapPos ){
+
+      var iBox = frame.interactionBox;
+
+      var left = iBox.center[0] - iBox.size[0]/2;
+      var top = iBox.center[1] + iBox.size[1]/2;
+
+      var x = leapPos[0] - left;
+      var y = leapPos[1] - top;
+
+      x /= iBox.size[0];
+      y /= iBox.size[1];
+
+      x *= width;
+      y *= height;
+
+      return [ x , -y ];
+
+    }
+
+
+
+    var controller = new Leap.Controller();
+
+    controller.on( 'frame' , function( data ){
+      
+      frame = data;
+
+      c.clearRect( 0 , 0 , width , height );
+
+    });
+
+    controller.connect();
+
+  &lt;/script&gt;
+
+</pre>
+
+  <p> This start is a bit similar to our last tutorial with a few fundamental differences. First off you will see that we have declared a global variable <code>frame</code> also, the data we are passing into our <code>controller.on( 'frame' )</code> loop is called data. The reason we are doing all this is so that we don't have to pass the frame variable all through the code, and can just access it globally. You can see this manifesting itself in the <code>leapToScene</code> function which now only has one input: the <code>leapPos</code>. </p>
+
+
+
+</div>
+
+
+
+<div id="findingGestures" class="doc-section">
+  
+  <h2 class = "page-title">Finding Gestures</h2>
+
+  <div class = "tutorialImageHolder">
+    <img src="/images/tutorials/gestures/happySad.jpg"/>
+    <p> Fig 3. Can you guess who remembered to enable gestures? </p>
+  </div>
+
+  <p> Before we get started on finding which gesture is which, we need to first make sure that controller sees gestures in the first place. We do this by telling the controller to enable gestures when we define the controller. </p>
+
+<pre class="prettyprint language-html">
+
+  var controller = new Leap.Controller({ enableGestures: true });
+
+</pre>
+
+  <p> This allows us to not have to take up as many resources if we are creating an application that doesn't use gestures. However this tiny detail is one that I tend to space on, and than spend millions of years debugging when its really that I was just an idiot and forgot to enable gestures in the first place.
+  <p>Don't be like me!</p>
+  
+  <div class = "tutorialImageHolder">
+    <img src="/images/tutorials/gestures/whichGesture.png"/>
+    <p> Fig 4. Which gesture is which? </p>
+  </div>
+
+  <p>Now that we know our controller sees gestures, we need to tell which gesture is which. The first thing we will do is split the gestures out into individual function calls, just so we know what gesture events to trigger. Inside the <code>controller.on( 'frame' )</code> loop, we will first loop through all the gestures we see, like so:</p>
+
+
+<pre class="prettyprint language-html">
+
+  for( var i =  0; i < frame.gestures.length; i++){
+
+    var gesture  = frame.gestures[0];
+    //Per gesture code goes here
+
+  }
+
+</pre>
+
+  <p> You can see that just like fingers or hands, gestures is also an array. It will hold all the gestures that are seen every frame. By looping through its entirety we get to know every single that the frame sees, be it a <code>circle</code>, a <code>keyTap</code> , a <code>screenTap</code> , or a <code>swipe</code>.</p>
+
+  <p> Using our newly defined variable <code>gesture</code>, we will fire a certain event based on what type of gesture it is. We will use a magical switch statement. If you've never used a switch statement before, take a peek at <a href="http://www.w3schools.com/js/js_switch.asp" target="_blank"> This Link</a>. We are using a switch statement in this case because they look way prettier, and as we have learned from our Unicorn, being pretty is the most important thing in the world.</p>
+
+
+<pre class="prettyprint language-html">
+
+  var type = gesture.type;
+          
+  switch( type ){
+
+    case "circle":
+      onCircle( gesture );
+      break;
+      
+    case "swipe":
+      onSwipe( gesture );
+      break;
+
+    case "screenTap":
+      onScreenTap( gesture );
+      break;
+
+    case "keyTap":
+      onKeyTap( gesture );
+      break;
+
+  }
+
+</pre>
+
+  <p> You can see that first off we set up our parameter to test for: <code> gesture.type </code> , Than we check to see if which gesture it is, and execute the code that pertains to that type of gesture. Run this now, and you will get a bunch of errors, because our functions are not defined, but the rest of this tutorial will just be setting up these for functions that will be triggered when an event is fired.</p>
+
+</div>
+
+<div id="onCircle" class="doc-section">   
+  <h2 class = "page-title"> onCircle </h2>
+
+
+  <div class = "tutorialImageHolder">
+    <img src="/images/tutorials/gestures/earth.jpg"/>
+    <p> Fig 5. Circles are so awesome, we live on a giant 3D one. </p>
+  </div>
+
+  <p>The first gesture we will build out is the circle gesture. I'm choosing to do this for three reasons. First of circles are awesome in every way. They are aesthetically pleasing, mathematically beautiful and philosophically interesting. Second off, this will be the easiest of the gestures to draw. Lastly, to me, they are one of the most useful gestures. They always get called when you need them, they provide alot of sexy information, and they are intuitive and simple for people to understand. In general, although every gesture has its place, and designing the perfect interface is something only you can do, I find the circle popping up in many more places that I would expect.</p> 
+  
+  <p>We are going to draw a circle that is as large as the gesture. Depending on if the gesture is clockwise or counterclockwise, we are going to stroke or fill the circle. The placement of the circle is obviously going to be where the gesture is made, but luckily since we've made the <code>leapToScene</code> function already, this part of it will be a cinch. Lets get this part out of the way first, than assign a variable for our radius. </p>
+
+  
+<pre class="prettyprint language-html">
+
+  function onCircle( gesture ){
+
+    // First get our position using the leapToScene Function
+    var pos = leapToScene( gesture.center );
+
+    // Assigning the radius
+    var r = gesture.radius;
+
+  }
+
+</pre>
+
+  <div class = "tutorialImageHolder">
+    <img src="/images/tutorials/gestures/circleNormals.png"/>
+    <p> Fig 6. Opposite normals means opposite directions. </p>
+  </div>
+
+
+
+  <p> Telling whether or not the circle is clockwise or counter-clockwise is a bit more work. There are a few methods of doing this, and we are going to choose the simplest for right now. The only problem with doing it the way we are about to is that it is not universally accurate. In a situation where a user is pointing towards themselves rather than towards the computer, clockwise vs. counterclockwise will be reversed. Because we don't expect users to be doing this very much, especially in our simple program, this is good enough, but later on when we have to deal with this situation, we will go through the other more complex / robust method.</p>
+
+
+  <p> for now we will just look at the direction of the circle. If it is pointing towards the screen, this means it is clockwise, and if it is pointing away, it will be counter-clockwise. When we saying a circle 'points' we basically are talking about the direction of a line that orthoganally intersects the plane that the circle is in, AKA the normal. This means that if we look at the z-direction of the normal ( remember the leap coordinates ), we can use its sign to tell us what direction the circle is in. </p>
+
+  
+<pre class="prettyprint language-html">
+
+  var clockwise = false;
+
+  if( gesture.normal[2]  <= 0 ){
+
+    clockwise = true;
+
+  }
+
+</pre>
+
+  <p> Again, this will not always work properly, but for our case should be good enough. </p>
+
+  <p> The next thing we need to do is to use all this data to draw a circle. We will assign both our stroke and fill color to be the same thing, and use the <code>clockwise</code> boolean to tell use whether we will stroke or fill the circle. We will use the radius as the radius and the position as the position. Putting it all together it should look a bit like this:</p>
+
+<pre class="prettyprint language-html">
+
+  // Setting up the style for the stroke, and fill
+  c.fillStyle   = "#39AECF";
+  c.strokeStyle = "#39AECF";
+  c.lineWidth   = 5;
+
+
+  // Creating the path for the finger circle
+  c.beginPath();
+
+  // Draw a full circle of radius 6 at the finger position
+  c.arc(pos[0], pos[1], radius, 0, Math.PI*2); 
+
+  c.closePath();
+
+  if( clockwise )
+    c.stroke();
+  else
+    c.fill();
+
+</pre>
+  
+  <p>This should be enough to draw our circle. Stroking it if we move clockwise, and filling it if we move counterclockwise.</p>
+
+</div>
+
+<div id="onCircle" class="doc-section">   
+  <h2 class = "page-title"> onSwipe </h2>
+
+  <div class = "tutorialImageHolder">
+    <img src="/images/tutorials/gestures/swipes.png"/>
+    <p> Fig 7. The swipe gesture. </p>
+  </div>
+
+
+
+  <p> Next up is the swipe. If you remember from last tutorial, what we need to do is move the context to a starting point, and then draw a line from this point to the ending point, after that, all we need to do is stroke the line.</p>
+
+  <p> Because the swipe gesture gives us a starting point and an ending point, we can use both of these to draw our line. </p>
+
+<pre class="prettyprint language-html">
+
+  function onSwipe( gesture ){
+
+    var startPos = leapToScene( gesture.startPosition );
+    
+    var pos = leapToScene( gesture.position );
+    
+    // Setting up the style for the stroke
+    c.strokeStyle = "#FFA040";
+    c.lineWidth = 3;
+
+    // Drawing the path
+    c.beginPath();
+
+    // Move to the start position
+    c.moveTo( startPos[0] , startPos[1] );
+
+    // Draw a line to current position
+    c.lineTo( pos[0] , pos[1] );
+
+    c.closePath();
+    c.stroke();
+
+
+  }
+
+</pre>
+
+  <p> So maybe drawing swipes was a bit more easy than circles, but circles are just so cool I had to put them first. </p> 
+
+  <p> Keytaps and screenTaps on the other hand, are deceptively simple, and will require us do much more fenagaling that you might imagine.</p>
+
+
+<div id="keyTapScreenTap" class="doc-section">   
+  <h2 class = "page-title"> keyTap & screenTap </h2>
+
+
+  <div class = "tutorialImageHolder">
+    <img src="/images/tutorials/gestures/screenTap.png"/>
+    <p> Fig 8. The screenTap changes position as it gets triggered. </p>
+  </div>
+
+  <p> Unlike the circle and swipe gestures, which are 'multiframed' gestures, the keyTap and screenTap events are only called on a single frame and disappear immediately after that. Because of this they are super helpful for certain events, like when a button should be clicked. </p> 
+
+  <p> That being said, programming for these events is a bit difficult because as the user tries to make the gesture, they will be changing the position of where the gesture is called. </p>
+
+  <p> This is less applicable for the keyTap, which can be called without changing certain aspects of the hand, such as the palm position, however the screenTap will shift the entire position of the hand forward. </p>
+
+  <p> In addition to this, in later tutorials we will learn about something called the 'touchZone' which accomplishes something simpilar to a screenTap in a much more elegant method. Because of this I would suggest trying to use the screenTap minimally. </p>
+
+  <p> The other problem is giving visual feed back for these single-framed gestures. If we told the canvas to draw a circle at the location of the keyTap gesture only when we saw it in the gestures list, than we would see a circle in the proper place, but only for a single frame. </p>
+
+  <p> To be able to see the gesture for multiple frames we are going to do something much more complex, create an animation. </p>
+
+
+</div>
+
+<div id="animations" class="doc-section">   
+  <h2 class = "page-title"> Animations </h2>
+
+   <div class = "tutorialImageHolder">
+    <img src="/images/tutorials/gestures/animation.gif"/>
+    <p> Fig 9. Animations are beautiful. Made by <a href="http://patakk.tumblr.com/" target="_blank"> Paolo Čerić </a> </p>
+  </div>
+
+
+  <p> I want to just say before we start on this, that animations are probably the only thing in the known universe as cool as circles. They literally bring a whole new dimension into existance, and time is beautiful. That being said, more dimensions means more complexity and with it more math. I just wanted to make sure you knew that learning this section is worth it 1000 times over. </p>
+
+  <p> Our first animation won't be as impeccable as the one created by Paolo Čerić in Figure 9, mostly because what we are going to be doing is just making a circle fade out.</p>
+
+  <p> We will look at keyTap gesture. The screenTap gesture we will do in exactly the same way, but with a slightly different color. The way we are going to do this is a multi-step process. First off, we are going to create a global array of keyTaps to draw. We will set this up where we declare therest of our global variables. </p>
+  
+<pre class="prettyprint language-html">
+
+  var keyTaps = [];
+
+</pre>
+
+
+<p> Now that we have this array, every time a keyTap occurs, we will add it to the keyTaps variable.This is important because we need it to last more than one frame, so it needs to be pushed to somewhere that exists for longer than 1/60th of second. </p>
+
+<p> What we push to this array is also important. First off, we need the position of the gesture, so we know where to draw it. Second off, we need to know when the event occured, so we have a time to compare it to. This means our <code>onKeyTap</code> will be as simple as this:</p>
+
+<pre class="prettyprint language-html">
+
+  function onKeyTap( gesture ){
+
+    var pos  = leapToScene( gesture.position );
+    
+    var time = frame.timestamp;
+
+    keyTaps.push( [ pos[0] , pos[1] , time ] );
+
+  }
+    
+</pre>
+
+  <p> This populates our keyTap array, giving it all the information it needs to draw the keyTap. However, it does none of the actual drawing. As we discussed, this is because if the drawing was done in this function , we would only see if for a frame. </p> 
+
+  <p> Because of this we need another function, which we will call the <code>drawKeyTaps</code> function which will exactly what its name describes. This function will be called every single frame, which will allow us to see the keyTap for multiple frames.</p>
+
+  <div class = "tutorialImageHolder">
+    <img src="/images/tutorials/gestures/ugly.jpg"/>
+    <p> Fig 10. Don't make ugly things. Please.</p>
+  </div>
+
+  <p> You might think: if this function is called every frame, won't that be kind of ugly, because we are going to end up just drawing every single keytap there ever was? </p>
+
+  <p> You are right. This would be not just kindof ugly, it would be very ugly. Luckily we abhor ugly as much as nature abhors vaccuums, and a major part of the function will be figuring out when to remove keyTaps from the array.</p>
+
+  <p> We will do this by creating a variable <code>age</code> which is basically how long the <code>keyTap</code> has been alive. <code>age</code> is the crux of the animation code. It is variable we will use to define fill, size, and other pretty animation properties. As well it what decides if the particle lives or dies.</p>
+
+
+<pre class="prettyprint language-html">
+
+  function drawKeyTaps(){
+
+    for( var i = 0; i < keyTaps.length; i++ ){
+
+      var keyTap = keyTaps[i];
+
+      var age = frame.timestamp - keyTap[2];
+
+      var x = keyTap[0];
+      var y = keyTap[1];
+
+      // Drawing code will go here
+
+    }
+
+  }
+
+</pre>
+
+
+  <p> You can see that in order to draw the keyTaps, we need to loop through all of them. For each one we loop through, we get an age, and an x and y, which are all the pieces of information we passed into the keyTap array.</p>
+
+  <p>If you ran this code and did something like <code>console.log( age )</code> you would see some MASSIVE numbers. Thats because the timestamps are in microseconds. In order to get our age to something more human understandable ( seconds ), we'll add one more line directly underneath the <code>var age</code> line:</p>
+
+<pre class="prettyprint language-html">
+
+  age /= 1000000;
+
+</pre>
+
+  <p> Now if we look at the age, we will be able to use it the same way we would a wrist watch ( if anybody even uses those any more... )</p>
+
+</div>
+
+<div id="drawingWithTime" class="doc-section">   
+  <h2 class = "page-title"> Drawing with Age</h2>
+
+  <p> Now that we have age defined, lets draw with it.</p>
+
+  <p> The first thing we need to do is play God for a moment. We do this by deciding how long the keyTaps have to live. This is a global variable we will use throughout the program, so we will define it with the rest of our global variables, at the top of the script. </p>
+
+<pre class="prettyprint language-html">
+
+  var KEYTAP_LIFETIME = 3;
+
+</pre>
+
+  <div class = "tutorialImageHolder">
+    <img src="/images/tutorials/gestures/senseOfSelf.png"/>
+    <p> Fig 11. These keyTaps have no sense of self.</p>
+  </div>
+
+  <p> With great power comes great responsibility. Choose a lifetime too short, and the keyTaps will barely have time to be seen, let alone have time to understand who they are and live a life that makes them feel content and prepared for death. However choose a lifetime that is too long, and they will crowd each other out, not giving them a feeling of uniqueness, worth, or sense of self. Playing with this lifetime is a task only you can do, so spend some time looking at what different lifetimes do to the keyTaps, and choose one that is balanced, fair and just. </p>
+
+  <p> Once we have decide how to be the most benevolent deity possible, we can use our newly defined variable to tell use a few more things about the keyTaps: The amount of their life that has been completed, and the amount of life they have left. These might be pieces of information that would be too much for a mere keyTap to bear, but for us, they are vital to making their existance as beautiful as possible. </p> 
+
+<pre class="prettyprint language-html">
+
+  var completion = age / KEYTAP_LIFETIME;
+  var timeLeft = 1 - completion;
+
+</pre>
+
+  <p>Both of these numbers run from 0 to 1 while the keyTap is alive, so we can use them to do things such as make a circle shrink to nothingness, or have the fill fade to nothingness, both of which are things we will do. Lets start by defining one more global variable though: The starting size. </p>
+
+<pre class="prettyprint language-html">
+
+  var KEYTAP_START_SIZE = 15;
+
+</pre>
+
+<p> When it comes to visuals, and especially animations related to time, I have sometimes feel that having something static to compare the change to allows for the change to be more pronounced. Because of this, we are going to draw each keyTap in two parts. The first part will be a static ring, which shows use where the gesture started. The second part will be a shrinking, fading circle, showing the particle fade away, and gently reminding us of our own mortality. Lets start with the static ring. </p>
+
+
+<pre class="prettyprint language-html">
+
+  c.strokeStyle = "#FF2300";
+  c.lineWidth   = 3;
+
+  c.beginPath();
+  c.arc( x , y , KEYTAP_START_SIZE , 0 , Math.PI*2); 
+  c.closePath();
+  c.stroke();
+
+</pre>
+
+  <p> This should all look pretty familiar. We are just drawing a circle at point where the gesture happens, giving it the size of the start size we defined at the top of the script. </p>
+
+  <p> The shrinking fading circle is where we implement all of the time based magic we have worked so hard to construct. We'll start by defining the shrinking and fading parts of the circle, and then draw a circle based on those parameters. </p>
+
+<pre class="prettyprint language-html">
+
+  var opacity = timeLeft;
+  var radius = KEYTAP_START_SIZE * timeLeft;
+
+</pre>
+
+  <p> To draw opacity in canvas, we use set the <code>c.fillStyle</code> to be a color that is opaque. However sense hexcode colors aren't opaque, we will have to use <code>rgba</code> to define the fill style. By Searching for the RGB values of our color ( <code>#FF2300</code> ), we can get the first 3 parameters we need to set, and than use our newly defined opacity for the last value. All this ends in a 1-liner:</p>
+
+<pre class="prettyprint language-html">
+
+  c.fillStyle = "rgba( 256 , 33 , 0 , " + opacity + ")";
+
+</pre>
+
+<p> Now that we have the opacity set up, all we need to do is draw a circle with the proper size, as defined by the variable <code>radius</code></p>
+
+<pre class="prettyprint language-html">
+
+  // Creating the path for the finger circle
+  c.beginPath();
+  c.arc( x , y , radius , 0 , Math.PI*2); 
+  c.closePath();
+  c.fill(); 
+
+</pre>
+
+  <p> And there we have it, circles that shrink! </p>
+
+  <p> If you run this code, however, you will run into a whole hoarde of errors. That is because we are letting keyTaps live past their lifetime. This means that their opacity and radius will be negative, and they will be stuck in an bug-ridden purgatory for enternity ( or at least until you refresh the page. )</p>
+
+  <p> Lets spend some time giving these creatures what they need: The gift of Death.</p>
+
+</div>
+
+
+<div id="murder" class="doc-section">   
+  <h2 class = "page-title"> MURDER </h2>
+  
+  <p> We are going to manage the lifetimes of the keyTaps in seperate function which we will call <code>updateKeyTaps</code>. The reason we are seperating out the drawing of the keyTaps from the management of the keyTaps is because if we killed a keyTap in the middle of a drawing loop, we would mistake all of the keyTaps after that as the keyTap before it. It would cause blinking in our animation, and would as ugly as a wet angry cat. Also in general it is a good practice to seperate the logic from the drawing, otherwise things get a confusing. </p>
+
+  <p> In our <code>updateKeyTaps</code> loop we aren't going to do anything but kill a particle once it has lived a full life, however in the future, we could use this area to do a bunch of other things like change what color we are going to use, or change the position of where we are drawing the circle. For now, lets keep it as simple as possible and just do this:</p>
+
+<pre class="prettyprint language-html">
+
+  function updateKeyTaps(){
+
+    for( var i = 0; i < keyTaps.length; i++ ){
+
+      var keyTap = keyTaps[i];
+      var age = frame.timestamp - keyTaps[i][2];
+      age /= 1000000;
+
+      if( age >= KEYTAP_LIFETIME ){
+        keyTaps.splice( i , 1 );
+      }
+
+    }
+
+  }
+
+</pre>
+
+  <p> All that this does is remove the keyTap from the keyTaps array if its age is longer than keyTaps are permitted to live. This keeps that keyTap from being drawn in the <code>drawKeyTaps</code> function, and keeping the keyTaps out of purgatory, and us out of hell ( AKA bugs ).</p>
+
+  <p> Now we are gods of keyTaps. We create them when trigger the gesture, we watch them wither away, and than we kill them when they are ready to die. Now all we need to do is call these functions at the end of the animation loop:</p>
+
+<pre class="prettyprint language-html">
+
+  updateKeyTaps();
+  drawKeyTaps();
+
+</pre>
+
+
+</div>
+
+<div id="oneMorePretty" class="doc-section">   
+  <h2 class = "page-title"> One More Pretty Thing</h2>
+
+  <p>Although I don't believe too much in screenTap, it still deserves to be seen, so lets make something pretty for it too. We'll use this as an excuse to learn a bit more about canvas, However, before we start, we need to create a few more global variables:</p>
+
+<pre class="prettyprint language-html">
+
+  var screenTaps = [];
+  var SCREENTAP_LIFETIME   = 4;
+  var SCREENTAP_START_SIZE = 15;
+
+</pre>
+
+<p>As well we'll create an <code>updateScreenTaps</code> function, an <code>onScreenTap</code> function, and the beginning of our <code>drawScreenTaps</code> function, which should all look suspiciously like our keyTaps code.</p>
+
+<pre class="prettyprint language-html">
+
+  function onScreenTap( gesture ){
+
+    var pos  = leapToScene( gesture.position );
+  
+    var time = frame.timestamp;
+
+    screenTaps.push( [ pos[0] , pos[1] , time ] );
+
+  }
+
+  function updateScreenTaps(){
+
+    for( var i = 0; i < screenTaps.length; i++ ){
+
+      var screenTap = screenTaps[i];
+      var age = frame.timestamp - screenTaps[i][2];
+      age /= 1000000;
+
+      if( age >= SCREENTAP_LIFETIME ){
+        screenTaps.splice( i , 1 );
+      }
+
+    }
+
+  }
+
+  function drawScreenTaps(){
+
+    for( var i = 0; i < screenTaps.length; i++ ){
+
+      var screenTap = screenTaps[i];
+
+      var x = screenTap[0];
+      var y = screenTap[1];
+
+      var age = frame.timestamp - screenTap[2];
+      age /= 1000000;
+
+      var completion = age / SCREENTAP_LIFETIME;
+      var timeLeft = 1 - completion;
+  
+      // Drawing Functions will go here
+    
+    }
+  }
+
+</pre>
+
+<p> Although we are repeating alot of code, which is not only ugly, but wasteful as well ( Read more about that <a href="http://en.wikipedia.org/wiki/Don't_repeat_yourself" target="_blank"> HERE </a> ), This repetition of code should make it even more obvious exactly what we are doing for the screenTap events. We push an event to the array of events, and than draw all those for the duration of their lifetime. This time, though, we are going to draw a square instead of a circle, and doing that requires a bit more knowledge about canvas.</p>
+
+<p> One cool part about the canvas context is that we can save certain states the canvas is in, Later on we can restore to this state, so we can basically do a bunch of work, and not have to weave our way back to the start point. I like to think of it like the dungeons in skyrim. You spend a whole bunch of time working your way to the bottom, but than you always find a quick shortcut to the top. If you had to weave the entire way back up, you might get lost and frustrated.</p>
+
+<p> The reason we do this will become more apparent in a few more steps, but for right now, I'll just say that this is absolutely vital for something like rotation.</p>
+
+<p> The first step, will be like the first step of our keyTap though: create a static square which we can compare the change to. We will do this by saving the state of the canvas , than moving our entire canvas to the point where we want to draw the square, making the x and y of the gesture the new origin. Than we will draw a square around this based on our <code>SCREENTAP_START_SIZE</code>. Last we will restore the canvas to its original state, so we can continue along unhindered. </p>
+
+<p> It is true that we could do this an easier way, not having to save the canvas state, and just drawing a square at the proper location. The reason we are doing it this way is so that when we add in rotation, in the next step, it makes more sense. </p>
+
+<pre class="prettyprint language-html">
+
+  c.strokeStyle = "#FFB300";
+  c.lineWidth   = 3;
+
+  // Save the canvas context, so that we can restore it
+  // and have it un affected
+  c.save();
+
+  // Translate the contex and rotate around the
+  // center of the  square
+  c.translate( x , y );
+
+  //Starting x and y ( compared to the pivot point )
+  var left = -SCREENTAP_START_SIZE / 2;
+  var top = -SCREENTAP_START_SIZE / 2;
+  var width = SCREENTAP_START_SIZE;
+  var height = SCREENTAP_START_SIZE;
+
+  // Draw the rectangle
+  c.strokeRect( left , top , width , height );
+
+  // Restore the context, so we don't draw everything rotated
+  c.restore();
+
+</pre>
+
+<p> This seems like a pretty complex set of commands for stroking a rect, and we could do something much easier, like this: </p>
+
+<pre class="prettyprint language-html">
+
+  var left    = x - SCREENTAP_START_SIZE / 2;
+  var top     = y - SCREENTAP_START_SIZE / 2;
+  var width   = SCREENTAP_START_SIZE;
+  var height  = SCREENTAP_START_SIZE;
+
+  c.strokeRect( left , top , width , height );
+
+</pre>
+
+<p> But this would be almost totally useless when it comes to rotation. The reason for this is that when canvas calls the rotation command, it does so about the origin. This means that if we want to rotate around a point, we actually need to move the entire canvas to that point, making it the new origin. By doing this, we can call a canvas rotation, and it will work perfectly as if it were going rotated around that point. </p>
+
+
+<p> That is what we are going to do for center square which instead of just shrinking and fading, will shrink fade AND rotate. Pretty spectacular if you ask me.</p>
+
+<p> We will do this by first assigning the shrink, fade and rotate variables like so:</p>
+
+<pre class="prettyprint language-html">
+
+  var size = SCREENTAP_START_SIZE * timeLeft;
+  var opacity =  timeLeft;
+  var rotation = timeLeft * Math.PI;
+
+</pre>
+
+<p> Now that these are defined, we will just repeat the process we used for the static square, but this time adding size, opacity and rotation into the mix:</p>
+
+<pre class="prettyprint language-html">
+
+  c.fillStyle = "rgba( 255 , 179 , 0 , " + opacity + ")";
+
+  c.save();
+
+  c.translate( x , y );
+  c.rotate( rotation );
+
+  var left = -size / 2;
+  var top = -size / 2;
+  var width = size;
+  var height = size;
+
+  c.fillRect( left , top , width , height );
+
+  c.restore();
+
+</pre>
+
+<p> As usual, context rotation is in radians, so the shrinking square will do one full rotation as it fades into nothingness. Again the <code>c.save()</code> and <code>c.restore()</code> are absolutely vital, other wise everything we did after this function call would be rotated and translation, and since we do it every frame, it would quickly spiral out of control! </p>
+
+<p> That being said, we saved the world from chaos, by saving and restoring canvas, and with that completed our set of drawing gestures! </p>
+
+
+</div>
+
+
+<div id="weDidIt" class="doc-section">   
+  <h2 class = "page-title"> We Did It!</h2>
+
+   <div class = "tutorialImageHolder">
+    <img src="/images/tutorials/gestures/celebration.gif"/>
+    <p> Fig 12. Paul Rudd is impressed by your fortitude</p>
+  </div>
+
+  <p> WOW! Its the end of the tutorial! Seriously amazing work making it all the way down here. I know it must of taken a while, because it took such a long time to write this one.</p>
+
+  <p> You now have thought about spectral and quantized interactions, learned how tell how a circle is clockwise or counterclockwise, looked at a picture of a scary cat, brought hundreds of thousands of keyTaps and screenTaps to life, and played God, destroying them one by one. You know how to save and restore canvas contexts, and you've even done some animations. If you don't think of this as a totally spectacular acheivement, think again, because you, my friend, are special, strong and smart!</p>
+
+  <p> If you found this tutorial helpful, or can think of other tutorials what you would like to see, please check out the <a href="https://github.com/leapmotion/js.leapmotion.com" target="_blank"> github page for js.leapmotion.com</a> Feel free to leave comments hear, or email me at icohen [AT] Leapmotion.com , or let me know on twitter @Cabbibo.</p>
+
+</div>
+
+<div id="demo" class="doc-section">   
+    <h2 class = "page-title" >Demo</h2>
+
+    
+  <div class="tutorialHolder">
+        
+        <div class="tutorialDemo">
+          <h3>Demo</h3>
+          <canvas class="tutorialCanvas" id="canvas"></canvas>
+
+        </div>
+
+        <div class="tutorialCode">
+          <h3> Code </h3>
+          <div class="fixedHeightCode">
+            <xmp>
+<html>
+  <body>
+
+    <canvas id="canvas"></canvas>
+
+    <script src="//js.leapmotion.com/0.2.0/leap.min.js"></script>
+
+    <script>
+
+    // Get the canvas DOM element 
+    var canvas = document.getElementById('canvas');
+
+    // Create the context we will use for drawing
+    var c =  canvas.getContext('2d');
+
+    // Save the canvas width and canvas height
+    // as easily accesible variables
+    var width = canvas.width;
+    var height = canvas.height;
+
+    /*
+      
+      The leapToScene function takes a position in leap space 
+      and converts it to the space in the canvas.
+      
+      It does this by using the interaction box, in order to 
+      make sure that every part of the canvas is accesible 
+      in the interaction area of the leap
+
+    */
+
+    function leapToScene( frame , leapPos ){
+
+      // Gets the interaction box of the current frame
+      var iBox = frame.interactionBox;
+
+      // Gets the left border and top border of the box
+      // In order to convert the position to the proper
+      // location for the canvas
+      var left = iBox.center[0] - iBox.size[0]/2;
+      var top = iBox.center[1] + iBox.size[1]/2;
+
+      // Takes our leap coordinates, and changes them so
+      // that the origin is in the top left corner 
+      var x = leapPos[0] - left;
+      var y = leapPos[1] - top;
+
+      // Divides the position by the size of the box
+      // so that x and y values will range from 0 to 1
+      // as they lay within the interaction box
+      x /= iBox.size[0];
+      y /= iBox.size[1];
+
+      // Uses the height and width of the canvas to scale
+      // the x and y coordinates in a way that they 
+      // take up the entire canvas
+      x *= width;
+      y *= height;
+
+      // Returns the values, making sure to negate the sign 
+      // of the y coordinate, because the y basis in canvas 
+      // points down instead of up
+      return [ x , -y ];
+
+    }
+
+    // Creates our Leap Controller
+    var controller = new Leap.Controller();
+
+    // Tells the controller what to do every time it sees a frame
+    controller.on( 'frame' , function(frame){
+
+      c.clearRect( 0 , 0 , width , height );
+
+      console.log('sss');
+
+      for( var i = 0; i < frame.gestures.length; i++ ){
+
+        var gesture = frame.gestures[i];
+
+        console.log( gesture.type );
+
+
+      }
+
+    });
+    
+    // Get frames rolling by connecting the controller
+    controller.connect();
+
+    </script>
+  </body>
+</html>
+          </xmp>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+    <!-- THE SCRIPT FOR THIS DEMO -->
+    <script>
+
+   // Get the canvas DOM element 
+    var canvas = document.getElementById('canvas');
+
+    // Making sure we have the proper aspect ratio for our canvas
+    canvas.width = canvas.clientWidth;
+    canvas.height = canvas.clientHeight;
+
+    // Create the context we will use for drawing
+    var c =  canvas.getContext('2d');
+
+
+
+    // Save the canvas width and canvas height
+    // as easily accesible variables
+    var width = canvas.width;
+    var height = canvas.height;
+
+    // Creating a global Frame variable that we can access
+    // throughout the program
+    var frame;
+
+    // Global keyTap and screenTap arrays
+    var keyTaps = [];
+    var KEYTAP_LIFETIME   =  .5;
+    var KEYTAP_START_SIZE = 15;
+
+    var screenTaps = [];
+    var SCREENTAP_LIFETIME   = 1;
+    var SCREENTAP_START_SIZE = 30;
+
+
+    /*
+      
+      The leapToScene function takes a position in leap space 
+      and converts it to the space in the canvas.
+      
+      It does this by using the interaction box, in order to 
+      make sure that every part of the canvas is accesible 
+      in the interaction area of the leap
+
+    */
+
+    function leapToScene( leapPos ){
+
+      // Gets the interaction box of the current frame
+      var iBox = frame.interactionBox;
+
+      // Gets the left border and top border of the box
+      // In order to convert the position to the proper
+      // location for the canvas
+      var left = iBox.center[0] - iBox.size[0]/2;
+      var top = iBox.center[1] + iBox.size[1]/2;
+
+      // Takes our leap coordinates, and changes them so
+      // that the origin is in the top left corner 
+      var x = leapPos[0] - left;
+      var y = leapPos[1] - top;
+
+      // Divides the position by the size of the box
+      // so that x and y values will range from 0 to 1
+      // as they lay within the interaction box
+      x /= iBox.size[0];
+      y /= iBox.size[1];
+
+      // Uses the height and width of the canvas to scale
+      // the x and y coordinates in a way that they 
+      // take up the entire canvas
+      x *= width;
+      y *= height;
+
+      // Returns the values, making sure to negate the sign 
+      // of the y coordinate, because the y basis in canvas 
+      // points down instead of up
+      return [ x , -y ];
+
+    }
+
+    function onCircle( gesture ){
+
+      /*
+      
+        Setting up our parameters
+      
+      */
+
+      // First get the position using our leapToScene function
+      var pos = leapToScene( gesture.center );
+
+      // Assigning the radius
+      var radius = gesture.radius;
+
+      var clockwise = false;
+
+      if( gesture.normal[2]  <= 0 ){
+
+        clockwise = true;
+
+      }
+
+      /*
+      
+        Setting up our drawing style
+
+      */
+
+      // Setting up the style for the stroke, and fill
+      c.fillStyle   = "#39AECF";
+      c.strokeStyle = "#39AECF";
+      c.lineWidth   = 5;
+
+
+      // Creating the path for the finger circle
+      c.beginPath();
+
+      // Draw a full circle of radius 6 at the finger position
+      c.arc(pos[0], pos[1], radius, 0, Math.PI*2); 
+
+      c.closePath();
+
+      if( clockwise )
+        c.stroke();
+      else
+        c.fill();
+
+    }
+
+
+    function onSwipe( gesture ){
+
+      var startPos = leapToScene( gesture.startPosition );
+      var pos      = leapToScene( gesture.position );
+      
+      // Setting up the style for the stroke
+      c.strokeStyle = "#FFA040";
+      c.lineWidth = 3;
+
+      // Drawing the path
+      c.beginPath();
+
+      // Move to the start position
+      c.moveTo( startPos[0] , startPos[1] );
+
+      // Draw a line to current position
+      c.lineTo( pos[0] , pos[1] );
+
+      c.closePath();
+      c.stroke();
+
+
+    }
+
+
+    function onKeyTap( gesture ){
+
+      var pos  = leapToScene( gesture.position );
+    
+      var time = frame.timestamp;
+
+      keyTaps.push( [ pos[0] , pos[1] , time ] );
+
+    }
+
+    function updateKeyTaps(){
+
+      for( var i = 0; i < keyTaps.length; i++ ){
+
+        var keyTap = keyTaps[i];
+        var age = frame.timestamp - keyTaps[i][2];
+        age /= 1000000;
+
+        if( age >= KEYTAP_LIFETIME ){
+          keyTaps.splice( i , 1 );
+        }
+
+      }
+
+    }
+
+
+    function drawKeyTaps(){
+
+      for( var i = 0; i < keyTaps.length; i++ ){
+
+        var keyTap = keyTaps[i];
+
+        var x = keyTap[0];
+        var y = keyTap[1];
+
+        var age = frame.timestamp - keyTap[2];
+        age /= 1000000;
+
+        var completion = age / KEYTAP_LIFETIME;
+        var timeLeft = 1 - completion;
+
+
+        /*
+        
+          Static Ring
+
+        */
+        c.strokeStyle = "#FF2300";
+        c.lineWidth   = 3;
+        
+        c.beginPath();
+        c.arc( x , y , KEYTAP_START_SIZE , 0 , Math.PI*2); 
+        c.closePath();
+        c.stroke();
+
+
+
+        var opacity = timeLeft;
+        var radius = KEYTAP_START_SIZE * timeLeft;
+        //console.log( opacity );
+
+        c.fillStyle = "rgba( 256 , 33 , 0 , " + opacity + ")";
+
+        // Creating the path for the finger circle
+        c.beginPath();
+        c.arc( x , y , radius , 0 , Math.PI*2); 
+        c.closePath();
+        c.fill();        
+
+      }
+
+    }
+
+    function onScreenTap( gesture ){
+
+      var pos  = leapToScene( gesture.position );
+    
+      var time = frame.timestamp;
+
+      screenTaps.push( [ pos[0] , pos[1] , time ] );
+
+    }
+
+    function updateScreenTaps(){
+
+      for( var i = 0; i < screenTaps.length; i++ ){
+
+        var screenTap = screenTaps[i];
+        var age = frame.timestamp - screenTaps[i][2];
+        age /= 1000000;
+
+        if( age >= SCREENTAP_LIFETIME ){
+          screenTaps.splice( i , 1 );
+        }
+
+      }
+
+    }
+
+    function drawScreenTaps(){
+
+      for( var i = 0; i < screenTaps.length; i++ ){
+
+        var screenTap = screenTaps[i];
+
+        var x = screenTap[0];
+        var y = screenTap[1];
+
+        var age = frame.timestamp - screenTap[2];
+        age /= 1000000;
+
+        var completion = age / SCREENTAP_LIFETIME;
+        var timeLeft = 1 - completion;
+
+        /*
+        
+        Drawing the static ring
+
+        */
+        c.strokeStyle = "#FFB300";
+        c.lineWidth   = 3;
+
+        // Save the canvas context, so that we can restore it
+        // and have it un affected
+        c.save();
+
+        // Translate the contex and rotate around the
+        // center of the  square
+        c.translate( x , y );
+
+        //Starting x and y ( compared to the pivot point )
+        var left = -SCREENTAP_START_SIZE / 2;
+        var top = -SCREENTAP_START_SIZE / 2;
+        var width = SCREENTAP_START_SIZE;
+        var height = SCREENTAP_START_SIZE;
+
+        // Draw the rectangle
+        c.strokeRect( left , top , width , height );
+
+        // Restore the context, so we don't draw everything rotated
+        c.restore();
+
+
+        // Drawing the non-static part
+
+        var size = SCREENTAP_START_SIZE * timeLeft;
+        var opacity =  timeLeft;
+        var rotation = timeLeft * Math.PI;
+        
+        c.fillStyle = "rgba( 255 , 179 , 0 , " + opacity + ")";
+
+        c.save();
+
+        c.translate( x , y );
+        c.rotate( rotation );
+
+        var left = -size / 2;
+        var top = -size / 2;
+        var width = size;
+        var height = size;
+
+        c.fillRect( left , top , width , height );
+
+        c.restore();
+
+
+      }
+
+    }
+
+    // Creates our Leap Controller
+    var controller = new Leap.Controller({enableGestures:true});
+
+    // Tells the controller what to do every time it sees a frame
+    controller.on( 'frame' , function( data ){
+
+      // Assigning the data to the global frame object
+      frame = data;
+      
+      // Clearing the drawing from the previous frame
+      c.clearRect( 0 , 0 , width , height );
+
+      for( var i = 0; i < frame.gestures.length; i++ ){
+
+        var gesture = frame.gestures[i];
+
+
+        var type = gesture.type;
+        
+        switch( type ){
+          
+          case "circle":
+            onCircle( gesture );
+            break;
+            
+          case "swipe":
+            onSwipe( gesture );
+            break;
+          
+          case "screenTap":
+            onScreenTap( gesture );
+            break;
+
+          case "keyTap":
+            onKeyTap( gesture );
+            break;
+   
+        }
+
+      }
+
+      updateKeyTaps();
+      drawKeyTaps();
+
+      updateScreenTaps();
+      drawScreenTaps();
+
+
+    });
+    
+    // Get frames rolling by connecting the controller
+    controller.connect();
+  
+  </script>
