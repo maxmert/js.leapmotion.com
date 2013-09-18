@@ -11,7 +11,7 @@ set :layout, "application"
 
 cache = {}
 
-=begin
+begin
 API_VERSIONS = Octokit.tags("leapmotion/leapjs").map(&:name).map{|v| Versionomy.parse(v[/^v(.*)/, 1]) }.sort.reverse
 LATEST_VERSION = API_VERSIONS.first
 
@@ -29,8 +29,7 @@ LATEST_VERSION = API_VERSIONS.first
     end
   end
 end
-=end
-
+end
 
 get '/' do
   erb :index

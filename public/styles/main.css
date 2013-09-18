@@ -119,16 +119,17 @@ h1 {
     padding:0;
   }
 
+  /* TODO: Add Tutorial Demo Back in */
   .tutorialDemo{
-    width:50%;
+    width:100%;
   }
 
   .tutorialCode{
-    width:50%;
+    width:100%;
   }
   
   .tutorialCanvas{
-    height:300px;
+    height:500px;
   }
 
   .fixedHeightCode{
