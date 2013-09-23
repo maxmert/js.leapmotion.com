@@ -1,6 +1,6 @@
 
   
-<h1> Creating Connection | <a class="demoLiveCode" href="http://www.mrdoob.com/projects/htmleditor/#B/jVRNa9tAED1Lv2LqUqSAWbmBlpLIhlTJIaWlgRxyXu+OpU2lXSGtrJqQ/979kCyF2pCDzWr2zXtvZ4ZJC12VmzAtkPJNCJC2+lDiJgzCAOAjo3JP25cwMB+94Lq4Cj6vVp+uXaBAkRf6GAF4tX+WIzmSpIknTreKHzahvfScIPh64Y+LTZr4kzHgLLBG1Brahq0XSfLckhJpXSktlCRMVcmKXJJVYoOkEpI8Owaf5CXGMwRJAg9dWQqZgy4QMq99+/sXYIkVSg1CagU/qAm7JJMOsKcNDDbXwBXrLJLkqO980vfDPY8jj4gurkOXZKQeUWsr1dVOjSmp8a+GHqGnRsoIdS1OCoZ8kLHcmUfH0SWfcz40WNeWVHUNdFIw1cgjhajyuUPWINU4mIwjc2uZLNgciamnAS8KreurJBHExLrGFXT39dvTl7uM1DJfTMqZZRuVbbXdgxpVlthMjziGDLfEHn7atmTHaPzmKWrvO0G1K1CP21axP2i60IKq0T9soiRKxhCZb4lMR7CEXSeZHYP44sWzOnSrSiSlyg32sWMM23Znen6AIRE5iWC08XrODwWOe8HQdgS2OCWf9OSx2Yh56w1OmotuXG1GmcIM1xZRzl3aZv3n8kZy71Do0RsX7Xvs3c5g73EI5yzO9c7U8qkwuHHoh4EwTTUjxA9LaGva++thgj+ctO3Q5/pMeEP7+4rmGLu5X8LK/YYJnwpnl1Awox6s20kMAr+ehv1gkWniV5PZVHYT/gM=">Live Code</a> </h1>
+<h1> Creating Connection </h1>
 
 <div id="intro" class="doc-section">
 
@@ -216,7 +216,7 @@
 
 <div id="demo" class="doc-section">
 
-  <h2 class = "page-title"> Demo | <a class="demoLiveCode" href="http://www.mrdoob.com/projects/htmleditor/#B/jVRNa9tAED1Lv2LqUqSAWbmBlpLIhlTJIaWlgRxyXu+OpU2lXSGtrJqQ/979kCyF2pCDzWr2zXtvZ4ZJC12VmzAtkPJNCJC2+lDiJgzCAOAjo3JP25cwMB+94Lq4Cj6vVp+uXaBAkRf6GAF4tX+WIzmSpIknTreKHzahvfScIPh64Y+LTZr4kzHgLLBG1Brahq0XSfLckhJpXSktlCRMVcmKXJJVYoOkEpI8Owaf5CXGMwRJAg9dWQqZgy4QMq99+/sXYIkVSg1CagU/qAm7JJMOsKcNDDbXwBXrLJLkqO980vfDPY8jj4gurkOXZKQeUWsr1dVOjSmp8a+GHqGnRsoIdS1OCoZ8kLHcmUfH0SWfcz40WNeWVHUNdFIw1cgjhajyuUPWINU4mIwjc2uZLNgciamnAS8KreurJBHExLrGFXT39dvTl7uM1DJfTMqZZRuVbbXdgxpVlthMjziGDLfEHn7atmTHaPzmKWrvO0G1K1CP21axP2i60IKq0T9soiRKxhCZb4lMR7CEXSeZHYP44sWzOnSrSiSlyg32sWMM23Znen6AIRE5iWC08XrODwWOe8HQdgS2OCWf9OSx2Yh56w1OmotuXG1GmcIM1xZRzl3aZv3n8kZy71Do0RsX7Xvs3c5g73EI5yzO9c7U8qkwuHHoh4EwTTUjxA9LaGva++thgj+ctO3Q5/pMeEP7+4rmGLu5X8LK/YYJnwpnl1Awox6s20kMAr+ehv1gkWniV5PZVHYT/gM=">Live Code</a> </h2>
+  <h2 class = "page-title"> Demo </h2>
 
 
 
@@ -224,56 +224,13 @@
     <div class="tutorialHolder">
       
       <div class="tutorialDemo">
-        <canvas class="tutorialCanvas" id="canvas"></canvas>
-        <button onclick="controller.connect()">Spawn Unicorn (Connect Controller)</button>
-      </div>
+        <p data-height="500" data-theme-id="1367" data-slug-hash="cxaHD" data-user="cabbibo" data-default-tab="result" class='codepen'>See the Pen <a href='http://codepen.io/cabbibo/pen/cxaHD'>cxaHD</a> by Isaac Cohen (<a href='http://codepen.io/cabbibo'>@cabbibo</a>) on <a href='http://codepen.io'>CodePen</a></p>
+<script async src="http://codepen.io/assets/embed/ei.js"></script>
+        </div>
 
          </div>
       </div>
     </div>
   </div> 
 
-    <script>
-
-    // Pulling the Canvas DOM element into Javascript
-    var canvas = document.getElementById('canvas');
-
-    // Setting up the context we want to use
-    var c =  canvas.getContext('2d');
-
-    // Prepping our unicorn
-    var img = document.createElement('img');
-    img.src = "/images/tutorials/creatingConnection/unicorn1.png";
-
-    // Creating our leap controller
-    var controller = new Leap.Controller();
-
-    // Proving that the websocket is open
-    controller.on( 'connect' , function(){
-
-      console.log( 'Successfully connected.' );
-
-    });
-
-    // Proving that a device can be connected
-    controller.on( 'deviceConnected' , function() {
-
-      console.log('A Leap device has been connected.');
- 
-    });
-
-    // And that it can be disconnected
-    controller.on( 'deviceDisconnected' , function() {
-
-      console.log( 'A Leap device has been disconnected.' );
-
-    });
-
-    // When the controller is ready, spawn the unicorn!
-    controller.on( 'ready' , function(){
-
-      c.drawImage( img , 0 , 0 );
-     
-    });
-
-    </script>
+   
