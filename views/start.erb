@@ -36,7 +36,7 @@ var controller = new Leap.Controller({host: "24.6.0.1", port: 1337});
 </pre>
 
 <a name="event_types"></a><h3>Event Types</h3>
-<p>The controller supports a number of event types. When LeapJS connects to the websocket server, it first firest the <code>connect</code> event. After that, once the protocol has been selected, it fires a <code>ready</code> event. Once a frame has been received, a <code>deviceConnected</code> event gets fired once. Then, a <code>deviceFrame</code> gets fired for each frame coming from the websocket server connection. (If you're using the animationFrame though, you won't get this information until the animation loop procs.)</p>
+<p>The controller supports a number of event types. When LeapJS connects to the websocket server, it first fires the <code>connect</code> event. After that, once the protocol has been selected, it fires a <code>ready</code> event. Once a frame has been received, a <code>deviceConnected</code> event gets fired once. Then, a <code>deviceFrame</code> gets fired for each frame coming from the websocket server connection. (If you're using the animationFrame though, you won't get this information until the animation loop procs.)</p>
 
 <ul>
 <li><code>connect</code> - The client is connected to the websocket server</li>
@@ -72,7 +72,7 @@ controller.connect();
 </pre>
 
 <a name="frame_detection_loop"></a><h3>Understanding the Frame Detection Loop</h3>
-<p>There are two types of frame detection loops. In general, in the browser, the animation loop will be the most useful. This will tick at 60fps and grab whatever the latest frame is at that point. The other type of loop is a device loop, where the device will ping you with every new frame as soon as it is available. Those working in Node will likely want this type of loop. Whichever frame event name the controller is declared for will be the default given by the event type <code>frame</code>, but you also have the flexibility to write functions for each type of frame specificially. Some apps may even want to use both types of frames; this is allowed.</p>
+<p>There are two types of frame detection loops. In general, in the browser, the animation loop will be the most useful. This will tick at 60fps and grab whatever the latest frame is at that point. The other type of loop is a device loop, where the device will ping you with every new frame as soon as it is available. Those working in Node will likely want this type of loop. Whichever frame event name the controller is declared for will be the default given by the event type <code>frame</code>, but you also have the flexibility to write functions for each type of frame specifically. Some apps may even want to use both types of frames; this is allowed.</p>
 
 <p>To illustrate, this will use the animation loop since we're in a browser and didn't specify otherwise in the controller options:</p>
 <pre class="prettyprint language-html">
