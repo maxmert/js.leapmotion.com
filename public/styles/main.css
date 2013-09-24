@@ -1,34 +1,15 @@
-
-@font-face {
-    font-family: 'freightsans_prolight';
-    src: url('../fonts/freigsanprolig-webfont.eot');
-    src: url('../fonts/freigsanprolig-webfont.eot?#iefix') format('embedded-opentype'),
-    url('../fonts/freigsanprolig-webfont.woff') format('woff'),
-    url('../fonts/freigsanprolig-webfont.ttf') format('truetype'),
-    url('../fonts/freigsanprolig-webfont.svg#freightsans_prolight') format('svg');
-    font-weight: normal;
-    font-style: normal;
-
-}
-
-
-@font-face {
-    font-family: 'freightsans_probook';
-    src: url('../fonts/freigsanprobook-webfont.eot');
-    src: url('../fonts/freigsanprobook-webfont.eot?#iefix') format('embedded-opentype'),
-    url('../fonts/freigsanprobook-webfont.woff') format('woff'),
-    url('../fonts/freigsanprobook-webfont.ttf') format('truetype'),
-    url('../fonts/freigsanprobook-webfont.svg#freightsans_probook') format('svg');
-    font-weight: normal;
-    font-style: normal;
-
-}
-
-* {
-    font-family: "freightsans_probook",Helvetica,Arial,sans-serif;
-}
 code {
   color: #333333
+}
+
+.navbar .brand {
+    padding-left: 2em;
+}
+
+body {
+
+    position: relative;
+    padding-top: 50px;
 }
 
 .toc {
@@ -42,53 +23,21 @@ code {
   list-style-type: lower-alpha;
 }
 
-p {
-    font-size: 16px;
-    line-height: 115%;
-}
-
-.navbar-inverse a, .navbar-inverse a:visited, .navbar-inverse a:link,.navbar .nav>li>a {
-    color: #9ac847;
-}
-
 .opening-code {
   font-family: monospace;
   font-size: 16pt;
 }
 
-h1, h2, h3, h4 {
-    color: #388600 !important;
-    font-family: "freightsans_probook",Helvetica,Arial,sans-serif;
-    font-weight: 400 !important;
-    font-size: 21px;
-}
-
-h4, h5 {
-    font-size: 18px;
-    color: black !important;
-}
-
-.hero-unit {
-    padding: 3em 5em 0.5em 1em;
-    margin-bottom:0;
+h1 {
+  font: 400 45px/1.2 'Sansita one', Georgia, serif;
 }
 
 .hero-unit h1 {
-    font-family: "freightsans_prolight",Helvetica,Arial,sans-serif;
-    color: #9ac847 !important;
-    font-size: 300%;
-    margin-bottom: 0.25em;
+ font-size: 45px;
 }
 
-.hero-unit .btn {
-    margin-right: 1em !important;
-}
-
-/* Homepage hero box */
-
-.navbar .brand {
-    width: 150px;
-text-align: right;
+* {
+  font-family: 'Kameron', Georgia, serif;
 }
 
 

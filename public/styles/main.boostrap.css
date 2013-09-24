@@ -1,0 +1,321 @@
+@font-face {
+    font-family: 'freightsans_prolight';
+    src: url('../fonts/freigsanprolig-webfont.eot');
+    src: url('../fonts/freigsanprolig-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/freigsanprolig-webfont.woff') format('woff'), url('../fonts/freigsanprolig-webfont.ttf') format('truetype'), url('../fonts/freigsanprolig-webfont.svg#freightsans_prolight') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'freightsans_probook';
+    src: url('../fonts/freigsanprobook-webfont.eot');
+    src: url('../fonts/freigsanprobook-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/freigsanprobook-webfont.woff') format('woff'), url('../fonts/freigsanprobook-webfont.ttf') format('truetype'), url('../fonts/freigsanprobook-webfont.svg#freightsans_probook') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+* {
+    font-family:  Helvetica, Arial, sans-serif;
+}
+
+body {
+
+    position: relative;
+    padding-top: 40px;
+}
+code {
+    color: #333333
+}
+
+.toc {
+    display: inline-block;
+    padding: 10px;
+    background-color: #f5f5f5;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.toc ol li ol {
+    list-style-type: lower-alpha;
+}
+
+p {
+    font-size: 16px;
+    line-height: 115%;
+}
+
+.navbar-inverse a, .navbar-inverse a:visited, .navbar-inverse a:link, .navbar .nav>li>a {
+}
+
+.opening-code {
+    font-family: monospace;
+    font-size: 16pt;
+}
+
+h1, h2, h3, h4 {
+    font-family:  Helvetica, Arial, sans-serif;
+    font-weight: 400 !important;
+    font-size: 21px;
+}
+
+h4, h5 {
+    font-size: 18px;
+    color: black !important;
+}
+
+.hero-unit {
+    padding-top: 3em;
+    padding-right: 0em;
+    padding-left: 1em;
+    padding-bottom: 0.5em;
+    margin-bottom: 0;
+    background: -moz-linear-gradient(top,  rgba(153,153,153,0.65) 0%, rgba(0,0,0,0) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(153,153,153,0.65)), color-stop(100%,rgba(0,0,0,0))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  rgba(153,153,153,0.65) 0%,rgba(0,0,0,0) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  rgba(153,153,153,0.65) 0%,rgba(0,0,0,0) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  rgba(153,153,153,0.65) 0%,rgba(0,0,0,0) 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  rgba(153,153,153,0.65) 0%,rgba(0,0,0,0) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6999999', endColorstr='#00000000',GradientType=0 ); /* IE6-9 */
+
+}
+
+.image-03 {
+    min-height: 325px;
+    padding-top: 4em;
+}
+.image-03 div.image {
+    width: 100%;
+    height: 100%  ;
+    min-height: 257px;
+    right: 0px;
+    background: url(/images/03-LeapMotion-Held_small_transparent.png);
+    background-position: right top;
+    background-size:        400px 257px;
+    background-repeat: no-repeat;
+}
+
+.hero-unit h1 {
+    font-size: 300%;
+    margin-bottom: 0.25em;
+}
+
+.hero-unit .btn {
+    margin-right: 1em !important;
+}
+
+/* Homepage hero box */
+
+.navbar .brand {
+    width: 150px;
+    text-align: right;
+}
+
+/* Sidebar */
+@media (max-width: 767px) {
+    .api-docs-sidenav.affix {
+        position: static;
+        width: auto;
+        top: 0;
+    }
+
+    /* Tutorial Sidebar */
+    .tutorial-sidenav.affix {
+        position: static;
+        width: auto;
+        top: 0;
+    }
+
+}
+
+@media (max-width: 979px) and (min-width: 768px) {
+    .api-docs-sidenav.affix {
+        width: 166px;
+    }
+
+    /* Tutorial Sidebar */
+    .tutorial-sidenav.affix {
+        width: 166px;
+    }
+
+    .nav-list {
+        padding: 0;
+    }
+
+    .tutorialDemo {
+        width: 100%;
+    }
+
+    .tutorialCode {
+        width: 100%;
+    }
+
+    .tutorialCanvas {
+        height: 300px;
+    }
+
+    .fixedHeightCode {
+        height: 300px;
+    }
+
+}
+
+@media (max-width: 1199px) and (min-width: 980px) {
+    .api-docs-sidenav.affix {
+        width: 190px;
+    }
+
+    .tutorial-sidenav.affix {
+        width: 190px;
+    }
+
+    .tutorialDemo {
+        width: 100%;
+    }
+
+    .tutorialCode {
+        width: 100%;
+    }
+
+    .tutorialCanvas {
+        height: 400px;
+    }
+
+    .fixedHeightCode {
+        height: 400px;
+    }
+
+}
+
+@media (min-width: 1200px) {
+    .api-docs-sidenav.affix {
+        width: 270px;
+    }
+
+    .tutorial-sidenav.affix {
+        width: 270px;
+    }
+
+    .nav-list {
+        padding: 0;
+    }
+
+    /* TODO: Add Tutorial Demo Back in */
+    .tutorialDemo {
+        width: 100%;
+    }
+
+    .tutorialCode {
+        width: 100%;
+    }
+
+    .tutorialCanvas {
+        height: 500px;
+    }
+
+    .fixedHeightCode {
+        height: 300px;
+    }
+
+}
+
+.api-docs-sidenav.affix {
+    top: 20px;
+}
+
+.api-docs-sidenav.affix-bottom {
+    position: absolute;
+    top: auto;
+    bottom: 270px;
+}
+
+.tutorial-sidenav.affix {
+    top: 20px;
+}
+
+.tutorial-sidenav.affix-bottom {
+    position: absolute;
+    top: auto;
+    bottom: 270px;
+}
+
+.setup h3 span {
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    padding-left: 4px;
+    padding-right: 4px;
+    line-height: 26px;
+    font-size: 24px;
+    background-color: #AC7F24;
+    color: white;
+}
+
+.setup h3 {
+    margin-left: 10px;
+}
+
+.tutorial h2.page-title {
+
+    padding-top: 50px;
+
+}
+
+.tutorialHolder {
+    width: 100%;
+}
+
+.tutorialDemo {
+    float: left;
+}
+
+.tutorialDemo h3 {
+    text-align: center;
+}
+
+.tutorialCanvas {
+    width: 100%;
+    border: 1px solid black;
+}
+
+.tutorialCode {
+    float: left;
+}
+
+.fixedHeightCode {
+    margin-left: 20px;
+    box-shadow: 0px 4px 4px #666 inset, 0px -4px 4px #666 inset;
+    overflow: scroll;
+}
+
+.tutorialCode h3 {
+    text-align: center;
+}
+
+.tutorialImageHolder {
+
+    padding: 20px;
+    float: right;
+    width: 30%;
+
+}
+
+.tutorialImageHolder img {
+
+    width: 100%;
+
+}
+
+.tutorialImageHolder p {
+
+    text-align: center;
+
+}
+
+.tutorial-sectionnav {
+    list-style-type: none;
+    margin: 0 0 0px 10px;
+    padding: 0 0 0 5px;
+}
+
+
