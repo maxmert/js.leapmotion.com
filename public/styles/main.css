@@ -251,4 +251,110 @@ h1 {
   padding:0 0 0 5px;
 }
 
+/* documentation */
 
+.api {
+}
+
+.api h2 {
+    margin: 0;
+    margin-top: 10px;
+}
+
+.api h3, .api h4, .api h5, .api h6 {
+    margin: 0;
+    font-family: 'Kameron', Georgia, serif;
+    font-size: 14px;
+    font-weight: bold;
+    color: #006699;
+}
+
+.api .details {
+    margin: 0;
+}
+
+.api ul, .api ol{
+
+    margin: 0;
+    padding: 0;
+}
+.api li {
+    list-style: none;
+}
+.api ul     {
+    margin-left: 2em;
+
+}
+.api .class-description ul li {
+    list-style: disc;
+    margin-left: 2em;
+}
+
+.api dt, .api dd {
+}
+.api dt.inherited-from {
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+.api dl {
+    margin: 5px;
+}
+
+.api header {
+    margin: 0px;
+    margin-bottom: 2px;
+}
+
+.api header h3 {
+    font-size: 28px;
+    color: black;
+}
+.api .dummy li {
+    list-style: none;
+}
+
+.api .tag-source {
+    display: inline-block;
+    font-size: 10pt;
+    font-family: Helvetica, inline-block;
+    font-weight: normal;
+    padding: 0;
+    margin: 0;
+    color: rgb(150,150,150);
+}
+.api .page-title {
+    display: none;
+}
+.api .tag-source * {
+    display: inline;
+    padding: 0;
+    margin: 0;
+    font-size: 10pt;
+    font-family: Helvetica, inline-block;
+    font-weight: normal;
+}
+.api .tag-source li {
+    list-style: none;
+}
+
+.api td {
+    vertical-align: top;
+    padding-right: 0.75em;
+}
+.api th {
+    vertical-align: bottom;
+    text-align: left;
+}
+
+.api h5 .type-signature {
+    color: black;
+}
+
+.api .description p , .api .class-description p{
+    margin: 0;
+    text-indent: 1em;
+}
+.api .description p:first-child, .api .class-description p:first-child {
+    text-indent: 0;
+}

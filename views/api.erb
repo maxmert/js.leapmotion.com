@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <%= erb :_head %>
-<body data-spy="scroll" data-target=".api-docs-sidebar" data-active-menu="api">
+<body data-spy="scroll" data-target=".api-docs-sidebar" data-page="api" data-active-menu="api">
 <div class="container">
   <%= erb :_nav %>
 
@@ -18,7 +18,7 @@
       </div>
       <ul id="doc-ul" class="nav nav-list api-docs-sidenav" data-spy="affix" data-offset-top="100"></ul>
     </div>
-    <div class="span9">
+    <div class="span9 api">
       <%= yield %>
     </div>
   </div>
@@ -28,5 +28,6 @@
   <%= erb :_footer %>
 </div>
 <%= erb :_scripts %>
+
 </body>
 </html>
