@@ -1,3 +1,5 @@
+
+
 <div class="hero-unit">
   <h1>Welcome to Leap.js!</h1>
 
@@ -19,24 +21,20 @@
 
     <h2> Projects using Leapjs </h2>
 
-    <h3>Please join us on github!</h3>
+    <p>Please join us on github!</p>
 
-    <p class="opening-code"><a href="https://github.com/leapmotion/leapjs">https://github.com/leapmotion/leapjs</a></p>
+    <p><a href="https://github.com/leapmotion/leapjs"><img class="emoji" title=":octocat:" alt=":octocat:" src="https://a248.e.akamai.net/assets.github.com/images/icons/emoji/octocat.png" height="20" width="20" align="absmiddle">
+      https://github.com/leapmotion/leapjs</a></p>
   </div>
 
   <div class="span8">
-    <h2>Getting Leap.js</h2>
-
-    <h3>Browser CDN</h3>
-
-    <h4>For production</h4>
-    <pre>&lt;script src="//js.leapmotion.com/<%= LATEST_VERSION %>/leap.min.js"&gt;&lt;/script&gt;
+    <h2>Getting Leap.js: Browser CDN</h2>
+    <pre><!-- for production -->
+&lt;script src="//js.leapmotion.com/<%= LATEST_VERSION %>/leap.min.js"&gt;&lt;/script&gt;
+<!-- for development -->
+&lt;script src="//js.leapmotion.com/<%= LATEST_VERSION %>/leap.js"&gt;&lt;/script&gt;
     </pre>
-
-    <h4>For development</h4>
-    <pre>&lt;script src="//js.leapmotion.com/<%= LATEST_VERSION %>/leap.js"&gt;&lt;/script&gt;
-    </pre>
-    <h3>Node.js Module</h3>
+    <h2>Node.js Module</h2>
     <pre>$ npm install leapjs -v<%= LATEST_VERSION  %> --save
     </pre>
   </div>
