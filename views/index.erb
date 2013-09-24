@@ -1,64 +1,65 @@
+<div class="hero-unit">
+  <h1>Welcome to Leap.js!</h1>
 
-<div class = "hero-unit" >
-  <h1>welcome to leapjs!</h1>
-  <p> Leap.js is a way to use the Leap Motion Device in your browser. </p>
+  <p> Leap.js is a way to use the Leap Motion Device in your browser. <br />
+    This website exists to document, explain and showcase projects using the Leap Motion Javascript API </p>
 
-  <div class = "downloadButtons">
-    <a class="btn btn-primary" href="/api"> API </a>
-    <a class="btn btn-primary" href="/examples"> Examples </a>
-    <a class="btn btn-primary" href="/tutorials"> Tutorials </a>
-    <a class="btn btn-primary" href="http://github.com/leapmotion/leapjs"> Contribute </a>
+  <div class="downloadButtons">
+    <a class="btn btn-success  btn-large " href="/api"> API </a>
+    <a class="btn btn-success btn-large " href="/examples"> Examples </a>
+    <a class="btn btn-success btn-large " href="/tutorials"> Tutorials </a>
+    <a class="btn btn-success btn-large " href="http://github.com/leapmotion/leapjs"> Contribute </a>
   </div>
 
 
 </div>
 
-<div class = "hero-unit" >
+<div class="row-fluid">
+  <div class="span4">
 
-  <h1>Hello Leap!</h1>
-<p data-height="531" data-theme-id="0" data-slug-hash="LHEni" data-user="cabbibo" data-default-tab="result" class='codepen'>See the Pen <a href='http://codepen.io/cabbibo/pen/LHEni'>LHEni</a> by Isaac Cohen (<a href='http://codepen.io/cabbibo'>@cabbibo</a>) on <a href='http://codepen.io'>CodePen</a></p>
-<script async src="http://codepen.io/assets/embed/ei.js"></script>
-</div>
+    <h2> Projects using Leapjs </h2>
 
+    <h3>Please join us on github!</h3>
 
-<div class = "hero-unit" >
+    <p class="opening-code"><a href="https://github.com/leapmotion/leapjs">https://github.com/leapmotion/leapjs</a></p>
+  </div>
 
-  <h1> Projects using Leapjs </h1>
+  <div class="span8">
+    <h2>Getting Leap.js</h2>
 
-</div>
+    <h3>Browser CDN</h3>
 
-
-
-<div class="well setup">
-  <h3><span>Browser</span></h3>
-  <div id="browser">
     <h4>For production</h4>
-    <p class="opening-code">
-    &lt;script src="//js.leapmotion.com/<%=LATEST_VERSION%>/leap.min.js"&gt;&lt;/script&gt;
-    </p>
+    <pre>&lt;script src="//js.leapmotion.com/<%= LATEST_VERSION %>/leap.min.js"&gt;&lt;/script&gt;
+    </pre>
+
     <h4>For development</h4>
-    <p class="opening-code">
-    &lt;script src="//js.leapmotion.com/<%=LATEST_VERSION%>/leap.js"&gt;&lt;/script&gt;
-    </p>
+    <pre>&lt;script src="//js.leapmotion.com/<%= LATEST_VERSION %>/leap.js"&gt;&lt;/script&gt;
+    </pre>
+    <h3>Node.js Module</h3>
+    <pre>$ npm install leapjs -v<%= LATEST_VERSION  %> --save
+    </pre>
   </div>
 </div>
 
-<div class="well setup">
-  <h3><span>Node.js</span></h3>
-  <div id="node">
-    <h4>Install from npm</h4>
-    <p class="opening-code">
-    $ npm install leapjs -v<%=LATEST_VERSION%>
-    </p>
-    <h4>Or add to your package.json</h4>
-    <p class="opening-code">
-      "leapjs": "<%=LATEST_VERSION%>"
-    </p>
+<p>Note - these examples below depend on you having the Leap hardware installed on your computer and plugged in.
+</p>
+
+<ul class="nav nav-tabs" id="codetabs">
+  <li><a href="#codeep">Codeep</a></li>
+  <li class="active"><a href="#jsfiddle">jsfiddle</a></li>
+</ul>
+
+<div class="tab-content" id="codetabsContent">
+  <div class="tab-pane" id="codeep">
+    <p data-height="531" data-theme-id="0" data-slug-hash="LHEni" data-user="cabbibo" data-default-tab="result"
+       class='codepen'>See the Pen <a href='http://codepen.io/cabbibo/pen/LHEni'>LHEni</a> by Isaac Cohen
+      (<a href='http://codepen.io/cabbibo'>@cabbibo</a>) on <a href='http://codepen.io'>CodePen</a></p>
+    <script async src="http://codepen.io/assets/embed/ei.js"></script>
+  </div>
+
+  <div class="tab-pane active" id="jsfiddle">
+    <iframe width="100%" height="300" src="http://jsfiddle.net/dave_leapmotion/R3R7T/embedded"
+            allowfullscreen="allowfullscreen" frameborder="0"></iframe>
   </div>
 </div>
-
-<hr>
-
-<h3>Please join us on github!</h3>
-
-<p class="opening-code"><a href="https://github.com/leapmotion/leapjs">https://github.com/leapmotion/leapjs</a></p>

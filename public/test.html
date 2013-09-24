@@ -1,0 +1,149 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>leapjs</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+
+    <link href="http://fonts.googleapis.com/css?family=Sansita+One" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Kameron" rel="stylesheet" type="text/css">
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+    <link href="//twitter.github.io/bootstrap/assets/js/google-code-prettify/prettify.css">
+    <link href="/styles/main.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+    <script src="//dv2ab2hvr9d0l.cloudfront.net/assets/application-a6ff0e9779880939be09996bd6d6bbbc.js" type="text/javascript"></script>
+    <script src="//js.leapmotion.com/0.2.0/leap.min.js"></script>
+</head>
+<body data-active-menu="">
+<div class=" navbar navbar-inverse navbar-fixed-top">
+
+    <div class="navbar-inner">
+
+        <div class="containter">
+
+            <!-- Be sure to leave the brand out there if you want it shown -->
+            <a class="brand" href="/">Leap.js</a>
+            <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+
+
+
+            <!-- Everything you want hidden at 940px or less, place within here -->
+            <div class="nav-collapse collapse">
+                <!-- .nav, .navbar-search, .navbar-form, etc -->
+                <ul class="nav">
+                    <li>
+                    </li>
+                    <li><a href="/start" data-menu="start">Getting Started</a></li>
+                    <li><a href="/examples" data-menu="examples">Examples</a></li>
+                    <li><a href="/tutorials" data-menu="tutorials">Tutorials</a></li>
+                    <!--
+                    <li><a href="/development">Development</a></li>
+                    -->
+                    <li><a href="/api" data-menu="api">API</a></li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="container">
+
+    <div class = "hero-unit" >
+        <h1>welcome to leapjs!</h1>
+        <p> Leap.js is a way to use the Leap Motion Device in your browser. </p>
+
+        <div class = "downloadButtons">
+            <a class="btn btn-primary" href="/api"> API </a>
+            <a class="btn btn-primary" href="/examples"> Examples </a>
+            <a class="btn btn-primary" href="/tutorials"> Tutorials </a>
+            <a class="btn btn-primary" href="http://github.com/leapmotion/leapjs"> Contribute </a>
+        </div>
+
+
+    </div>
+
+    <div class = "hero-unit" >
+
+        <h1>Hello Leap!</h1>
+        <p data-height="531" data-theme-id="0" data-slug-hash="LHEni" data-user="cabbibo" data-default-tab="result" class='codepen'>See the Pen <a href='http://codepen.io/cabbibo/pen/LHEni'>LHEni</a> by Isaac Cohen (<a href='http://codepen.io/cabbibo'>@cabbibo</a>) on <a href='http://codepen.io'>CodePen</a></p>
+        <script async src="http://codepen.io/assets/embed/ei.js"></script>
+    </div>
+
+
+    <div class = "hero-unit" >
+
+        <h1> Projects using Leapjs </h1>
+
+    </div>
+
+
+
+    <div class="well setup">
+        <h3><span>Browser</span></h3>
+        <div id="browser">
+            <h4>For production</h4>
+            <p class="opening-code">
+                &lt;script src="//js.leapmotion.com/0.2.1/leap.min.js"&gt;&lt;/script&gt;
+            </p>
+            <h4>For development</h4>
+            <p class="opening-code">
+                &lt;script src="//js.leapmotion.com/0.2.1/leap.js"&gt;&lt;/script&gt;
+            </p>
+        </div>
+    </div>
+
+    <div class="well setup">
+        <h3><span>Node.js</span></h3>
+        <div id="node">
+            <h4>Install from npm</h4>
+            <p class="opening-code">
+                $ npm install leapjs -v0.2.1
+            </p>
+            <h4>Or add to your package.json</h4>
+            <p class="opening-code">
+                "leapjs": "0.2.1"
+            </p>
+        </div>
+    </div>
+
+    <hr>
+
+    <h3>Please join us on github!</h3>
+
+    <p class="opening-code"><a href="https://github.com/leapmotion/leapjs">https://github.com/leapmotion/leapjs</a></p>
+
+
+    <hr>
+
+    <div class="footer">
+        <p>&copy; leapmotion 2013</p>
+    </div>
+
+
+</div> <!-- /container -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+<script src="//twitter.github.io/bootstrap/assets/js/google-code-prettify/prettify.js"></script>
+<script src="/js/main.js"></script>
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-31536531-1']);
+    _gaq.push(['_setDomainName', 'leapmotion.com']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+</body>
+</html>
