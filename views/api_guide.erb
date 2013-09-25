@@ -108,7 +108,7 @@
   </ol>
 
 
-  <h3>Event listening from the static Leap class: <code>Leap.loop(handler)</code></h3>
+  <h3>Event listening from the static Leap class</h3>
 
   <p><a href="#loop">Leap.loop(handler)</a> allows you to skip creating a controller instance.</p>
 <pre>
@@ -117,7 +117,7 @@ Leap.loop(function(frameInstance){
   });
 </pre>
 
-  <h3>Event listening from a <a href="#controller">Controller</a>: <code>my_controller.on('frame', handler)</code></h3>
+  <h3>Event listening from a <a href="#controller">Controller</a></h3>
 
   <p>if you listen to a controllers' events each and every frame will be broadcast from the Leap detector to your
     handler. </p>
@@ -419,12 +419,10 @@ Leap.loop(function(frameInstance){
       </dl>
 
       <hr/>
-      <p>
         <small>&ast; <i>Warning:</i> IDs can change between frames -- there is no guarantee that an ID from a
           previous frame will work as a parameter for subsequent calls to frame.finger(). the IDs are
           only functional within the lifespan of a single frame.
         </small>
-      </p>
     </div>
   </div>
 </article>
@@ -494,11 +492,9 @@ Leap.loop(function(frameInstance){
     </div>
   </div>
 
-  <div>
     <small>&ast;&ast; The Leap classifies a detected entity as a tool when it is thinner, straighter, and longer than a
       typical finger.
     </small>
-  </div>
 
 
 </article>
@@ -526,7 +522,7 @@ Leap.loop(function(frameInstance){
 
   <div class="row-fluid">
 
-    <div class="span5">
+    <div class="span6">
       <h4>Properties</h4>
       <dl class="dl-horizontal">
         <dt>connection</dt>
@@ -557,12 +553,12 @@ Leap.loop(function(frameInstance){
           binds a listener function to an event.
         </dd>
       </dl>
-      <p>
+
         <small>&ast;&ast;&ast; this method ALWAYS returns a frame, even if there is no frame at the stack matching the
           index
           you pass in. If you pass in an index for which there is no frame, an invalid frame will be returned.
         </small>
-      </p>
+
     </div>
 
   </div>

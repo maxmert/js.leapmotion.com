@@ -261,23 +261,28 @@ h1 {
     padding: 4px;
 }
 
-.api-guide h1 {
+.api-guide h1 ,.api-guide h1 *{
+    color: black;
     font-size: 35px;
 }
 
-.api-guide h2 {
+.api-guide h2,.api-guide h2 * {
+    color: black;
     font-size: 30px;
 }
 
-.api-guide h3 {
+.api-guide h3, .api-guide h3 *{
+    color: black;
     font-size: 24px;
 }
 
-.api-guide h4 {
+.api-guide h4, .api-guide h4 *{
+    color: black;
     font-size: 18px;
 }
 
-.api-guide h5 {
+.api-guide h5 ,.api-guide h5 *{
+    color: black;
     font-size: 18px;
 }
 
@@ -316,16 +321,6 @@ h1 {
 .api-guide .dl-horizontal dd    {
     margin-left: 205px;
 }
-@media (max-width: 767px) {
-    .api-guide .span6 {
-        display: block;
-        width: 100%;
-    }
-
-    .api-guide .dl-horizontal dd    {
-        margin-left: 2em;
-    }
-}
 .api-guide a.anchor {
     display: block;
     height: 35px;
@@ -335,10 +330,67 @@ h1 {
     color: black;
     display: block;
 }
+.api-guide small   {
+    font-size: 13px;
+    display: block;
+    line-height: 14px;
+}
 
-.api-guide small {
-    font-size: 12px;
-    line-height: 13px;
+.api-guide small , .api-guide small *{
+    font-size: 13px;
+    line-height: 14px;
+    text-rendering: optimizeLegibility;
+    font-family: Helvetica, Arial, sans-serif;
+}
+@media (max-width: 767px) {
+    .api-guide .span6 {
+        display: block;
+        width: 100%;
+    }
+
+    .api-guide .dl-horizontal dd    {
+        margin-left: 1em;
+        margin-top: 0;
+    }
+    .api-guide .dl-horizontal dd b:first-child   {
+    margin-left: 5em;
+    }
+    .api-guide * {
+        font-size: 14px ;
+        line-height: 16px;
+    }
+
+    .api-guide code {
+        font-size: 12px !important;
+        line-height: 15px !important;
+    }
+
+
+    .api-guide h1 ,.api-guide h1 *{
+        color: black;
+        font-size: 20px;
+        line-height: 24px;
+    }
+
+    .api-guide h2,.api-guide h2 * {
+        color: black;
+        font-size: 20px;
+        line-height: 22px;
+    }
+
+    .api-guide h3, .api-guide h3 *{
+        color: black;
+        font-size: 18px;
+        line-height: 21px;
+    }
+
+    .api-guide h4, .api-guide h4 *{
+        color: black;
+    }
+
+    .api-guide h5 ,.api-guide h5 *{
+        color: black;
+    }
 }
 
 .api {
