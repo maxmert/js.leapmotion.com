@@ -2,28 +2,41 @@
   <h3>Overview</h3>
 
   <ul>
-    <li><a href="#leap">Leap</a></li>
-    <li><a href="#getting_data">Getting Data</a></li>
-    <li><a href="#units">Units</a></li>
+    <li><a href="#leap">
+    <i class="icon-chevron-right"></i>
+        Leap</a></li>
+    <li><a href="#getting_data">
+    <i class="icon-chevron-right"></i>
+        Getting Data</a></li>
+    <li><a href="#units">
+    <i class="icon-chevron-right"></i>
+        Units</a></li>
   </ul>
 
   <h3>Methods</h3>
   <ul>
-    <li><a href="#loop">Loop(callback)</a></li>
+    <li><a href="#loop"><i class="icon-chevron-right"></i>
+      Loop(callback)</a></li>
   </ul>
   <h3>Classes</h3>
   <ul>
-    <li><a href="#frame">Frame</a></li>
-    <li><a href="#pointable">Pointable</a></li>
-    <li><a href="#hand">Hand</a></li>
-    <li><a href="#interactionbox">InteractionBox</a></li>
-    <li><a href="#controller">Controller</a></li>
-    <li><a href="#gesture">Gesture</a></li>
+    <li><a href="#frame"><i class="icon-chevron-right"></i>
+      Frame</a></li>
+    <li><a href="#pointable"><i class="icon-chevron-right"></i>
+      Pointable</a></li>
+    <li><a href="#hand"><i class="icon-chevron-right"></i>
+      Hand</a></li>
+    <li><a href="#interactionbox"><i class="icon-chevron-right"></i>
+      InteractionBox</a></li>
+    <li><a href="#controller"><i class="icon-chevron-right"></i>
+      Controller</a></li>
+    <li>
+      <a href="#gesture"><i class="icon-chevron-right"></i>
+      Gesture</a></li>
     <li>KeyTapGesture</li>
     <li>ScreenTapGesture</li>
     <li>SwipeGesture</li>
     <li>CircleGesture</li>
-    <li><a href="#vector">Vector(legacy)</a></li>
   </ul>
 
 </div><!-- end left navigation -->
@@ -70,7 +83,6 @@
           <li>Leap.ScreenTapGesture</li>
           <li>Leap.SwipeGesture</li>
           <li>Leap.CircleGesture</li>
-          <li><a href="#vector">Vector(legacy)</a></li>
         </ul>
 
       </div>
@@ -454,8 +466,8 @@ Leap.loop(function(frameInstance){
         <dd><b>number (mm)</b></dd>
 
         <dt>tipVelocity</dt>
-        <dd><b><a href="#vector">Vector</a></b>
-          the rate of change of the tip's position in mm/second
+        <dd><b>[number]</b>
+          the rate of change of the tip's position in mm/second.
         </dd>
 
         <dt>tipPosition</dt>
@@ -941,17 +953,6 @@ controller.connect();
     </div>
   </div>
 
-</article>
-<article name="vector">
-  <a name="vector" class="anchor"> </a>
-
-  <h3>Vector (Legacy)</h3>
-
-  <p>Older releases of the Leap.js library used a Vector class for positional data; this is no longer true. All
-    positions are
-    returned as native javascript Array instances with three numbers(float) in them, as described in
-    <a href="#units">Units</a>. </p>
-  </a>
 </article>
 </div>
 </div><!-- end api row-fluid -->

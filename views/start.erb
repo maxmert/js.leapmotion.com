@@ -3,78 +3,87 @@
 <p>Note - these examples below depend on you having the Leap hardware installed on your computer and plugged in.
 </p>
 
-<ul class="nav nav-tabs" id="codetabs">
-  <li><a href="#codeep">Codeep</a></li>
-  <li class="active"><a href="#jsfiddle">jsfiddle</a></li>
-</ul>
+<div class="row-fluid">
 
-<div class="tab-content" id="codetabsContent">
-  <div class="tab-pane" id="codeep">
-    <p data-height="531" data-theme-id="0" data-slug-hash="LHEni" data-user="cabbibo" data-default-tab="result"
-       class='codepen'>See the Pen <a href='http://codepen.io/cabbibo/pen/LHEni'>LHEni</a> by Isaac Cohen
-      (<a href='http://codepen.io/cabbibo'>@cabbibo</a>) on <a href='http://codepen.io'>CodePen</a></p>
-    <script async src="http://codepen.io/assets/embed/ei.js"></script>
+  <div class="toc span3">
+    <ol>
+      <li><a href="#usage">Usage</a>
+        <ol>
+          <li><a href="#controller">Creating the controller</a></li>
+          <li><a href="#event_types">Event Types</a></li>
+          <li><a href="#frame_detection_loop">Understanding the Frame Detection Loop</a></li>
+        </ol>
+      </li>
+      <li><a href="#examples">Examples</a></li>
+      <li><a href="#development">Development</a></li>
+      <li><a href="#tests">Tests</a></li>
+    </ol>
   </div>
 
-  <div class="tab-pane active" id="jsfiddle">
-    <iframe width="100%" height="300" src="http://jsfiddle.net/dave_leapmotion/R3R7T/embedded"
-            allowfullscreen="allowfullscreen" frameborder="0"></iframe>
-  </div>
-</div>
+  <div class=span9>
+    <a name="usage"></a>
 
-<span class="toc">
-  <ol>
-    <li><a href="#usage">Usage</a>
-      <ol>
-        <li><a href="#controller">Creating the controller</a></li>
-        <li><a href="#event_types">Event Types</a></li>
-        <li><a href="#frame_detection_loop">Understanding the Frame Detection Loop</a></li>
-      </ol>
-    </li>
-    <li><a href="#examples">Examples</a></li>
-    <li><a href="#development">Development</a></li>
-    <li><a href="#tests">Tests</a></li>
-  </ol>
-</span>
+    <h2>Usage</h2>
+    <a name="controller"></a>
 
-<a name="usage"></a><h2>Usage</h2>
-<a name="controller"></a><h3>Creating the Controller</h3>
-<p>To use LeapJS, start by creating a <code>Leap.Controller</code>:</p>
+    <h3>Creating the Controller</h3>
+
+    <p>To use LeapJS, start by creating a <code>Leap.Controller</code>:</p>
 
 <pre class="prettyprint language-html">
 var controller = new Leap.Controller();
 </pre>
 
-<p>There are a few options you can pass to this controller:</p>
-<ul>
-<li><code>host</code> - The host used by the WebSocket connection. Default is <code>"127.0.0.1"</code></li>
-<li><code>port</code> - The port used by the WebSocket connection. Default is <code>6437</code></li>
-<li><code>enableGestures</code> - Enables or disables gesture recognition for this controller. Default is <code>true</code></li>
-<li><code>frameEventName</code> - Lets you specify which <a href="#frame_detection_loop">frame detection loop</a> to use for the <code>frame</code> <a href="#event_types">event type</a>. In the browser, it will default to the animation loop. In Node, it will use the device frame loop</li>
-</ul>
-Example:
+    <p>There are a few options you can pass to this controller:</p>
+    <ul>
+      <li><code>host</code> - The host used by the WebSocket connection. Default is <code>"127.0.0.1"</code></li>
+      <li><code>port</code> - The port used by the WebSocket connection. Default is <code>6437</code></li>
+      <li><code>enableGestures</code> - Enables or disables gesture recognition for this controller. Default is
+        <code>true</code></li>
+      <li><code>frameEventName</code> - Lets you specify which <a href="#frame_detection_loop">frame detection loop</a>
+        to use for the <code>frame</code> <a href="#event_types">event type</a>. In the browser, it will default to the
+        animation loop. In Node, it will use the device frame loop
+      </li>
+    </ul>
+    Example:
 <pre class="prettyprint language-html">
 var controller = new Leap.Controller({host: "24.6.0.1", port: 1337});
 </pre>
 
-<a name="event_types"></a><h3>Event Types</h3>
-<p>The controller supports a number of event types. When LeapJS connects to the websocket server, it first firest the <code>connect</code> event. After that, once the protocol has been selected, it fires a <code>ready</code> event. Once a frame has been received, a <code>deviceConnected</code> event gets fired once. Then, a <code>deviceFrame</code> gets fired for each frame coming from the websocket server connection. (If you're using the animationFrame though, you won't get this information until the animation loop procs.)</p>
+    <a name="event_types"></a>
 
-<ul>
-<li><code>connect</code> - The client is connected to the websocket server</li>
-<li><code>protocol</code> - The protocal has been selected for the connection. The protocol object is passed as an argument to the event handler</li>
-<li><code>ready</code> - The protocol has been selected</li>
-<li><code>disconnect</code> - The client disconnects from the websocket server</li>
-<li>code>focus</code> - The browser received focus</li>
-<li><code>blur</code> - The browser loses focus</li>
-<li><code>deviceConnected</code> - A Leap device has been connected
-<li><code>deviceDisconnected</code> - A Leap device has been disconnected
-<li><code>frame</code> - A frame is finishing being processed by the controller. This event is either driven by the <code>animationFrame</code> or the <code>deviceFrame</code> event, depending which is the <a href="#controller">controller</a> was created with. The frame is passed as an argument to the event handler</li>
-<li><code>animationFrame</code> - A frame being emitted in time with the animation loop. The frame is passed as an argument to the event handler</li>
-<li><code>deviceFrame</code> - A frame being emitted by the connection to the Leap device. The frame is passed as an argument to the event handler</li>
-</ul>
+    <h3>Event Types</h3>
 
-<p>Example use of event type:</p>
+    <p>The controller supports a number of event types. When LeapJS connects to the websocket server, it first firest
+      the <code>connect</code> event. After that, once the protocol has been selected, it fires a <code>ready</code>
+      event. Once a frame has been received, a <code>deviceConnected</code> event gets fired once. Then, a
+      <code>deviceFrame</code> gets fired for each frame coming from the websocket server connection. (If you're using
+      the animationFrame though, you won't get this information until the animation loop procs.)</p>
+
+    <ul>
+      <li><code>connect</code> - The client is connected to the websocket server</li>
+      <li><code>protocol</code> - The protocal has been selected for the connection. The protocol object is passed as an
+        argument to the event handler
+      </li>
+      <li><code>ready</code> - The protocol has been selected</li>
+      <li><code>disconnect</code> - The client disconnects from the websocket server</li>
+      <li>code>focus</code> - The browser received focus</li>
+      <li><code>blur</code> - The browser loses focus</li>
+      <li><code>deviceConnected</code> - A Leap device has been connected
+      <li><code>deviceDisconnected</code> - A Leap device has been disconnected
+      <li><code>frame</code> - A frame is finishing being processed by the controller. This event is either driven by
+        the <code>animationFrame</code> or the <code>deviceFrame</code> event, depending which is the
+        <a href="#controller">controller</a> was created with. The frame is passed as an argument to the event handler
+      </li>
+      <li><code>animationFrame</code> - A frame being emitted in time with the animation loop. The frame is passed as an
+        argument to the event handler
+      </li>
+      <li><code>deviceFrame</code> - A frame being emitted by the connection to the Leap device. The frame is passed as
+        an argument to the event handler
+      </li>
+    </ul>
+
+    <p>Example use of event type:</p>
 <pre class="prettyprint langauge-html">
 var controller = new Leap.Controller();
 
@@ -93,10 +102,19 @@ controller.on('deviceDisconnected', function() {
 controller.connect();
 </pre>
 
-<a name="frame_detection_loop"></a><h3>Understanding the Frame Detection Loop</h3>
-<p>There are two types of frame detection loops. In general, in the browser, the animation loop will be the most useful. This will tick at 60fps and grab whatever the latest frame is at that point. The other type of loop is a device loop, where the device will ping you with every new frame as soon as it is available. Those working in Node will likely want this type of loop. Whichever frame event name the controller is declared for will be the default given by the event type <code>frame</code>, but you also have the flexibility to write functions for each type of frame specificially. Some apps may even want to use both types of frames; this is allowed.</p>
+    <a name="frame_detection_loop"></a>
 
-<p>To illustrate, this will use the animation loop since we're in a browser and didn't specify otherwise in the controller options:</p>
+    <h3>Understanding the Frame Detection Loop</h3>
+
+    <p>There are two types of frame detection loops. In general, in the browser, the animation loop will be the most
+      useful. This will tick at 60fps and grab whatever the latest frame is at that point. The other type of loop is a
+      device loop, where the device will ping you with every new frame as soon as it is available. Those working in Node
+      will likely want this type of loop. Whichever frame event name the controller is declared for will be the default
+      given by the event type <code>frame</code>, but you also have the flexibility to write functions for each type of
+      frame specificially. Some apps may even want to use both types of frames; this is allowed.</p>
+
+    <p>To illustrate, this will use the animation loop since we're in a browser and didn't specify otherwise in the
+      controller options:</p>
 <pre class="prettyprint language-html">
 var controller = new Leap.Controller();
 
@@ -107,7 +125,7 @@ controller.on('frame', function() {
 controller.connect();
 </pre>
 
-<p>A more verbose version of above:</p>
+    <p>A more verbose version of above:</p>
 <pre class="prettyprint language-html">
 var controller = new Leap.Controller();
 
@@ -118,7 +136,7 @@ controller.on('animationFrame', function() {
 controller.connect();
 </pre>
 
-<p>To use the <code>deviceFrame</code> instead you can do:
+    <p>To use the <code>deviceFrame</code> instead you can do:
 <pre class="prettyprint language-html">
 var controller = new Leap.Controller({frameEventName: "deviceFrame"});
 
@@ -129,7 +147,7 @@ controller.on('frame', function() {
 controller.connect();
 </pre>
 
-<p>Or:</p>
+    <p>Or:</p>
 <pre class="prettyprint language-html">
 var controller = new Leap.Controller();
 
@@ -140,26 +158,40 @@ controller.on('deviceFrame', function() {
 controller.connect();
 </pre>
 
-<a name="examples"></a><h2>Examples</h2>
-<p>Some examples have been included in the <code>examples/</code> directory. To run them do the following:</p>
-<ol>
-<li>Run <code>npm install</code></li>
-<li>Run <code>make serve</code></li>
-<li>Point your browser to http://localhost:8080/examples</li>
-</ol>
-<p>Or in code:</p>
-<ol>
-<li>Run <code>node examples/node.js</code></li>
-</ol>
+    <a name="examples"></a>
 
-<a name="development"></a><h2>Development</h2>
-<p>You can build your own leap.js file by using <code>make build</code>. If you're doing any amount of development, you'll find it convenient to run <code>make watch</code>. This takes care of building and testing leapjs for you on every edit.</p>
+    <h2>Examples</h2>
 
-<a name="tests"></a><h2>Tests</h2>
-<p>There are currently rudamentary test. To get them running, do the following:</p>
-<ul>
-<li>Run <code>npm install</code></li>
-<li>Run <code>make test</code></li>
-</ul>
-<p>Or use <code>make watch-test</code> as noted above.
+    <p>Some examples have been included in the <code>examples/</code> directory. To run them do the following:</p>
+    <ol>
+      <li>Run <code>npm install</code></li>
+      <li>Run <code>make serve</code></li>
+      <li>Point your browser to http://localhost:8080/examples</li>
+    </ol>
+    <p>Or in code:</p>
+    <ol>
+      <li>Run <code>node examples/node.js</code></li>
+    </ol>
 
+    <a name="development"></a>
+
+    <h2>Development</h2>
+
+    <p>You can build your own leap.js file by using <code>make build</code>. If you're doing any amount of development,
+      you'll find it convenient to run <code>make watch</code>. This takes care of building and testing leapjs for you
+      on every edit.</p>
+
+    <a name="tests"></a>
+
+    <h2>Tests</h2>
+
+    <p>There are currently rudamentary test. To get them running, do the following:</p>
+    <ul>
+      <li>Run <code>npm install</code></li>
+      <li>Run <code>make test</code></li>
+    </ul>
+    <p>Or use <code>make watch-test</code> as noted above.
+
+    </p>
+  </div>
+</div>
