@@ -80,6 +80,10 @@ get '/api/:version/docs' do
   erb :"api/#{params[:version]}-docs", layout: :api
 end
 
+get '/api_guide' do
+  erb :api_guide
+end
+
 get '/api' do
   redirect "/api/#{DOC_VERSIONS.first}/docs"
 end
