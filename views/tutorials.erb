@@ -1,12 +1,22 @@
 <!DOCTYPE html>
 <html>
-  
+
 <%= erb :_head %>
 
 <body data-spy="scroll" data-target=".tutorials-sidebar" data-active-menu="tutorials">
 
+  <%#= Google Tag Manager %>
+  <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-WXGVFM"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-WXGVFM');</script>
+  <%#= End Google Tag Manager %>
+
   <div class="container tutorial">
-    
+
     <%= erb :_nav %>
 
      <ul class="nav nav-pills">
@@ -15,17 +25,17 @@
     <div class="row">
 
       <div class="span3 tutorial-sidebar">
-      
+
         <ul id="doc-ul" class="nav nav-list tutorial-sidenav" data-spy="affix" data-offset-top="100">
-        
+
           <% TUTORIALS.each do |tutorial| %>
-            
+
             <li<% if params[:tutorial] == tutorial %> class="active"<% end %>>
-        
+
             <a class="button" href="/tutorials/<%=tutorial%>"><%=tutorial%></a>
-            
+
               <!-- Whatever tutorial is active, place its section listing below it -->
-              <% if params[:tutorial] == tutorial %> 
+              <% if params[:tutorial] == tutorial %>
                 <ul class="tutorial-sectionnav" ></ul>
               <% end %>
 
@@ -34,7 +44,7 @@
           <% end %>
 
         </ul>
-     
+
       </div>
       <div class="span9">
         <%= yield %>
