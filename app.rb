@@ -12,7 +12,8 @@ set :layout, "application"
 cache = {}
 
 begin
-API_VERSIONS = Octokit.tags("leapmotion/leapjs").map(&:name).map{|v| Versionomy.parse(v[/^v(.*)/, 1]) }.sort.reverse
+  API_VERSIONS = ['v0.2.1']
+#API_VERSIONS = Octokit.tags("leapmotion/leapjs").map(&:name).map{|v| Versionomy.parse(v[/^v(.*)/, 1]) }.sort.reverse
 LATEST_VERSION = API_VERSIONS.first
 
 #%w(leap.js leap.min.js).each do |js|
@@ -32,6 +33,7 @@ LATEST_VERSION = API_VERSIONS.first
  end
 
 get '/' do
+  @active_menu = "index"
   erb :index
 end
 
@@ -81,6 +83,7 @@ get '/api/:version/docs' do
 end
 
 get '/api_guide' do
+  @active_menu = "api_guide"
   erb :api_guide
 end
 
