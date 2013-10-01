@@ -135,6 +135,7 @@ get '/api_guide' do
          '/js/doc/directives/manifest.js',
          '/js/doc/directives/propExpression.js',
          '/js/doc/directives/argument.js',
+         '/js/doc/directives/methods.js',
          '/js/doc/directives/properties.js',
          '/js/doc/directives/docSection.js',
          '/js/doc/directives/tableOfContents.js',

@@ -1,9 +1,11 @@
-<h4>methods ({{ methods.length }})</h4>
-<div ng-switch="no_methods(section_item)">
+<h4>Methods ({{ methods.length }})</h4>
+<div ng-switch="no_methods()">
     <table class="props-or-methods" repeat-inside="method in methods">
         <tr>
             <th rowspan="2">{{method.title}}</th>
-            <td><b>(<span method-argument value="method" arg="argument" ng-repeat="argument in method.arguments"/>)</b></td>
+            <td><b>(<span argument arg="argument" comma="!$last" ng-repeat="argument in method.arguments"/>):
+                <span prop-expression value="method.returns"/></b>
+            </td>
         </tr>
         <tr>
             <td ng-bind-html-unsafe="method.text | md"></td>

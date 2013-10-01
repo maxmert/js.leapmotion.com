@@ -2,16 +2,16 @@
 
     var app = angular.module('leapDocApp');
 
-    app.directive('properties', function InjectingFunction() {
-        //@TODO: inject template root.
+    app.directive('methods', function InjectingFunction() {
+
         return {
-            templateUrl: '/js/doc/directives/properties.html',
-            scope: {properties: '=props'},
+            templateUrl: '/js/doc/directives/methods.html',
+            scope: {methods: '=methodlist', section_item: '=sectionitem'},
             controller: function ($scope) {
 
-                $scope.no_properties = function (section_item) {
-                    if (!$scope.properties) return false;
-                    return ($scope.properties.length < 1);
+                $scope.no_methods = function () {
+                    if (!$scope.methods) return false;
+                    return ($scope.methods.length < 1);
                 }
             },
             compile: function CompilingFunction($templateElement, $templateAttributes) {

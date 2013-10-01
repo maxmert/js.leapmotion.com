@@ -27,7 +27,7 @@
                         section_item.menu_title = section_item.title;
                     }
 
-                    console.log('found section ', section_item, ':', url);
+                  //  console.log('found section ', section_item, ':', url);
                     item.sections[i] = section_item;
                 })
             });

@@ -1,8 +1,14 @@
-<span ng-switch="exp_type()">
+<span ng-switch="expression_type()" ng-class="expression_type()">
+    <span ng-switch-when="anon linked">
+        <a href="link()">{{ label() }} </a>
+    </span>
     <span ng-switch-when="linked">
-        <a href="link()">{{ label() }} {{ optional() }}</a>
+       {{ label() }}: <a href="link()">{{ value.type }} </a>
+    </span>
+    <span ng-switch-when="anon">
+        {{ label() }}
     </span>
     <span ng-switch-default>
-        {{ label() }} {{ optional() }}
+       {{ label() }}: {{ value.type }}
     </span>
-</span>
+</span>{{ optional() }}<span ng-show="comma">, </span>

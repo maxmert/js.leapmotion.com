@@ -11,7 +11,6 @@
             compile: function CompilingFunction($templateElement, $templateAttributes) {
 
                 return function LinkingFunction($scope, $linkElement, $linkAttributes) {
-                    console.log('docSection attrs: ', $linkAttributes);
                 };
             }
         };

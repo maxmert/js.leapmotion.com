@@ -347,6 +347,8 @@ h1 {
     text-align: left;
     vertical-align: top;
     font-weight: bold;
+    margin-right: 1em;
+    min-width: 7em;
 }
 
 .api-guide table.props-or-methods td {

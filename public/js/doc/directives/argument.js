@@ -10,17 +10,25 @@
         }
 
         return {
-            scope: {value: '=arg'},
+            scope: {value: '=arg', comma: '=comma'},
             templateUrl:"/js/doc/directives/argument.html",
             controller: function ($scope) {
 
                 $scope.expression_type = function(){
 
+                    if ($scope.value.type == $scope.label()){
                         if (noLink($scope.value.type)){
-                            return '';
+                            return 'anon';
+                        } else {
+                            return 'anon linked'
+                        }
+                    } else {
+                        if (noLink($scope.value.type)){
+                            return 'unlinked';
                         } else {
                             return 'linked'
                         }
+                    }
 
                 };
 
@@ -29,7 +37,9 @@
                 }
 
                 $scope.label = function(){
-                    return _.compact($scope.value.title, $scope.value.name, $scope.value.type, 'param')[0];
+                    var cd = _.compact([$scope.value.title, $scope.value.name, $scope.value.type, 'param']);
+                 //   console.log('candidates: ', cd);
+                    return cd[0];
                 }
 
                 $scope.optional = function(){
