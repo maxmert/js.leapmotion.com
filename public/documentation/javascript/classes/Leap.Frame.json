@@ -1,0 +1,55 @@
+{
+    "name": "Leap.Frame",
+    "title": "Leap.Frame",
+
+    "methods": [],
+
+    "properties": [
+        {
+            "name": "id",
+
+            "type": "string",
+
+            "text": "A unique id of this Frame instance"
+        },
+
+        {
+            "name": "pointables",
+
+            "type": "Leap.Pointable",
+
+            "array": true,
+
+            "text": "array of all fingers and tools from *both* hands. Can be empty."
+        },
+
+        {
+            "name": "fingers",
+
+            "type": "Leap.Pointable",
+
+            "array": true,
+
+            "text": "array of all fingers from *both* handss. Can be empty."
+        },
+
+        {
+            "name": "tools",
+
+            "type": "Leap.Pointable",
+
+            "array": true,
+
+            "text": "array of all tools from *both* handss. Can be empty."
+        },
+
+        {
+            "name": "gestures",
+
+            "type": "Leap.Gesture",
+
+            "array": true,
+
+        }
+    ]
+}

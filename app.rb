@@ -14,7 +14,9 @@ cache = {}
 begin
   API_VERSIONS = ['v0.2.1']
 #API_VERSIONS = Octokit.tags("leapmotion/leapjs").map(&:name).map{|v| Versionomy.parse(v[/^v(.*)/, 1]) }.sort.reverse
-LATEST_VERSION = API_VERSIONS.first
+  LATEST_VERSION = API_VERSIONS.first
+  set :javascripts, [:bootstrap, :prettify, :underscore, '/js/main.js']
+  set :dev_scripts, true
 
 #%w(leap.js leap.min.js).each do |js|
 #  get "/:version/#{js}" do
@@ -30,7 +32,50 @@ LATEST_VERSION = API_VERSIONS.first
 #    end
 #  end
 # end
- end
+end
+
+helpers do
+  def js *scripts
+    @js ||= []
+    @js = scripts
+  end
+
+  def javascripts(*args)
+    js = []
+    js << settings.javascripts if settings.respond_to?('javascripts')
+    js << args
+    js << @js if @js
+    js.flatten.uniq.map do |script|
+      "<script src=\"#{path_to script}\"></script>"
+    end.join
+  end
+
+  def path_to script
+    case script
+      when :jquery then
+        'https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'
+      when :rightjs then
+        'http://cdn.rightjs.org/right-2.3.0.js'
+      when :backbone then
+        'http://cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.0/backbone-min.js'
+      when :underscore then
+        'http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.1/underscore-min.js'
+      when :bootstrap then
+        '//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js'
+      when :prettify then
+        '//twitter.github.io/bootstrap/assets/js/google-code-prettify/prettify.js'
+      when :angular then
+        settings.dev_scripts ? '/js/vendor/angular-1.1.5/angular.js' : '/js/vendor/angular-1.1.5/angular.min.js'
+      when :angular_http then
+        settings.dev_scripts ? '/js/vendor/angular-1.1.5/angular-resource.js' : '/js/vendor/angular-1.1.5/angular-resource.min.js'
+      when :async then
+        '/js/vendor/async.js'
+      when :marked then '/js/vendor/marked.js'
+      else
+        script.to_s
+    end
+  end
+end
 
 get '/' do
   @active_menu = "index"
@@ -73,7 +118,6 @@ end
 #end
 
 
-
 get '/development' do
   erb :development
 end
@@ -84,6 +128,8 @@ end
 
 get '/api_guide' do
   @active_menu = "api_guide"
+  @js = [:angular, :angular_http, :async, :marked, '/js/doc/app.js', '/js/doc/directives/repeatInside.js',
+         '/js/doc/factories/docData.js',  '/js/doc/directives/manifest.js',  '/js/doc/directives/docSection.js', '/js/doc/directives/tableOfContents.js', '/js/doc/controller.js']
   erb :api_guide
 end
 
