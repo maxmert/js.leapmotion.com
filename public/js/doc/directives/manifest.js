@@ -56,7 +56,7 @@
                         }
                     }
                 } else {
-
+                    console.log('no manifest_item in manifest');
                 }
 
 

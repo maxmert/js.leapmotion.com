@@ -128,8 +128,17 @@ end
 
 get '/api_guide' do
   @active_menu = "api_guide"
-  @js = [:angular, :angular_http, :async, :marked, '/js/doc/app.js', '/js/doc/directives/repeatInside.js',
-         '/js/doc/factories/docData.js',  '/js/doc/directives/manifest.js',  '/js/doc/directives/docSection.js', '/js/doc/directives/tableOfContents.js', '/js/doc/controller.js']
+  @js = [:angular, :angular_http, :async, :marked,
+         '/js/doc/app.js',
+         '/js/doc/directives/repeatInside.js',
+         '/js/doc/factories/docData.js',
+         '/js/doc/directives/manifest.js',
+         '/js/doc/directives/propExpression.js',
+         '/js/doc/directives/argument.js',
+         '/js/doc/directives/properties.js',
+         '/js/doc/directives/docSection.js',
+         '/js/doc/directives/tableOfContents.js',
+         '/js/doc/controller.js']
   erb :api_guide
 end
 

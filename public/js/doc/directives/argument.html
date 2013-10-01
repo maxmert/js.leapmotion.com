@@ -1,0 +1,8 @@
+<span ng-switch="exp_type()">
+    <span ng-switch-when="linked">
+        <a href="link()">{{ label() }} {{ optional() }}</a>
+    </span>
+    <span ng-switch-default>
+        {{ label() }} {{ optional() }}
+    </span>
+</span>

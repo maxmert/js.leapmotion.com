@@ -342,6 +342,19 @@ h1 {
     text-rendering: optimizeLegibility;
     font-family: Helvetica, Arial, sans-serif;
 }
+
+.api-guide table.props-or-methods th {
+    text-align: left;
+    vertical-align: top;
+    font-weight: bold;
+}
+
+.api-guide table.props-or-methods td {
+    text-align: left;
+    vertical-align: top;
+    font-weight: normal;
+}
+
 @media (max-width: 767px) {
     .api-guide .span6 {
         display: block;
@@ -385,10 +398,12 @@ h1 {
     }
 
     .api-guide h4, .api-guide h4 *{
+        font-size: 14px;
         color: black;
     }
 
     .api-guide h5 ,.api-guide h5 *{
+        font-size: 14px;
         color: black;
     }
 }

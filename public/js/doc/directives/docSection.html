@@ -1,5 +1,19 @@
-<a name="{{ section_item.name }}" class="anchor" />
-        <h3>{{ section_item.title }}</h3>
+<a name="{{ section_item.name }}" class="anchor"/>
+<h3>{{section_item.type}} {{ section_item.title }}</h3>
 <div ng-repeat="manifest_item in section_item.manifest">
-    <div ng-model="manifest_item" manifest="" />
+    <div ng-model="manifest_item" manifest=""/>
 </div>
+<div ng-switch="section_item.type">
+    <div class="row-fluid" ng-switch-when="class">
+        <div class="span6" properties props="section_item.properties">
+
+        </div>
+        <div class="span6" arguments args="section_item.arguments">
+        </div>
+    </div>
+    <!-- end property/class list -->
+</div>
+<h3><i>Section item data: </i></h3>
+<pre>
+    {{ section_item | json }}
+</pre>
