@@ -71,6 +71,11 @@ get '/development' do
   erb :development
 end
 
+
+get '/api_guide' do
+  erb :api_guide
+end
+
 get '/api/:version/docs' do
   erb :"api/#{params[:version]}-docs", layout: :api
 end

@@ -1,0 +1,158 @@
+/* documentation */
+
+.api-guide-left-nav {
+    position: fixed;
+    left: 5px;
+    top: 50px;
+    width: 12%;
+    padding: 4px;
+}
+
+.api-guide h1 ,.api-guide h1 *{
+    color: black;
+    font-size: 35px;
+}
+
+.api-guide h2,.api-guide h2 * {
+    color: black;
+    font-size: 30px;
+}
+
+.api-guide h3, .api-guide h3 *{
+    color: black;
+    font-size: 24px;
+}
+
+.api-guide h4, .api-guide h4 *{
+    color: black;
+    font-size: 18px;
+}
+
+.api-guide h5 ,.api-guide h5 *{
+    color: black;
+    font-size: 18px;
+}
+
+.api-guide *{
+    font-size: 16px;
+}
+
+.api-guide dd code, .api-guide li code, .api-guide p code {
+    font-size: 14px;
+    border: none;
+    background: none;
+}
+.api-guide-left-nav *{
+    font-size: 14px !important;
+    line-height: 18px !important;
+}
+
+.api-guide-left-nav li ,
+.api-guide-left-nav ul {
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+}
+.api-guide-left-nav h3 {
+    color: black;
+    margin: 0;
+    padding: 0;
+}
+
+.api-guide .dl-horizontal  dt, .api-guide .dl-horizontal  dd{
+    margin-top: 8px;
+}
+.api-guide .dl-horizontal dt {
+    width: 200px;
+}
+.api-guide .dl-horizontal dd    {
+    margin-left: 205px;
+}
+.api-guide a.anchor {
+    display: block;
+    height: 35px;
+}
+
+.api-guide dt, .api-guide .dl-horizontal dd b:first-child {
+    color: black;
+    display: block;
+}
+.api-guide small   {
+    font-size: 13px;
+    display: block;
+    line-height: 14px;
+}
+
+.api-guide small , .api-guide small *{
+    font-size: 13px;
+    line-height: 14px;
+    text-rendering: optimizeLegibility;
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+.api-guide table.props-or-methods th {
+    text-align: left;
+    vertical-align: top;
+    font-weight: bold;
+    margin-right: 1em;
+    min-width: 7em;
+}
+
+.api-guide table.props-or-methods td {
+    text-align: left;
+    vertical-align: top;
+    font-weight: normal;
+}
+
+@media (max-width: 767px) {
+    .api-guide .span6 {
+        display: block;
+        width: 100%;
+    }
+
+    .api-guide .dl-horizontal dd    {
+        margin-left: 1em;
+        margin-top: 0;
+    }
+    .api-guide .dl-horizontal dd b:first-child   {
+        margin-left: 5em;
+    }
+    .api-guide * {
+        font-size: 14px ;
+        line-height: 16px;
+    }
+
+    .api-guide code {
+        font-size: 12px !important;
+        line-height: 15px !important;
+    }
+
+
+    .api-guide h1 ,.api-guide h1 *{
+        color: black;
+        font-size: 20px;
+        line-height: 24px;
+    }
+
+    .api-guide h2,.api-guide h2 * {
+        color: black;
+        font-size: 20px;
+        line-height: 22px;
+    }
+
+    .api-guide h3, .api-guide h3 *{
+        color: black;
+        font-size: 18px;
+        line-height: 21px;
+    }
+
+    .api-guide h4, .api-guide h4 *{
+        font-size: 14px;
+        color: black;
+    }
+
+    .api-guide h5 ,.api-guide h5 *{
+        font-size: 14px;
+        color: black;
+    }
+}
