@@ -1,3 +1,5 @@
-leapjs*.swp
+/leapjs
+*.swp
 /.idea/
 /npm-debug.log
+.DS_Store
