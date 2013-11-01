@@ -1,52 +1,50 @@
-<div class=" api-guide-left-nav visible-desktop">
-  <h3>Overview</h3>
-
-  <ul>
-    <li><a href="#leap">
-    <i class="icon-chevron-right"></i>
-        Leap</a></li>
-    <li><a href="#getting_data">
-    <i class="icon-chevron-right"></i>
-        Getting Data</a></li>
-    <li><a href="#units">
-    <i class="icon-chevron-right"></i>
-        Units</a></li>
-  </ul>
-
-  <h3>Methods</h3>
-  <ul>
-    <li><a href="#Leap.loop"><i class="icon-chevron-right"></i>
-      Loop(callback)</a></li>
-  </ul>
-  <h3>Classes</h3>
-  <ul>
-    <li><a href="#Leap.Frame"><i class="icon-chevron-right"></i>
-      Frame</a></li>
-    <li><a href="#Leap.Pointable"><i class="icon-chevron-right"></i>
-      Pointable</a></li>
-    <li><a href="#Leap.Hand"><i class="icon-chevron-right"></i>
-      Hand</a></li>
-    <li><a href="#Leap.InteractionBox"><i class="icon-chevron-right"></i>
-      InteractionBox</a></li>
-    <li><a href="#Leap.Controller"><i class="icon-chevron-right"></i>
-      Controller</a></li>
-    <li>
-      <a href="#Leap.Gesture"><i class="icon-chevron-right"></i>
-      Gesture</a></li>
-    <li>KeyTapGesture</li>
-    <li>ScreenTapGesture</li>
-    <li>SwipeGesture</li>
-    <li>CircleGesture</li>
-  </ul>
-
-</div><!-- end left navigation -->
 <div class="row-fluid">
-<div class="span1">
-
+<div class="span3 api-docs-sidebar">
+    <ul id="doc-ul" class="nav nav-list api-docs-sidenav affix-top" data-spy="affix" data-offset-top="100">
+      <li><a href="#Leap">
+        <i class="icon-chevron-right"></i>
+        Leap</a></li>
+      <li><a href="#getting_data">
+        <i class="icon-chevron-right"></i>
+        Getting Data</a></li>
+      <li><a href="#units">
+        <i class="icon-chevron-right"></i>
+        Units</a>
+      </li>
+      <li><a href="#scalefactor">
+        <i class="icon-chevron-right"></i>
+        Scale Factor</a>
+      </li>
+      <li><a href="#validity">
+        <i class="icon-chevron-right"></i>
+        Validity</a>
+      </li>
+      <li><a href="#Leap_loop"><i class="icon-chevron-right"></i>
+        Loop(callback)</a></li>
+      <li><a href="#Leap_Frame"><i class="icon-chevron-right"></i>
+        Frame</a></li>
+      <li><a href="#Leap_Pointable"><i class="icon-chevron-right"></i>
+        Pointable</a></li>
+      <li><a href="#Leap_Controller"><i class="icon-chevron-right"></i>
+        Controller</a></li>
+      <li><a href="#Leap_Hand"><i class="icon-chevron-right"></i>
+        Hand</a></li>
+      <li><a href="#Leap_InteractionBox"><i class="icon-chevron-right"></i>
+        InteractionBox</a></li>
+      <li>
+        <a href="#Leap_Gesture"><i class="icon-chevron-right"></i>
+          Gesture</a></li>
+      <!-- li>KeyTapGesture</li>
+      <li>ScreenTapGesture</li>
+      <li>SwipeGesture</li>
+      <li>CircleGesture</li -->
+    </ul>
+  <!-- end left navigation -->
 </div>
-<div class="span11 api-guide">
-<a class="anchor" name="leap"></a>
+<div class="span9 api-guide">
+<!-- <a class="anchor" name="leap" id="Leap"></a> -->
 
+<div id="Leap">
 <h1>Developer Guide</h1>
 
 <p>This is a terse guide to the classes and methods of the Leap javascript API.
@@ -58,7 +56,7 @@
   <div class="span4">
     <h2>Methods</h2>
     <ul>
-      <li><a href="#Leap.loop">Leap.Loop(callback)</a></li>
+      <li><a href="#Leap_loop">Leap.Loop(callback)</a></li>
     </ul>
   </div>
   <div class="span8">
@@ -67,22 +65,22 @@
     <div class="row-fluid">
       <div class="span6">
         <ul>
-          <li><a href="#Leap.Frame">Leap.Frame</a></li>
-          <li><a href="#Leap.Pointable">Leap.Pointable</a></li>
-          <li><a href="#Leap.Hand">Leap.Hand</a></li>
-          <li><a href="#Leap.InteractionBox">Leap.InteractionBox</a></li>
-          <li><a href="#Leap.Controller">Leap.Controller</a></li>
+          <li><a href="#Leap_Frame">Leap.Frame</a></li>
+          <li><a href="#Leap_Pointable">Leap.Pointable</a></li>
+          <li><a href="#Leap_Hand">Leap.Hand</a></li>
+          <li><a href="#Leap_InteractionBox">Leap.InteractionBox</a></li>
+          <li><a href="#Leap_Controller">Leap.Controller</a></li>
         </ul>
 
       </div>
       <div class="span6">
 
         <ul>
-          <li><a href="#Leap.Gesture">Leap.Gesture</a></li>
-          <li>Leap.KeyTapGesture</li>
+          <li><a href="#Leap_Gesture">Leap.Gesture</a></li>
+          <!--li>Leap.KeyTapGesture</li>
           <li>Leap.ScreenTapGesture</li>
           <li>Leap.SwipeGesture</li>
-          <li>Leap.CircleGesture</li>
+          <li>Leap.CircleGesture</li -->
         </ul>
 
       </div>
@@ -96,7 +94,8 @@
   controller -- or methods of objects
   retrieved by controller methods ... and so on.
 </p>
-<article name="getting_data">
+</div>
+<article name="getting_data" id="getting_data">
   <a class="anchor" name="getting_data"></a>
 
   <h2>Getting Frame Data from your Leap Motion detector</h2>
@@ -114,7 +113,7 @@
 
   <p>There are three ways to access this data: </p>
   <ol>
-    <li>Call <a href="#Leap.loop">Leap.loop</a>, as shown in this jsfiddl.e</li>
+    <li>Call <a href="#Leap_loop">Leap.loop</a>, as shown in this jsfiddl.e</li>
     <li>Create a controller and passively listen for <code>frame</code> events.</li>
     <li>Create a controller and actively call <code>controller.frame()</code> when you want motion data.</li>
   </ol>
@@ -122,14 +121,14 @@
 
   <h3>Event listening from the static Leap class</h3>
 
-  <p><a href="#Leap.loop">Leap.loop(handler)</a> allows you to skip creating a controller instance.</p>
+  <p><a href="#Leap_loop">Leap.loop(handler)</a> allows you to skip creating a controller instance.</p>
 <pre>
 Leap.loop(function(frameInstance){
   ...
   });
 </pre>
 
-  <h3>Event listening from a <a href="#Leap.Controller">Controller</a></h3>
+  <h3>Event listening from a <a href="#Leap_Controller">Controller</a></h3>
 
   <p>if you listen to a controllers' events each and every frame will be broadcast from the Leap detector to your
     handler. </p>
@@ -141,7 +140,7 @@ Leap.loop(function(frameInstance){
   my_controller.connect();
 </pre>
 
-  <h3>Polling a <a href="#Leap.Controller">Leap.Controller</a></h3>
+  <h3>Polling a <a href="#Leap_Controller">Leap.Controller</a></h3>
 
   <p>Polling will allow you to get one (or more) frames from the controller's stack, whenever and as often or rarely as
     you wish.</p>
@@ -179,14 +178,14 @@ Leap.loop(function(frameInstance){
   </ol>
 </article>
 
-<article name="units">
-  <a name="units" class="anchor"></a>
+<article name="units" id="units">
+  <!-- <a name="units" class="anchor"></a> -->
 
   <h2>Units of Measurement</h2>
 
   <p>All <b>distances</b> are expressed in millimeters, as a float. If you want to get relative (percent) measurements,
     use the <code>InteractionBox.normalizePoint</code> method.
-    See the <a href="#Leap.InteractionBox">Leap.InteractionBox</a> documentation for axis orientation.</p>
+    See the <a href="#Leap_InteractionBox">Leap.InteractionBox</a> documentation for axis orientation.</p>
 
   <p>All <b>angles</b> are measured in <a href="http://en.wikipedia.org/wiki/Radians" target="_new">Radians</a>.
     To convert to degrees, multiply by <code>180/Math.PI</code>.
@@ -196,7 +195,8 @@ Leap.loop(function(frameInstance){
   <p>All <b>time/timestamp</b> measurements are given in milliseconds; 1000 milliseconds = 1 second. Timestamps are
     relative measures of time since the Leap Motion controller started.</p>
 
-  <p>Frame <b>indexes</b> reflect the LIFO nature of the <a href="#Leap.Controller">Leap.Controller</a>'s frames collection. </p>
+  <p>Frame <b>indexes</b> reflect the LIFO nature of the <a href="#Leap_Controller">Leap.Controller</a>'s frames
+    collection. </p>
   <ul>
     <li>
       <code>my_controller.frames(0) </code> == <code>my_controller.frames()</code> == the most recent frame.
@@ -214,16 +214,16 @@ Leap.loop(function(frameInstance){
     When in doubt use <code>frame.id</code> to identify/compare frames.
 
   <p>All <b>coordinates/positions</b> are returned as an array of three distances (see above). See
-    <a href="#Leap.InteractionBox">Leap.InteractionBox</a>
+    <a href="#Leap_InteractionBox">Leap.InteractionBox</a>
     for methods on normalizing/denormalizing coordinates.
   </p>
 </article>
-<article name="scalefactor">
-  <a name="#scaleFactor" class="anchor"></a>
+<article name="scalefactor" id="scalefactor">
+  <!-- <a name="#scaleFactor" class="anchor"></a> -->
 
   <h3>scaleFactor</h3>
 
-  <p><a href="#Leap.Hand">Leap.Hand</a>s and <a href="#Leap.Frame">Leap.Frame</a>s have scaleFactor functions.
+  <p><a href="#Leap_Hand">Leap.Hand</a>s and <a href="#Leap_Frame">Leap.Frame</a>s have scaleFactor functions.
     Scale factor indicates a change in distance between things over time. For hands, this means the change in distance
     between the fingers.
     the function has a parameter -- a baseline frame.
@@ -262,7 +262,7 @@ Leap.loop(function(frameInstance){
   </div>
   <p> If Leap cannot relate the baseline reference with the current frame/hand data, the scaleFactor will be 1. </p>
 </article>
-<article name="validity">
+<article name="validity" id="validity">
   <h2>Valid and Invalid function return results</h2>
 
   <p>Any function which returns an instance object (Pointable, Frame, Hand,...) will ALWAYS return an object,
@@ -276,10 +276,9 @@ Leap.loop(function(frameInstance){
     and all Leap instances have one.
   </p>
 </article>
-
-<h2>Leap Methods</h2>
-<article name="loop">
-  <a name="Leap.loop" class="anchor"></a>
+<article name="Leap_loop" id="Leap_loop">
+  <h2>Leap Methods</h2>
+  <!-- <a name="Leap.loop" class="anchor"></a> -->
 
   <h3>Leap.Loop(callback)</h3>
 
@@ -287,111 +286,113 @@ Leap.loop(function(frameInstance){
     See <a href="#getting_data">Getting Frame Data from your Leap Motion detector</a> for other ways of accomplishing
     data monitoring..</p>
 
-  <p>The Callback receives a single <a href="#Leap.Frame">Leap.Frame</a> instance.</p>
+  <p>The Callback receives a single <a href="#Leap_Frame">Leap.Frame</a> instance.</p>
 
-  <iframe width="100%" height="300" src="http://jsfiddle.net/dave_leapmotion/R3R7T/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+ <!-- <iframe width="100%" height="300" src="http://jsfiddle.net/dave_leapmotion/R3R7T/embedded/" allowfullscreen="allowfullscreen"
+  frameborder="0"></iframe> -->
 </article>
+<article name="frame" id="Leap_Frame">
+  <h2>Leap Classes</h2>
+  <!--  <a class="anchor" name="Leap_Frame"></a> -->
 
-<h2>Leap Classes</h2>
-<article name="frame">
-  <a class="anchor" name="Leap.Frame"></a>
+   <h3>Leap.Frame</h3>
 
-  <h3>Leap.Frame</h3>
+   <p>A collection of state information fed back from the Leap Motion hardware. A frame is the "root" data unit;
+     it contains all the positional data that streams from the Leap Motion detector,
+     <a href="#Leap_Pointable">Fingers/Tools/Pointables</a> at a given instant in time.
+   </p>
 
-  <p>A collection of state information fed back from the Leap Motion hardware. A frame is the "root" data unit;
-    it contains all the positional data that streams from the Leap Motion detector,
-    <a href="#Leap.Pointable">Fingers/Tools/Pointables</a> at a given instant in time.
-  </p>
+   <p>See <a href="#getting_data">Getting Frame Data from your Leap Motion controller</a> for documentation on getting
+     frames.</p>
 
-  <p>See <a href="#getting_data">Getting Frame Data from your Leap Motion controller</a> for documentation on getting
-    frames.</p>
+   <p>A note on <code>Frame.Fingers, Frame.pointables, and Frame.tools</code>:
+   </p>
+   <img src="/images/pointables/pointables.png">
 
-  <p>A note on <code>Frame.Fingers, Frame.pointables, and Frame.tools</code>:
-  </p>
-  <img src="/images/pointables/pointables.png">
+   <p><code>frame.fingers</code>, <code>frame.tools</code> and <code>frame.pointables</code> are different collections of
+     instances which are all instances of
+     the <a href="#Leap_Pointable">Leap.Pointables</a> base class. (there is no special Leap.Tools or Leap.Fingers classs
+     --
+     just <a href="#Leap_Pointable">Leap.Pointable</a>.)
+   <ul>
+     <li> The <b>pointables</b> collections contains all the pointables also found in <b>tools</b> and <b>fingers</b>.
+     </li>
+     <li>The <b>tools</b> collections and the <b>fingers</b> collections are exclusive; there is no pointer which can be
+       found
+       in both the fingers collection <i>and</i> the tools collection
+     </li>
+     <li>All pointables in these root collections can be found in the frame.hands properties..</li>
+     <li>Any of these collections <i>can be empty</i>, if the user's hands/fingers/tools aren't picked up by the Leap
+       Motion
+       detector.
+     </li>
+     <li>All fingers/tools/pointables from both hands are stored with no ordering in these root level collections.</li>
+   </ul>
+   <div class="row-fluid">
 
-  <p><code>frame.fingers</code>, <code>frame.tools</code> and <code>frame.pointables</code> are different collections of
-    instances which are all instances of
-    the <a href="#Leap.Pointable">Leap.Pointables</a> base class. (there is no special Leap.Tools or Leap.Fingers classs --
-    just <a href="#Leap.Pointable">Leap.Pointable</a>.)
-  <ul>
-    <li> The <b>pointables</b> collections contains all the pointables also found in <b>tools</b> and <b>fingers</b>.
-    </li>
-    <li>The <b>tools</b> collections and the <b>fingers</b> collections are exclusive; there is no pointer which can be
-      found
-      in both the fingers collection <i>and</i> the tools collection
-    </li>
-    <li>All pointables in these root collections can be found in the frame.hands properties..</li>
-    <li>Any of these collections <i>can be empty</i>, if the user's hands/fingers/tools aren't picked up by the Leap
-      Motion
-      detector.
-    </li>
-    <li>All fingers/tools/pointables from both hands are stored with no ordering in these root level collections.</li>
-  </ul>
-  <div class="row-fluid">
+     <div class="span6">
+       <h4>Properties</h4>
+       <dl class="dl-horizontal">
+         <dt>id</dt>
 
-    <div class="span6">
-      <h4>Properties</h4>
-      <dl class="dl-horizontal">
-        <dt>id</dt>
+         <dd><b>string</b> A unique id of this Frame instance</dd>
+         <dt>pointables</dt>
 
-        <dd><b>string</b> A unique id of this Frame instance</dd>
-        <dt>pointables</dt>
+         <dd><b>[<a href="#Leap_Pointable">Leap.Pointable</a>]</b> array of all fingers and tools from <b>both</b> hands.
+         </dd>
+         <dt>fingers</dt>
 
-        <dd><b>[<a href="#Leap.Pointable">Leap.Pointable</a>]</b> array of all fingers and tools from <b>both</b> hands.</dd>
-        <dt>fingers</dt>
+         <dd><b> [<a href="#Leap_Pointable">Leap.Pointable</a>]</b> array of all fingers from <b>both</b> hands.</dd>
+         <dt>tools</dt>
 
-        <dd><b> [<a href="#Leap.Pointable">Leap.Pointable</a>]</b> array of all fingers from <b>both</b> hands.</dd>
-        <dt>tools</dt>
+         <dd><b>[<a href="#Leap_Pointable">Leap.Pointable</a>]</b> array of all tools from <b>both</b> hands.</dd>
 
-        <dd><b>[<a href="#Leap.Pointable">Leap.Pointable</a>]</b> array of all tools from <b>both</b> hands.</dd>
+         <dt>gestures</dt>
 
-        <dt>gestures</dt>
+         <dd><b>[<a href="#Leap_Gesture">Leap.Gesture</a>]</b> array of zero or more detected gestures.
+           Requires configuration of the <a href="#Leap_Controller">Leap.Controller</a> to be present (see
+           <code>enableGestures</code>.)
+         </dd>
 
-        <dd><b>[<a href="#Leap.Gesture">Leap.Gesture</a>]</b> array of zero or more detected gestures.
-          Requires configuration of the <a href="#Leap.Controller">Leap.Controller</a> to be present (see
-          <code>enableGestures</code>.)
-        </dd>
+         <dt>hands</dt>
 
-        <dt>hands</dt>
+         <dd><b>[<a href="#Leap_Hand">Leap.Hand</a>]</b> array of 0..2 Leap.Hands.</dd>
+         <dt>timestamp</dt>
 
-        <dd><b>[<a href="#Leap.Hand">Leap.Hand</a>]</b> array of 0..2 Leap.Hands.</dd>
-        <dt>timestamp</dt>
+         <dd><b>int</b> microseconds since the Leap detector started</dd>
 
-        <dd><b>int</b> microseconds since the Leap detector started</dd>
+         <dt>valid</dt>
+         <dd><b>boolean</b>
+           indicates whether the frame is valid. An invalid frame contains no tracking data
+           but does conform to the frame API.
+         </dd>
 
-        <dt>valid</dt>
-        <dd><b>boolean</b>
-          indicates whether the frame is valid. An invalid frame contains no tracking data
-          but does conform to the frame API.
-        </dd>
+         <dt>Invalid</dt>
+         <dd><b>Leap.Frame</b> an invalid instance of a frame.</dd>
+       </dl>
+     </div>
+     <div class="span6">
+       <h4>Methods</h4>
+       <dl class="dl-horizontal">
 
-        <dt>Invalid</dt>
-        <dd><b>Leap.Frame</b> an invalid instance of a frame.</dd>
-      </dl>
-    </div>
-    <div class="span6">
-      <h4>Methods</h4>
-      <dl class="dl-horizontal">
+         <dt>dump</dt>
 
-        <dt>dump</dt>
-
-        <dd><b>(): string</b> returns a JSON-formatted string (not object) containing
-          all the data of the frame.
-        </dd>
-        <dt>finger</dt>
-        <dd><b>(id: string &ast;): <a href="#Leap.Pointable">Leap.Pointable</a></b>
+         <dd><b>(): string</b> returns a JSON-formatted string (not object) containing
+           all the data of the frame.
+         </dd>
+         <dt>finger</dt>
+         <dd><b>(id: string &ast;): <a href="#Leap_Pointable">Leap.Pointable</a></b>
           returns a finger from the fingers collection(see above).
         </dd>
 
         <dt>pointable</dt>
-        <dd><b>(id: string &ast;): <a href="#Leap.Pointable">Leap.Pointable</a></b>
+        <dd><b>(id: string &ast;): <a href="#Leap_Pointable">Leap.Pointable</a></b>
           returns a pointable from the pointables collection (see above).
         </dd>
 
 
         <dt>hand</dt>
-        <dd><b>(id: string): <a href="#Leap.Hand">Leap.Hand</a></b>
+        <dd><b>(id: string): <a href="#Leap_Hand">Leap.Hand</a></b>
           returns a hand from the hands collection (see above).
         </dd>
 
@@ -430,14 +431,14 @@ Leap.loop(function(frameInstance){
       </dl>
 
       <hr/>
-        <small>&ast; <i>Warning:</i> IDs can change between frames -- there is no guarantee that an ID from a
-          previous frame will work as a parameter for subsequent calls to frame.finger(). the IDs are
-          only functional within the lifespan of a single frame.
-        </small>
+      <small>&ast; <i>Warning:</i> IDs can change between frames -- there is no guarantee that an ID from a
+        previous frame will work as a parameter for subsequent calls to frame.finger(). the IDs are
+        only functional within the lifespan of a single frame.
+      </small>
     </div>
   </div>
 </article>
-<article name="pointable">
+<article name="pointable" id="Leap_Pointable">
   <a class="anchor" name="Leap.Pointable"></a>
 
   <h3>Leap.Pointable</h3>
@@ -488,7 +489,7 @@ Leap.loop(function(frameInstance){
 
         <dt>tool</dt>
         <dd><b>boolean</b> whether the finger is classified as a finger or a tool.
-          (see <a href="#Leap.Frame">Leap.Frame</a>).
+          (see <a href="#Leap_Frame">Leap.Frame</a>).
         </dd>
 
         <dt>valid</dt>
@@ -503,20 +504,20 @@ Leap.loop(function(frameInstance){
     </div>
   </div>
 
-    <small>&ast;&ast; The Leap classifies a detected entity as a tool when it is thinner, straighter, and longer than a
-      typical finger.
-    </small>
+  <small>&ast;&ast; The Leap classifies a detected entity as a tool when it is thinner, straighter, and longer than a
+    typical finger.
+  </small>
 
 
 </article>
-<article name="controller">
+<article name="controller" id="Leap_Controller">
   <a class="anchor" name="Leap.Controller"></a>
 
   <h3>Leap.Controller</h3>
 
   <p>Represents the connection to a single Leap detector. You can have multiple controllers in a single run time.
-    Note that <code>Leap.Controller</code> is a  Javascript class;
- whereas the <i>Leap Motion controller</i> refers to an actual piece of hardware -- the box.</p>
+    Note that <code>Leap.Controller</code> is a Javascript class;
+    whereas the <i>Leap Motion controller</i> refers to an actual piece of hardware -- the box.</p>
 
   <p>the below code creates a Leap.Controller, listening to localhost.</p>
 <pre>
@@ -539,9 +540,8 @@ Leap.loop(function(frameInstance){
       <h4>Properties</h4>
       <dl class="dl-horizontal">
         <dt>connection</dt>
-        <dd><b><a href="#Leap.Connection">Leap.Connection</a></b> the object maintaining communication between the Leap detector
-          and
-          the Controller instaqnce.
+        <dd><b><a href="#Leap_Connection">Leap.Connection</a></b> the object maintaining communication between the Leap
+          detector   and  the Controller instance.
         </dd>
       </dl>
     </div>
@@ -553,7 +553,7 @@ Leap.loop(function(frameInstance){
           in...)
         </dd>
         <dt>frame</dt>
-        <dd><b>(index: int?) <a href="#Leap.Frame">Leap.Frame</a></b>
+        <dd><b>(index: int?) <a href="#Leap_Frame">Leap.Frame</a></b>
           Index is a number from 0 to the number of frames retained in the &quot;frame stack&quot;
           (currently up to 60 frames are retained; however when the controller starts, the stack may have fewer than 60
           frames.
@@ -567,10 +567,10 @@ Leap.loop(function(frameInstance){
         </dd>
       </dl>
 
-        <small>&ast;&ast;&ast; this method ALWAYS returns a frame, even if there is no frame at the stack matching the
-          index
-          you pass in. If you pass in an index for which there is no frame, an invalid frame will be returned.
-        </small>
+      <small>&ast;&ast;&ast; this method ALWAYS returns a frame, even if there is no frame at the stack matching the
+        index
+        you pass in. If you pass in an index for which there is no frame, an invalid frame will be returned.
+      </small>
 
     </div>
 
@@ -582,7 +582,7 @@ Leap.loop(function(frameInstance){
     <dt>frame</dt>
     <dd>A frame is finishing being processed by the controller.
       This event is either driven by the <code>animationFrame</code> or the <code>deviceFrame</code> event,
-      depending which is the <a href="#Leap.Controller">Leap.Controller</a> was created with.
+      depending which is the <a href="#Leap_Controller">Leap.Controller</a> was created with.
       The frame is passed as an argument to the event handler
     </dd>
     <dt>ready</dt>
@@ -632,7 +632,7 @@ controller.connect();
 </pre>
 
 </article>
-<article name="Leap.Connection">
+<article name="Leap.Connection" id="Leap_Connection">
 
   <a class="anchor" name="Leap.Connection"></a>
 
@@ -640,20 +640,21 @@ controller.connect();
 
   <p>@TODO: document</p>
 </article>
-<article name="Leap.Hand">
+<article name="Leap.Hand" id="Leap_Hand">
 
   <a class="anchor" name="Leap.Hand"></a>
 
   <h3>Leap.Hand</h3>
 
   <p>The Hand class reports the physical characteristics of a detected hand.
-    Hands are accessed as properties of the <a href="#Leap.Frame">Leap.Frame</a>'s hand array; at this point, up to two
+    Hands are accessed as properties of the <a href="#Leap_Frame">Leap.Frame</a>'s hand array; at this point, up to two
     hands can be simultaneously tracked and returned with frame data.
     Hand tracking data includes a palm position and velocity;
     vectors for the palm normal and direction to the fingers;
     properties of a sphere fit to the hand; and lists of the attached fingers and tools.</p>
 
-  <p>See the <a href="#Leap.Frame">Leap.Frame</a> class documentation for the difference between Pointables, Fingers and Tools.
+  <p>See the <a href="#Leap_Frame">Leap.Frame</a> class documentation for the difference between Pointables, Fingers and
+    Tools.
   </p>
 
   <p>The below illustration shows the hands' <b>palmNormal</b></p>
@@ -707,16 +708,16 @@ controller.connect();
         </dd>
 
         <dt>fingers</dt>
-        <dd><b>[<a href="#Leap.Pointable">Leap.Pointable</a>]</b>
+        <dd><b>[<a href="#Leap_Pointable">Leap.Pointable</a>]</b>
           an array of the hands' Pointables which have been classified as fingers.
         </dd>
         <dt>tools</dt>
-        <dd><b>[<a href="#Leap.Pointable">Leap.Pointable</a>]</b>
+        <dd><b>[<a href="#Leap_Pointable">Leap.Pointable</a>]</b>
           an array of the hands' Pointables which have been classified as tools.
         </dd>
 
         <dt>pointables</dt>
-        <dd><b>[<a href="#Leap.Pointable">Leap.Pointable</a>]</b>
+        <dd><b>[<a href="#Leap_Pointable">Leap.Pointable</a>]</b>
           an array of all of the hands' Pointables.
         </dd>
 
@@ -731,7 +732,7 @@ controller.connect();
       <h4>Methods</h4>
       <dl class="dl-horizontal">
         <dt>finger</dt>
-        <dd><b>(id: string &ast;): <a href="#Leap.Pointable">Leap.Pointable</a></b>
+        <dd><b>(id: string &ast;): <a href="#Leap_Pointable">Leap.Pointable</a></b>
           returns a finger from the fingers collection(see above).
         </dd>
 
@@ -763,7 +764,7 @@ controller.connect();
           if it points to the right, the angle is between 0 and -pi radians.
         </dd>
         <dt>rotationAxis</dt>
-        <dd><b>(sinceFrame: <a href="#Leap.Frame">Leap.Frame</a>): [number]</b>
+        <dd><b>(sinceFrame: <a href="#Leap_Frame">Leap.Frame</a>): [number]</b>
           The transform matrix expressing the rotation derived from the change in orientation of this hand,
           and any associated fingers and tools, between the current frame and the specified frame.
           If a corresponding Hand object is not found in sinceFrame,
@@ -771,7 +772,7 @@ controller.connect();
         </dd>
 
         <dt>rotationAxis</dt>
-        <dd><b>(sinceFrame: <a href="#Leap.Frame">Leap.Frame</a>): [number]</b>
+        <dd><b>(sinceFrame: <a href="#Leap_Frame">Leap.Frame</a>): [number]</b>
           The axis of rotation derived from the change in orientation of this hand, and any associated fingers and
           tools,
           between the current frame and the specified frame.
@@ -781,21 +782,21 @@ controller.connect();
         </dd>
 
         <dt>rotationAngle</dt>
-        <dd><b>(sinceFrame: <a href="#Leap.Frame">Leap.Frame</a>, axis: [number]?): [number]</b>
+        <dd><b>(sinceFrame: <a href="#Leap_Frame">Leap.Frame</a>, axis: [number]?): [number]</b>
           returns the rotation relative to a reference Frame.
           If a second parameter is passed in, the angle is the reference angle to measure around.
         </dd>
 
         <dt>scaleFactor</dt>
-        <dd><b>(sinceFrame: <a href="#Leap.Frame">Leap.Frame</a>): number: 0..?</b>
+        <dd><b>(sinceFrame: <a href="#Leap_Frame">Leap.Frame</a>): number: 0..?</b>
           This is a "Pinchiness factor". <a href="#scaleFactor">scaleFactor</a> for hands the change in the
-          relative extent of all fingers of the hand between the reference frame and this frames.</p>
+          relative extent of all fingers of the hand between the reference frame and this frames.
         </dd>
 
         <dt>translation</dt>
-        <dd><b>(sinceFrame: <a href="#Leap.Frame">Leap.Frame</a>): [float/mm] </b>
+        <dd><b>(sinceFrame: <a href="#Leap_Frame">Leap.Frame</a>): [float/mm] </b>
           The relative position(movement) of the hand (palm) since the given frame, in millimeters
-          If Leap cannot relate this hand with a hand in the passed-in frame, the scaleFactor will be 1. </p>
+          If Leap cannot relate this hand with a hand in the passed-in frame, the scaleFactor will be 1.
         </dd>
       </dl>
     </div>
@@ -805,8 +806,8 @@ controller.connect();
   <!-- end of property/method row -->
   <p><img src="/images/Leap_Hand_Ball.png"/></p>
 </article>
-<article name="InteractionBox">
-  <a name="Leap.InteractionBox" class="anchor"></a>
+<article name="InteractionBox" id="Leap_InteractionBox">
+  <!-- <a name="Leap_InteractionBox" class="anchor"></a> -->
 
   <h3>Leap.InteractionBox</h3>
 
@@ -882,9 +883,11 @@ controller.connect();
   </div>
 </article>
 
-<article name="gesture">
-  <a name="Leap.Gesture" class="anchor"></a>
-        <h3>Gesture</h3>
+<article name="gesture" id="Leap_Gesture">
+  <!-- <a name="Leap_Gesture" class="anchor"></a> -->
+
+  <h3>Gesture</h3>
+
   <p>
     The Gesture class represents a recognized movement by the user.
     The Leap watches the activity within its field of view for certain movement patterns typical of a user gesture or
@@ -920,14 +923,16 @@ controller.connect();
   <p>You can get a list of gestures from the Frame gestures array.
     You can also use the Frame gesture() method to find a gesture in the current frame using an ID value obtained in a
     previous frame.
-    Gesture objects can be <a href="#vailidity">invalid</a>.      </p>
+    Gesture objects can be <a href="#vailidity">invalid</a>. </p>
+
   <div class="row-fluid">
     <div class="span6">
       <h4>Properties</h4>
       <dl class="dl-horizontal">
-        <dt>id</dt>  <dd>
-        <b>number</b>  All gestures belonging to the same continuous gesture will have the same ID.
-        Can be passed into <code>my_frame.gesture(my_gesture.id)</code> to get updated versions of a gesture.
+        <dt>id</dt>
+        <dd>
+          <b>number</b> All gestures belonging to the same continuous gesture will have the same ID.
+          Can be passed into <code>my_frame.gesture(my_gesture.id)</code> to get updated versions of a gesture.
         </dd>
         <dt>duration</dt>
         <dd><b>int</b> the duration (in microseconds) of the gesture, as of the frame
@@ -939,7 +944,7 @@ controller.connect();
         <dd><b>[string]</b> the ids of hands associated with this gesture (if any)</dd>
         <dt>state</dt>
         <dd><b>string/'start', 'update' or 'stop'</b>
-              where in the "clown car o' gesture" stream the current gesture is
+          where in the "clown car o' gesture" stream the current gesture is
           -- the first, the last, or somewhere in the middle.
           Tap gestures will always have a 'stop' state.
         </dd>

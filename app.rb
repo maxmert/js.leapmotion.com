@@ -73,7 +73,8 @@ end
 
 
 get '/api_guide' do
-  erb :api_guide
+  @active_menu = "guide"
+  erb :api_guide, layout: :api_guide_layout
 end
 
 get '/api/:version/docs' do
