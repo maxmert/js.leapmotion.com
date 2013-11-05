@@ -1,0 +1,170 @@
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  background: #1a1a1a;
+  color: #fff;
+  font-family: monospace;
+  text-align: center;
+  font-size: 18px;
+}
+
+audio {
+  display: none;
+}
+
+canvas, svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  cursor: move;
+}
+
+#player {
+  fill: #fb5;
+  stroke: #000;
+  stroke-width: 1.5px;
+}
+
+#direction {
+  fill: #fb5;
+  stroke: #000;
+  stroke-width: 1.5px;
+}
+
+#target, .target {
+  fill: #910;
+  stroke: rgba(255,85,55,0.8);
+  stroke-width: 5px;
+  -webkit-animation: pulse 0.5s linear infinite;
+  -moz-animation: pulse 0.5s linear infinite; 
+}
+
+@-webkit-keyframes pulse {       
+  0% { stroke-width: 0px; }
+  50% { stroke-width: 5px; }
+  100% { stroke-width: 0px; }
+}
+
+@-moz-keyframes pulse {
+  0% { stroke-width: 0px; }
+  50% { stroke-width: 5px; }
+  100% { stroke-width: 0px; }
+}
+
+#bestpath {
+  fill: none;
+  stroke: #910;
+  stroke-width: 2px;
+  stroke-dasharray: 8 5;
+}
+
+#map {
+  cursor: move;
+  opacity: 1;
+}
+
+#controls {
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  opacity: 1;
+}
+#controls > span {
+  margin-right: 20px;
+}
+h2 {
+  position: absolute;
+  top: 20px;
+  width: 100%;
+  margin: 0;
+  font-size: 50px;
+}
+.hands {
+  padding: 4px;
+}
+#hands {
+  font-weight: bold;
+}
+select {
+  font-size: 18px;
+  font-family: monospace;
+}
+.alert {
+  background: red;
+  color: white;
+}
+.great {
+  color: #2f1;
+}
+#gameover {
+  opacity: 0;
+  position:absolute;
+  top: 0;
+  width: 100%;
+}
+#left-canvas {
+  position: absolute;
+  top: 65%;
+  left: 0;
+  margin-top: -100px;
+  opacity: 1;
+}
+#right {
+  position: absolute;
+  right: 0;
+  top: 65%;
+  width: 400px;
+}
+#right-canvas {
+  margin-top: -100px;
+  opacity: 1;
+}
+.button {
+  display: inline-block;
+  background: #333;
+  border-radius: 5px;
+  padding: 4px;
+  cursor: pointer;
+}
+.button:hover {
+  background: #777;
+}
+#left-menu,
+#right-menu {
+  display: none;
+}
+strong {
+  background: #000;
+}
+#player1,
+#player2 {
+  position: absolute;
+  top: 200px;
+}
+#player1-control,
+#player2-control {
+  position: absolute;
+  top: 224px;
+}
+#player1 {
+  right: 50px;
+  color: #fb5;
+}
+#player2 {
+  left: 50px;
+  color: #6ad;
+}
+#player1-control {
+  right: 50px;
+  color: #fb5;
+  text-align: right;
+}
+#player2-control {
+  left: 50px;
+  color: #6ad;
+  text-align: left;
+}

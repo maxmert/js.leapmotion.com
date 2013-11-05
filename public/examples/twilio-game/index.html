@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>Map Projection Transitions</title>
+<link rel="stylesheet" type="text/css" href="style.css"/>
+<body>
+<h3 id="gameover">You bent the world to your will in</h3>
+<h2 id="time"><span id="timer"></span> seconds</h2>
+<div id="map" class="fade"></div>
+<h3 id="player1" class="fade">Player 1</h3>
+<h4 id="player1-control" class="fade">Waiting for right hand...</h4>
+<h3 id="player2" class="fade">Player 2</h3>
+<h4 id="player2-control" class="fade">Waiting for left hand...</h4>
+<canvas id="left-canvas" class="fade" height=200 width=400></canvas>
+<div id="right">
+<canvas id="right-canvas" class="fade" height=200 width=400></canvas>
+<audio controls src="beep-7.wav" id="beep">
+  Your user agent does not support the HTML5 Audio element.
+</audio>
+</div>
+
+<div id="controls" class="fade">
+  <strong>Space</strong> Recalibrate &nbsp; <strong>Enter</strong> Restart &nbsp; <strong>C</strong> Recenter &nbsp; <strong>Up/Down</strong> Change Projection
+  <br/><span><input type="checkbox" id="rotation" checked=checked></input>Worldbending</span>
+  <span class="hands"><span id="hands"></span> hands detected</span>
+  <select id="left-menu">
+    <option>palmNormal</option>
+    <option>palmPosition</option>
+    <option>direction</option>
+  </select>
+  <select id="right-menu">
+    <option>palmPosition</option>
+    <option>palmNormal</option>
+    <option>direction</option>
+  </select>
+  <select id="projection-menu"></select>
+</div>
+</body>
+<script src="js/lib/underscore.js"></script>
+<script src="js/lib/d3.v3.js"></script>
+<script src="js/lib/d3.geo.projection.v0.min.js"></script>
+<script src="js/lib/topojson.min.js"></script>
+<script src="js/lib/leap.js"></script>
+<script>
+var leftCalibration = {
+  pos: [-140,350,0],
+  pitch: 0.4,
+  roll: 0,
+  yaw: 0
+};
+
+var leftInteraction = {
+  palmPosition: function(hand) {
+    // unimplemented
+  },
+  palmNormal: function(hand) {
+    var norm = hand.palmNormal
+    rotate[0] += 4*(hand.roll()-leftCalibration.roll);
+    rotate[1] += 2*(hand.pitch()-leftCalibration.pitch);
+  },
+  palmDirection: function(hand) {
+    // unimplemented
+  },
+};
+
+var rightCalibration = {
+  pos: [140,350,0],
+  pitch: 0,
+  roll: 0,
+  yaw: 0
+};
+
+var rightInteraction = {
+  palmPosition: function(hand) {
+    var pos = hand.palmPosition;
+    return normalize([pos[0]-rightCalibration.pos[0],rightCalibration.pos[1]-pos[1]]);
+  },
+  palmNormal: function(hand) {
+    var norm = hand.palmNormal;
+    return normalize([norm[0]+0.3,1.25*(norm[2]-0.3)]);
+  },
+  palmDirection: function(hand) {
+    var dir = hand.direction;
+    return normalize([dir[0]+0.2,-dir[1]+0.3]);
+  },
+};
+
+var start,
+    timer,
+    player,
+    direction,
+    targets,
+    curr,
+    route,
+    reset = false;
+
+function resetGame() {
+  reset = true;
+  start = 0;
+  timer = 0;
+  player = [50,40];
+  direction = [0,0];
+  targets = [
+    [20,30],
+    [-5,40],
+    [26,54],
+    [-40,62],
+    [-74,39],
+    [20,-79],
+    [-67,-29],
+    [45,-28],
+    [108,37],
+    [145,-28],
+    [-119,38]
+  ];
+  curr = 0;
+  route = {
+    type: "LineString",
+    coordinates: [
+      player,
+      targets[curr]
+    ]
+  };
+  d3.selectAll(".fade")
+    .style("opacity", 1);
+  d3.selectAll("body")
+    .style("background", null)
+    .style("color", null);
+  d3.select("#time")
+    .style("top", null);
+  d3.select("#gameover")
+    .style("top", null)
+    .style("opacity", null);
+
+  menu.node().focus();
+};
+
+var leftType = "palmNormal";
+var rightType = "palmDirection";
+
+// connect leap motion
+var controller = new Leap.Controller();
+controller.connect();
+
+var width = document.body.clientWidth,
+    height = document.body.clientHeight;
+
+var options = [
+  {name: "Mercator", projection: d3.geo.mercator().scale(105)},
+  {name: "Baker", projection: d3.geo.baker().scale(135)},
+  {name: "Bromley", projection: d3.geo.bromley().scale(175)},
+  {name: "Collignon", projection: d3.geo.collignon().scale(163)},
+  {name: "Eckert I", projection: d3.geo.eckert1().scale(195)},
+  {name: "Eisenlohr", projection: d3.geo.eisenlohr().scale(80)},
+  {name: "Hammer", projection: d3.geo.hammer().scale(205)},
+  {name: "Larrivée", projection: d3.geo.larrivee().scale(124)},
+  {name: "Loximuthal", projection: d3.geo.loximuthal().scale(180)},
+  {name: "Natural Earth", projection: d3.geo.naturalEarth().scale(190)},
+  {name: "Polyconic", projection: d3.geo.polyconic().scale(140)},
+  {name: "Sinusoidal", projection: d3.geo.sinusoidal().scale(190)},
+  {name: "van der Grinten", projection: d3.geo.vanDerGrinten().scale(105)},
+  {name: "van der Grinten IV", projection: d3.geo.vanDerGrinten4().scale(160)},
+];
+
+var menu = d3.select("#projection-menu")
+    .on("change", change);
+
+menu.selectAll("option")
+    .data(options)
+  .enter().append("option")
+    .text(function(d) { return d.name; });
+
+resetGame();
+
+
+var initial = [0, 0, 0],
+    rotate = initial.slice(),
+    scale = 200,
+    rotationCheckbox = d3.select("#rotation").node();
+
+var i = 0,
+    n = options.length - 1;
+
+var projection = options[i].projection;
+
+options.forEach(function(option) {
+  option.projection
+      .translate([width / 2, height / 2])
+      .scale(option.projection.scale());
+});
+
+var graticule = d3.geo.graticule()(),
+    land,
+    boundaries;
+
+var canvas = d3.select("#map").append("canvas")
+    .attr("width", width)
+    .attr("height", height)
+    .style("width", width + "px")
+    .style("height", height + "px");
+
+var svg = d3.select("#map").append("svg")
+    .style("width", width + "px")
+    .style("height", height + "px");
+
+var leftCanvas = document.getElementById("left-canvas");
+var leftCtx = leftCanvas.getContext("2d");
+leftCtx.font = "15px sans-serif";
+leftCtx.textAlign = "center";
+var rightCanvas = document.getElementById("right-canvas");
+var rightCtx = rightCanvas.getContext("2d");
+
+var context = canvas.node().getContext("2d");
+context.fillStyle = "#f9f9f9";
+context.strokeStyle = "#000";
+
+var path = d3.geo.path()
+    .projection(projection)
+    .context(context);
+
+var pathSVG = d3.geo.path()
+    .projection(projection);
+
+var bestPath = svg.append("path")
+  .attr("id", "bestpath")
+  .datum(route)
+  .attr("d", pathSVG)
+
+var playerDot = svg
+  .append("circle")
+  .attr({
+    id: "player",
+    cx: 0,
+    cy: 0,
+    r: 9,
+    transform: function(d) { return "translate(" + projection(player) + ")" }
+  });
+
+var directionDot = svg
+  .append("circle")
+  .attr({
+    id: "direction",
+    cx: 0,
+    cy: 0,
+    r: 4,
+    transform: function(d) { return "translate(" + projection([player[0] + direction[0], player[1] + direction[1]]) + ")" }
+  });
+
+var targetDot = svg
+  .append("circle")
+  .attr({
+    id: "target",
+    cx: 0,
+    cy: 0,
+    r: 9,
+    transform: function(d) { return "translate(" + projection(targets[curr]) + ")" }
+  });
+
+// uncomment to set targets
+/*
+svg
+  .selectAll("circle.target")
+  .data(targets)
+  .enter().append("circle")
+  .attr({
+    class: "target",
+    cx: 0,
+    cy: 0,
+    r: 9,
+    transform: function(d) { return "translate(" + projection(d) + ")" }
+  });
+  */
+
+var beep_audio = document.getElementById('beep');  
+beep_audio.addEventListener('ended', function(){  
+  beep_audio.load();  
+});
+
+function change() {
+  update(options[this.selectedIndex]);
+}
+
+function pathTween(projection0, projection1, rotate) {
+  projection0.rotate([0, 0, 0]);
+  projection1.rotate([0, 0, 0]);
+  var t = 0,
+      projection = d3.geo.projection(function(λ, φ) {
+          λ *= 180 / Math.PI, φ *= 180 / Math.PI;
+          var p0 = projection0([λ, φ]), p1 = projection1([λ, φ]);
+          return [(1 - t) * p0[0] + t * p1[0], (1 - t) * -p0[1] + t * -p1[1]];
+        }).rotate(rotate).scale(1).translate([width / 2, height / 2]),
+      path = d3.geo.path().projection(projection).context(context);
+  return function() {
+    return function(u) {
+      t = u;
+      redraw(path);
+    };
+  };
+}
+
+function update(option) {
+  projection = option.projection;
+  path.projection(projection);
+  pathSVG.projection(projection);
+}
+
+
+d3.timer(function() {
+  var frame = controller.lastFrame;
+
+  d3.select("#hands")
+    .text(frame.hands.length);
+  d3.select(".hands")
+    .classed("alert", frame.hands.length > 2);
+  d3.select(".hands")
+    .classed("great", frame.hands.length == 2);
+
+  // left player, right player
+  var hands = discriminate(frame.hands);
+
+
+  // hand interface
+  var rightMenu = document.getElementById("right-menu");
+  rightType = rightMenu.options[rightMenu.selectedIndex].innerHTML;
+  var leftMenu = document.getElementById("left-menu");
+  leftType = leftMenu.options[leftMenu.selectedIndex].innerHTML;
+
+  leftCtx.clearRect(0,0,leftCanvas.width,leftCanvas.height);
+  leftCtx.lineWidth = 4;
+  hands.forEach(function(hand,i) {
+    var pos = hand.palmPosition;
+    var center = [(pos[0]+leftCanvas.width)/2,leftCanvas.height-pos[1]/3];
+    if (i==0) {
+      d3.select("#player1-control")
+        .html("X " + pos[0].toFixed(0) + "<br/>Y " + pos[1].toFixed(0));
+      var hole = [leftCanvas.width/2+rightCalibration.pos[0]/2,leftCanvas.height-rightCalibration.pos[1]/3]; // center of direction
+      leftCtx.fillStyle = "#fb5";
+      leftCtx.fillRect(hole[0]-4,hole[1]-4,8,8);
+      leftCtx.strokeStyle = "#fb5";
+      leftCtx.fillStyle = "#666";
+      leftCtx.fillRect(center[0]-4,center[1]-4,8,8);
+      leftCtx.beginPath();
+      leftCtx.moveTo(hole[0],hole[1]);
+      var normalized = normalize([center[0]-hole[0],center[1]-hole[1]]);
+      leftCtx.lineTo(hole[0] + 30*normalized[0], hole[1] + 30*normalized[1]);
+      leftCtx.stroke();
+      leftCtx.fillText("dx " + (pos[0]-rightCalibration.pos[0]).toFixed(0),center[0],center[1]+30);
+      leftCtx.fillText("dy " + (pos[1]-rightCalibration.pos[1]).toFixed(0),center[0],center[1]+45);
+    } else if (i ==1) {
+      d3.select("#player2-control")
+        .html("Pitch " + hand.pitch().toFixed(2) + "<br/>Roll " + hand.roll().toFixed(2));
+      var norm = [hand.roll()-leftCalibration.roll,hand.pitch()-leftCalibration.pitch];
+      var twist = [center[0]+40*norm[0],center[1]-40*norm[1]];
+      leftCtx.strokeStyle = "#6ad";
+      leftCtx.fillStyle = "#6ad";
+      leftCtx.fillRect(center[0]-4,center[1]-4,8,8);
+      leftCtx.beginPath();
+      leftCtx.moveTo(center[0],center[1]);
+      leftCtx.lineTo(twist[0],twist[1]);
+      leftCtx.stroke();
+      leftCtx.fillText("Roll " + hand.roll().toFixed(2),center[0],center[1]+30);
+      leftCtx.fillText("Pitch " + hand.pitch().toFixed(2),center[0],center[1]+45);
+    } else {
+      leftCtx.fillStyle = "red";
+      leftCtx.fillRect(center[0]-6,center[1]-6,12,12);
+    }
+  });
+  rightCtx.clearRect(0,0,rightCanvas.width,rightCanvas.height);
+  rightCtx.drawImage(leftCanvas,0,0);
+
+  // run timer
+  if (start) timer = ((Date.now() - start)/1000).toFixed(2);
+
+  // start timer
+  if (!start && reset && hands.length > 0) start = Date.now();
+
+
+  if (hands.length > 0) {
+    direction = rightInteraction[rightType](hands[0]);
+  }
+  if (hands.length > 1 && rotationCheckbox.checked) {
+    leftInteraction[leftType](hands[1]);
+  }
+
+  // offscreen bug fix/hack 
+  rotate[0] += 0.00000001;
+
+  projection.rotate(rotate);
+  redraw(path);
+
+  var playerProjected = projection(player)
+  playerProjected[0] += 1.5*direction[0];
+  playerProjected[1] += 1.5*direction[1];
+  player = projection.invert(playerProjected);
+  playerDot.attr({
+    transform: function(d) { return "translate(" + projection(player) + ")" }
+  });
+  directionDot.attr({
+    transform: function(d) { return "translate(" + addDirection(projection(player),direction) + ")" }
+  });
+  targetDot.attr({
+    transform: function(d) { return "translate(" + projection(targets[curr]) + ")" }
+  });
+  route.coordinates = [player, targets[curr]];
+  bestPath.datum(route)
+    .attr("d", pathSVG)
+  if (distance(projection(player),projection(targets[curr])) < 11) {
+    curr++;
+    beep_audio.play();
+    if (curr == targets.length) {
+      gameover();
+      return;
+    };
+    d3.select("body")
+      .style("background", "#910")
+      .transition()
+      .duration(800)
+      .style("background", "#1a1a1a");
+  };
+
+  d3.select("#timer").text(timer);
+});
+
+function distance(a,b) {
+  return Math.sqrt((a[0]-b[0])*(a[0]-b[0]) + (a[1]-b[1])*(a[1]-b[1]));
+};
+
+function normalize(a) {
+  var d = Math.sqrt(a[0]*a[0] + a[1]*a[1]);
+  return [
+    a[0] / d,
+    a[1] / d,
+  ]
+};
+
+function addDirection(a,b) {
+  return [
+    a[0] + 6*b[0],
+    a[1] + 6*b[1]
+  ]
+}
+
+function gameover() {
+  reset = false;
+  start = 0;
+  curr = 0;
+
+  d3.selectAll(".fade")
+    .transition()
+    .duration(1000)
+    .style("opacity", 0);
+  d3.select("body")
+    .transition()
+    .duration(1000)
+    .style("background", "white")
+    .style("color", "#000")
+  d3.select("#time")
+    .transition()
+    .delay(800)
+    .duration(1000)
+    .style("top", (height/2-100) + "px");
+  d3.select("#gameover")
+    .transition()
+    .delay(800)
+    .duration(1000)
+    .style("top", (height/2-170) + "px")
+    .style("opacity", 1);
+  d3.select("body")
+    .on("click", resetGame);
+};
+
+
+function redraw(path) {
+  context.clearRect(0, 0, width, height);
+  context.lineWidth = 2.5, context.strokeStyle = "#000", context.fillStyle = "#6ad";
+  context.beginPath(), path({type: "Sphere"}), context.fill();
+  context.lineWidth = .5;
+  if (land) {
+    context.fillStyle = "#ddd";
+    context.strokeStyle = "#000";
+    context.beginPath(), path(land), context.fill(), context.stroke();
+    //context.beginPath(), path(boundaries), context.stroke();
+  }
+  context.strokeStyle = "#333";
+  context.beginPath(), path(graticule), context.stroke();
+  context.lineWidth = 2.5, context.strokeStyle = "#000", context.fillStyle = "#49d";
+  context.beginPath(), path({type: "Sphere"}), context.stroke();
+}
+
+d3.json("world-110m.json", function(error, world) {
+  land = topojson.object(world, world.objects.land);
+  boundaries = topojson.mesh(world, world.objects.countries, function(a, b) { return a !== b; });
+});
+
+window.onkeypress = function(e) {
+  //console.log(e.charCode);
+  // enter resets game
+  if (e.charCode == 13) {
+    resetGame();
+    return false;
+  }
+  // space recalibrates controls
+  if (e.charCode == 32) {
+    recalibrate();
+    return false;
+  }
+  // enter resets game
+  if (e.charCode == 99) {
+    rotate = [0,0];
+    return false;
+  }
+};
+
+function recalibrate() {
+  var frame = controller.lastFrame;
+  var hands = discriminate(frame.hands);
+  if (hands.length > 0) {
+    var hand = hands[0];
+    rightCalibration = {
+      pos: hand.palmPosition,
+      pitch: hand.pitch(),
+      roll: hand.roll(),
+      yaw: hand.yaw() 
+    }
+  }
+  if (hands.length > 1) {
+    var hand = hands[1];
+    leftCalibration = {
+      pos: hand.palmPosition,
+      pitch: hand.pitch(),
+      roll: hand.roll(),
+      yaw: hand.yaw() 
+    }
+  }
+};
+
+function discriminate(hands) {
+  return _(hands).sortBy(function(hand) {
+    return -hand.palmPosition[0];
+  })
+  .filter(function(hand){
+    // hand rejection
+    return !(hand.palmPosition[1] > 600) &&
+           !(hand.palmPosition[2] > 250) &&
+           !(hand.palmPosition[2] < -200);
+  });
+};
+</script>
+
