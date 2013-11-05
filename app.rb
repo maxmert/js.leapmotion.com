@@ -45,32 +45,9 @@ get '/examples' do
   erb :examples
 end
 
-#get '/tutorials' do
-#  @active_menu = "tutorials"
-#  erb :"tutorials/tutorial"
-#end
-
-#get '/tutorial1' do
-#  @active_menu = "tutorial1"
-#  erb :"tutorials/tutorial1"
-#end
-
-#get '/tutorial2' do
-#  @active_menu = "tutorial2"
-#  erb :"tutorials/tutorial2"
-#end
-
-#get '/tutorial3' do
-#@active_menu = "tutorial3"
-#erb :"tutorials/tutorial3"
-#end
-
-
-
-get '/development' do
+ get '/development' do
   erb :development
 end
-
 
 get '/api_guide' do
   @active_menu = "guide"
@@ -78,15 +55,17 @@ get '/api_guide' do
 end
 
 get '/api/:version/docs' do
+  @active_menu = "api"
   erb :"api/#{params[:version]}-docs", layout: :api
 end
 
 get '/api' do
+  @active_menu = "api"
   redirect "/api/#{DOC_VERSIONS.first}/docs"
 end
 
-
 get '/tutorials/:tutorial' do
+  @active_menu = "tutorial"
   erb :"tutorials/#{params[:tutorial]}", layout: :tutorials
 end
 
