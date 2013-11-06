@@ -771,7 +771,7 @@ controller.connect();
           or if either this frame or sinceFrame are invalid Frame objects, then this method returns an identity matrix.
         </dd>
 
-        <dt>rotationAxis</dt>
+        <dt>rotationAngle</dt>
         <dd><b>(sinceFrame: <a href="#Leap_Frame">Leap.Frame</a>): [number]</b>
           The axis of rotation derived from the change in orientation of this hand, and any associated fingers and
           tools,
@@ -781,9 +781,9 @@ controller.connect();
           or if either this frame or sinceFrame are invalid Frame objects, then this method returns a zero vector.
         </dd>
 
-        <dt>rotationAngle</dt>
+        <dt>rotationMatrix</dt>
         <dd><b>(sinceFrame: <a href="#Leap_Frame">Leap.Frame</a>, axis: [number]?): [number]</b>
-          returns the rotation relative to a reference Frame.
+          returns the rotation relative to a reference Frame, as a 4 x 4 matrix.
           If a second parameter is passed in, the angle is the reference angle to measure around.
         </dd>
 
