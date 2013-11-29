@@ -737,7 +737,7 @@ controller.connect();
         </dd>
 
         <dt>pitch</dt>
-        <dd><b>number (-&pi;...&pi;) radians</b>
+        <dd><b>[number] (-&pi;...&pi;) radians</b>
           Rotation around the x-axis;
           or, the angle between the negative z-axis and the projection of the vector onto the y-z plane.
 
@@ -747,7 +747,7 @@ controller.connect();
 
 
         <dt>roll</dt>
-        <dd><b>number (-&pi;...&pi;) radians</b>
+        <dd><b>[number] (-&pi;...&pi;) radians</b>
           rotation around the z-axis;
           or, the angle between the y-axis and the projection of the vector onto the x-y plane.
           If the vector points to the left of the y-axis, then the returned angle is between 0 and pi radians (180
@@ -756,7 +756,7 @@ controller.connect();
         </dd>
 
         <dt>yaw</dt>
-        <dd><b>number (-&pi;...&pi;) radians</b>
+        <dd><b>[number] (-&pi;...&pi;) radians</b>
           rotation around the z-axis;
           or, the angle between the y-axis and the projection of the vector onto the x-y plane.
           If the vector points to the left of the y-axis, then the returned angle is between 0 and pi radians (180
@@ -788,7 +788,7 @@ controller.connect();
         </dd>
 
         <dt>scaleFactor</dt>
-        <dd><b>(sinceFrame: <a href="#Leap_Frame">Leap.Frame</a>): number: 0..?</b>
+        <dd><b>(sinceFrame: <a href="#Leap_Frame">Leap.Frame</a>): [number]: 0..?</b>
           This is a "Pinchiness factor". <a href="#scaleFactor">scaleFactor</a> for hands the change in the
           relative extent of all fingers of the hand between the reference frame and this frames.
         </dd>
